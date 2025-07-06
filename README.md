@@ -1,7 +1,7 @@
 # Dicetown
 
-A project for managing and organizing dice-related activities and games.
+A web game inspired by MachiKoro for managing and organizing dice-related activities and games.
 
 ## Getting Started
 
-More information coming soon... 
+More information coming soon...
