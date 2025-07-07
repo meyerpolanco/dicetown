@@ -48,7 +48,7 @@ function App(): React.JSX.Element {
 
   return (
     <div>
-      <h1>DiceTown by Meyer Polanco</h1>
+      <h1>DiceTown</h1>
       
       {/* Display players and their info */}
       <div className="players">
