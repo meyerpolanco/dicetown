@@ -1,0 +1,47 @@
+.player-cards {
+    margin: 10px 0;
+}
+
+.card-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    width: 200px;
+    background-color: #fff;
+}
+
+.card h4 {
+    margin: 0 0 10px 0;
+}
+
+.card p {
+    margin: 5px 0;
+    font-size: 0.9em;
+}
+
+/* Card type colors */
+.card.blue {
+    border-color: #2196F3;
+    background-color: #E3F2FD;
+}
+
+.card.red {
+    border-color: #F44336;
+    background-color: #FFEBEE;
+}
+
+.card.green {
+    border-color: #4CAF50;
+    background-color: #E8F5E9;
+}
+
+.card.purple {
+    border-color: #9C27B0;
+    background-color: #F3E5F5;
+} 
