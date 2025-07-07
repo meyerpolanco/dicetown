@@ -17,13 +17,6 @@ A web game inspired by MachiKoro, built with React and TypeScript.
   - `/data`
     - `cards.ts` - Card definitions and helper functions
 
-## Game Elements
-
-- Players start with different coin amounts
-- Turn-based gameplay with dice rolling
-- Card system with different types (Blue, Red, Green, Purple)
-- Card families (Wheat, Animal, Cup, Box) for special effects
-
 ## Development
 
 Run the development server:
