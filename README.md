@@ -1,15 +1,6 @@
 # DiceTown
 
-A web-based board game inspired by MachiKoro, built with React and TypeScript. This local multiplayer game features turn-based gameplay where players roll dice, buy establishments, and build their economic engine.
-
-## Features
-
-- 🎲 Interactive dice rolling system
-- 🏪 Dynamic shop with purchasable cards
-- 👥 Support for 3+ players
-- 🎮 Turn-based gameplay mechanics
-- 💳 Card management with stacking display
-- 🎯 Intuitive player state management
+A web-based board game inspired by MachiKoro.
 
 ## Project Structure
 
@@ -48,10 +39,10 @@ Build for production:
 npm run build
 ```
 
-## Future Plans
+## TODO
 
+- More cards
 - Card activation effects
-- Online multiplayer support
-- Additional card types and mechanics
-- Victory conditions
+- Landmarks and win condition
+- Online functionality
 - Game statistics 
