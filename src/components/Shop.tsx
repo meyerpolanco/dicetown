@@ -6,14 +6,23 @@ import './Shop.css';
 interface ShopProps {
   currentCard: Card | null;
   currentPlayer: Player | null;
+  onBuy: (cardId: number) => void;
+  canBuy: boolean;
 }
 
-function Shop({ currentCard, currentPlayer }: ShopProps): React.JSX.Element {
+function Shop({ currentCard, currentPlayer, onBuy, canBuy }: ShopProps): React.JSX.Element {
   if (!currentCard) {
     return <div className="shop">No card available</div>;
   }
 
   const canAfford = currentPlayer && currentPlayer.coins >= currentCard.cost;
+  const canPurchase = canBuy && canAfford;
+
+  const handleBuyClick = () => {
+    if (canPurchase && currentCard) {
+      onBuy(currentCard.id);
+    }
+  };
 
   return (
     <div className="shop">
@@ -27,11 +36,12 @@ function Shop({ currentCard, currentPlayer }: ShopProps): React.JSX.Element {
         <p>{currentCard.effect}</p>
         <button 
           className="buy-button"
-          disabled={!canAfford}
+          disabled={!canPurchase}
+          onClick={handleBuyClick}
         >
-          {!canAfford ? 
-            `Need ${currentCard.cost} coins` :
-            `Buy for ${currentCard.cost} coins`}
+          {!canBuy ? 'Roll dice first' :
+           !canAfford ? `Need ${currentCard.cost} coins` :
+           `Buy for ${currentCard.cost} coins`}
         </button>
       </div>
     </div>

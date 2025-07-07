@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import Dice from './components/dice'
 import PlayerCards from './components/PlayerCards'
 import Shop from './components/Shop'
 import { Player } from './types/player.ts'
-import { cardBank } from './data/cards.ts'
+import { cardBank, getCardById } from './data/cards.ts'
+import './app.css'
 
 function App(): React.JSX.Element {
   // Initialize state with three players
@@ -31,6 +32,10 @@ function App(): React.JSX.Element {
     }
   ])
 
+  // Add state for turn actions
+  const [hasRolled, setHasRolled] = useState(false);
+  const [lastRoll, setLastRoll] = useState<number | null>(null);
+
   // Add state for the current shop card
   const [currentShopCard, setCurrentShopCard] = useState(() => {
     // Initialize with a random card
@@ -41,26 +46,61 @@ function App(): React.JSX.Element {
   // Get the current player
   const currentPlayer = players.find(player => player.isCurrentTurn) || null;
 
-  // Add this new function to handle turn changes
-  const handleDiceRoll = (value: number) => {
-    setPlayers(currentPlayers => {
-      // Find the index of the current player
-      const currentPlayerIndex = currentPlayers.findIndex(player => player.isCurrentTurn)
-      
-      // Calculate the next player's index
-      const nextPlayerIndex = (currentPlayerIndex + 1) % currentPlayers.length
+  // Function to get a new random card for the shop
+  const getNewShopCard = () => {
+    const randomIndex = Math.floor(Math.random() * cardBank.length);
+    return cardBank[randomIndex];
+  };
 
-      // Update all players: set everyone to false except the next player
+  // Function to handle passing turn to next player
+  const passTurn = useCallback(() => {
+    setPlayers(currentPlayers => {
+      const currentPlayerIndex = currentPlayers.findIndex(player => player.isCurrentTurn);
+      const nextPlayerIndex = (currentPlayerIndex + 1) % currentPlayers.length;
+
       return currentPlayers.map((player, index) => ({
         ...player,
         isCurrentTurn: index === nextPlayerIndex
-      }))
-    })
+      }));
+    });
+    // Reset turn states
+    setHasRolled(false);
+    setLastRoll(null);
+  }, []);
 
-    // Select a new random card for the shop
-    const randomIndex = Math.floor(Math.random() * cardBank.length);
-    setCurrentShopCard(cardBank[randomIndex]);
-  }
+  // Modified dice roll handler
+  const handleDiceRoll = (value: number) => {
+    if (!hasRolled) {
+      setHasRolled(true);
+      setLastRoll(value);
+      console.log('Dice rolled:', value);
+    }
+  };
+
+  // Modified buy handler
+  const handleBuy = useCallback((cardId: number) => {
+    const card = getCardById(cardId);
+    if (!card || !currentPlayer || !hasRolled) return;
+
+    setPlayers(currentPlayers => {
+      return currentPlayers.map(player => {
+        if (player.id === currentPlayer.id) {
+          return {
+            ...player,
+            coins: player.coins - card.cost,
+            ownedCards: [...player.ownedCards, cardId]
+          };
+        }
+        return player;
+      });
+    });
+
+    // Get a new card for the shop
+    setCurrentShopCard(getNewShopCard());
+    
+    // Pass turn after purchase
+    passTurn();
+  }, [currentPlayer, hasRolled, passTurn]);
 
   return (
     <div>
@@ -72,14 +112,34 @@ function App(): React.JSX.Element {
           <div key={player.id} className={player.isCurrentTurn ? 'player active' : 'player'}>
             <h2>{player.name}</h2>
             <p>Coins: {player.coins}</p>
-            {player.isCurrentTurn && <p>Current Turn</p>}
+            {player.isCurrentTurn && (
+              <>
+                <p>Current Turn</p>
+                {lastRoll && <p>Rolled: {lastRoll}</p>}
+                <button 
+                  className={`pass-turn-button ${!hasRolled ? 'disabled' : ''}`}
+                  onClick={passTurn}
+                  disabled={!hasRolled}
+                >
+                  {hasRolled ? 'Pass Turn' : 'Roll First'}
+                </button>
+              </>
+            )}
             <PlayerCards cardIds={player.ownedCards} />
           </div>
         ))}
       </div>
 
-      <Shop currentCard={currentShopCard} currentPlayer={currentPlayer} />
-      <Dice onRoll={handleDiceRoll} />
+      <Shop 
+        currentCard={currentShopCard} 
+        currentPlayer={currentPlayer}
+        onBuy={handleBuy}
+        canBuy={hasRolled}
+      />
+      <Dice 
+        onRoll={handleDiceRoll}
+        disabled={hasRolled}
+      />
     </div>
   )
 }

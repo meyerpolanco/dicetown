@@ -8,14 +8,21 @@ interface PlayerCardsProps {
 }
 
 function PlayerCards({ cardIds }: PlayerCardsProps): React.JSX.Element {
+    // Group cards by their ID and count occurrences
+    const cardCounts = cardIds.reduce((acc, id) => {
+        acc[id] = (acc[id] || 0) + 1;
+        return acc;
+    }, {} as { [key: number]: number });
+
     return (
         <div className="player-cards">
             <h3>Owned Cards:</h3>
             <div className="card-list">
-                {cardIds.map(id => {
-                    const card = getCardById(id);
+                {Object.entries(cardCounts).map(([id, count]) => {
+                    const card = getCardById(parseInt(id));
                     return card ? (
                         <div key={id} className={`card ${card.card_type.toLowerCase()}`}>
+                            <div className="card-count">{count}x</div>
                             <h4>{card.name}</h4>
                             <p>Cost: {card.cost}</p>
                             <p>Type: {card.card_type}</p>

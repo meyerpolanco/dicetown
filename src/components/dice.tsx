@@ -4,15 +4,18 @@ import './dice.css'
 // Add this interface to define the props
 interface DiceProps {
   onRoll: (value: number) => void;  // Function that will be called when dice is rolled
+  disabled?: boolean;
 }
 
 // Modify the component to accept props
-function Dice({ onRoll }: DiceProps): React.JSX.Element {
+function Dice({ onRoll, disabled = false }: DiceProps): React.JSX.Element {
   // State to keep track of current dice value (1-6)
   const [value, setValue] = useState(1)
 
   // Generate random number and update dice value when clicked
   const rollDice = () => {
+    if (disabled) return;
+    
     // Random number between 1 and 6
     const newValue = Math.floor(Math.random() * 6) + 1
     setValue(newValue)
@@ -42,7 +45,10 @@ function Dice({ onRoll }: DiceProps): React.JSX.Element {
 
   return (
     // Clickable dice container with dot pattern based on current value
-    <div className={`dice dice-${value}`} onClick={rollDice}>
+    <div 
+      className={`dice dice-${value} ${disabled ? 'disabled' : ''}`} 
+      onClick={rollDice}
+    >
       {renderDots()}
     </div>
   )

@@ -20,6 +20,16 @@
   transition: all 0.2s ease;
 }
 
+.dice.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dice.disabled:hover {
+  transform: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
 .dot {
   width: 10px;
   height: 10px;
