@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import Dice from './components/dice.tsx'
-import PlayerCards from './components/PlayerCards.tsx'
+import Dice from './components/dice'
+import PlayerCards from './components/PlayerCards'
+import Shop from './components/Shop'
 import { Player } from './types/player.ts'
+import { cardBank } from './data/cards.ts'
 
 function App(): React.JSX.Element {
   // Initialize state with three players
@@ -29,6 +31,16 @@ function App(): React.JSX.Element {
     }
   ])
 
+  // Add state for the current shop card
+  const [currentShopCard, setCurrentShopCard] = useState(() => {
+    // Initialize with a random card
+    const randomIndex = Math.floor(Math.random() * cardBank.length);
+    return cardBank[randomIndex];
+  });
+
+  // Get the current player
+  const currentPlayer = players.find(player => player.isCurrentTurn) || null;
+
   // Add this new function to handle turn changes
   const handleDiceRoll = (value: number) => {
     setPlayers(currentPlayers => {
@@ -44,6 +56,10 @@ function App(): React.JSX.Element {
         isCurrentTurn: index === nextPlayerIndex
       }))
     })
+
+    // Select a new random card for the shop
+    const randomIndex = Math.floor(Math.random() * cardBank.length);
+    setCurrentShopCard(cardBank[randomIndex]);
   }
 
   return (
@@ -62,6 +78,7 @@ function App(): React.JSX.Element {
         ))}
       </div>
 
+      <Shop currentCard={currentShopCard} currentPlayer={currentPlayer} />
       <Dice onRoll={handleDiceRoll} />
     </div>
   )
