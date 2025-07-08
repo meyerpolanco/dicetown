@@ -1,0 +1,81 @@
+.landmarks {
+  margin: 10px 0;
+}
+
+.landmarks h3 {
+  margin: 5px 0;
+  font-size: 0.9em;
+  color: #333;
+}
+
+.landmark-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.landmark-card {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 6px;
+  width: 140px;
+  font-size: 0.75em;
+  background-color: #f9f9f9;
+}
+
+.landmark-card h4 {
+  margin: 0 0 3px 0;
+  font-size: 0.9em;
+  color: #333;
+}
+
+.landmark-card p {
+  margin: 2px 0;
+  line-height: 1.2;
+}
+
+.landmark-card .effect {
+  font-style: italic;
+  color: #666;
+  font-size: 0.85em;
+}
+
+.landmark-card.owned {
+  background-color: #e8f5e8;
+  border-color: #4caf50;
+}
+
+.landmark-card.available {
+  background-color: #fff;
+  border-color: #ddd;
+}
+
+.owned-indicator {
+  color: #4caf50;
+  font-weight: bold;
+  margin-top: 3px;
+  font-size: 0.8em;
+}
+
+.purchase-button {
+  margin-top: 3px;
+  padding: 3px 6px;
+  border: none;
+  border-radius: 3px;
+  background-color: #2196f3;
+  color: white;
+  cursor: pointer;
+  font-size: 0.7em;
+  width: 100%;
+  transition: background-color 0.2s;
+}
+
+.purchase-button:hover:not(:disabled) {
+  background-color: #1976d2;
+}
+
+.purchase-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  color: #666;
+} 

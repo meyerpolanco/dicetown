@@ -2,8 +2,10 @@ import React, { useState, useCallback } from 'react'
 import Dice from './components/dice'
 import PlayerCards from './components/PlayerCards'
 import Shop from './components/Shop'
+import Landmarks from './components/Landmarks'
 import { Player } from './types/player.ts'
 import { cardBank, getCardById } from './data/cards.ts'
+import { getLandmarkById } from './data/landmarks.ts'
 import './app.css'
 
 function App(): React.JSX.Element {
@@ -12,23 +14,26 @@ function App(): React.JSX.Element {
     {
       id: 1,
       name: "Meyer",
-      coins: 3,  // Starting coins
+      coins: 50,  // Starting coins
       isCurrentTurn: true,
-      ownedCards: [1001, 1002]  // Start with Wheat Field for testing
+      ownedCards: [1001, 1002],  // Start with Wheat Field for testing
+      ownedLandmarks: [2000]  // Start with no landmarks
     },
     {
       id: 2,
       name: "Rose",
-      coins: 2,
+      coins: 20,
       isCurrentTurn: false,
-      ownedCards: []  // Start with no cards
+      ownedCards: [],  // Start with no cards
+      ownedLandmarks: []  // Start with no landmarks
     },
     {
       id: 3,
       name: "Mia",
       coins: 1,
       isCurrentTurn: false,
-      ownedCards: []  // Start with no cards
+      ownedCards: [],  // Start with no cards
+      ownedLandmarks: []  // Start with no landmarks
     }
   ])
 
@@ -102,6 +107,34 @@ function App(): React.JSX.Element {
     passTurn();
   }, [currentPlayer, hasRolled, passTurn]);
 
+  // Landmark purchase handler
+  const handleLandmarkPurchase = useCallback((landmarkId: number) => {
+    const landmark = getLandmarkById(landmarkId);
+    if (!landmark || !currentPlayer || !hasRolled) return;
+
+    // Check if player can afford it
+    if (currentPlayer.coins < landmark.cost) return;
+
+    // Check if player already owns this landmark
+    if (currentPlayer.ownedLandmarks.includes(landmarkId)) return;
+
+    setPlayers(currentPlayers => {
+      return currentPlayers.map(player => {
+        if (player.id === currentPlayer.id) {
+          return {
+            ...player,
+            coins: player.coins - landmark.cost,
+            ownedLandmarks: [...player.ownedLandmarks, landmarkId]
+          };
+        }
+        return player;
+      });
+    });
+
+    // Pass turn after landmark purchase
+    passTurn();
+  }, [currentPlayer, hasRolled, passTurn]);
+
   return (
     <div>
       <h1>DiceTown</h1>
@@ -126,6 +159,12 @@ function App(): React.JSX.Element {
               </>
             )}
             <PlayerCards cardIds={player.ownedCards} />
+            <Landmarks 
+              player={player} 
+              onPurchase={handleLandmarkPurchase}
+              canPurchase={hasRolled}
+              isCurrentPlayer={player.isCurrentTurn}
+            />
           </div>
         ))}
       </div>
