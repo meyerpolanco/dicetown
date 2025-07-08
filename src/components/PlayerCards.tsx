@@ -1,5 +1,4 @@
 import React from 'react';
-import { Card } from '../types/card';
 import { getCardById } from '../data/cards';
 import './PlayerCards.css';
 

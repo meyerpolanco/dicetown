@@ -7,33 +7,34 @@ import { Player } from './types/player.ts'
 import { cardBank, getCardById } from './data/cards.ts'
 import { getLandmarkById } from './data/landmarks.ts'
 import './app.css'
+import { Card } from './types/card.ts'
 
 function App(): React.JSX.Element {
   // Initialize state with three players
   const [players, setPlayers] = useState<Player[]>([
     {
       id: 1,
-      name: "Meyer",
+      name: "Max",
       coins: 50,  // Starting coins
       isCurrentTurn: true,
-      ownedCards: [1001, 1002],  // Start with Wheat Field for testing
-      ownedLandmarks: [2000]  // Start with no landmarks
+      ownedCards: [1001, 1002],  // Start with Wheat Field + Bakery
+      ownedLandmarks: [2001]  // Start with City Hall
     },
     {
       id: 2,
-      name: "Rose",
-      coins: 20,
+      name: "Meyer",
+      coins: 50,
       isCurrentTurn: false,
-      ownedCards: [],  // Start with no cards
-      ownedLandmarks: []  // Start with no landmarks
+      ownedCards: [1001, 1002],  // Start with Wheat Field + Bakery
+      ownedLandmarks: [2001]  // Start with City Hall
     },
     {
       id: 3,
-      name: "Mia",
-      coins: 1,
+      name: "Aiden",
+      coins: 50,
       isCurrentTurn: false,
-      ownedCards: [],  // Start with no cards
-      ownedLandmarks: []  // Start with no landmarks
+      ownedCards: [1001, 1002],  // Start with Wheat Field + Bakery
+      ownedLandmarks: [2001]  // Start with City Hall
     }
   ])
 
@@ -57,6 +58,268 @@ function App(): React.JSX.Element {
     return cardBank[randomIndex];
   };
 
+  // Helper function to get player activation order starting from player before current player
+  const getPlayerActivationOrder = (currentPlayerId: number): Player[] => {
+    const currentPlayerIndex = players.findIndex(p => p.id === currentPlayerId);
+    const playerOrder: Player[] = [];
+    
+    // Start from the player before the current player
+    for (let i = 1; i < players.length; i++) {
+      const playerIndex = (currentPlayerIndex - i + players.length) % players.length;
+      playerOrder.push(players[playerIndex]);
+    }
+    
+    // Add current player last
+    playerOrder.push(players[currentPlayerIndex]);
+    
+    return playerOrder;
+  };
+
+  // Helper functions for coin transfers
+  const transferCoins = (fromPlayerId: number, toPlayerId: number, amount: number): void => {
+    setPlayers(currentPlayers => {
+      return currentPlayers.map(player => {
+        if (player.id === fromPlayerId) {
+          return { ...player, coins: Math.max(0, player.coins - amount) };
+        } else if (player.id === toPlayerId) {
+          return { ...player, coins: player.coins + amount };
+        }
+        return player;
+      });
+    });
+  };
+
+  const transferFromBank = (toPlayerId: number, amount: number): void => {
+    setPlayers(currentPlayers => {
+      return currentPlayers.map(player => {
+        if (player.id === toPlayerId) {
+          return { ...player, coins: player.coins + amount };
+        }
+        return player;
+      });
+    });
+  };
+
+  const transferToBank = (fromPlayerId: number, amount: number): void => {
+    setPlayers(currentPlayers => {
+      return currentPlayers.map(player => {
+        if (player.id === fromPlayerId) {
+          return { ...player, coins: Math.max(0, player.coins - amount) };
+        }
+        return player;
+      });
+    });
+  };
+
+  // Card effect execution system
+  const executeCardEffect = (card: Card, owner: Player, rollingPlayer: Player, diceValue: number): void => {
+    const isOwnerTurn = owner.id === rollingPlayer.id;
+    
+    // Card effect implementations - expand as needed
+    switch (card.id) {
+      case 1001: // Wheat Field - Get 1 coin from the bank, on anyone's turn
+        transferFromBank(owner.id, 1);
+        break;
+        
+      // case 1002: // Bakery - Get 1 coin from the bank, on your turn only
+      //   if (isOwnerTurn) {
+      //     transferFromBank(owner.id, 1);
+      //   }
+      //   break;
+        
+      // case 1003: // Sushi Bar - If you have a Harbor, you get 3 coins from the player who rolled the dice
+        
+      //   break;
+        
+      // case 1004: // Ranch - Get 1 coin from the bank, on anyone's turn
+      //   transferFromBank(owner.id, 1);
+      //   break;
+        
+      // case 1005: // General Store - If you have less than 2 constructed landmarks, get 2 coins from the bank, on your turn only
+      //   if (isOwnerTurn && owner.ownedLandmarks.length < 2) {
+      //     transferFromBank(owner.id, 2);
+      //   }
+      //   break;
+        
+      // case 1006: // Cafe - Get 1 coin from the player who rolled the dice
+      //   transferCoins(rollingPlayer.id, owner.id, 1);
+      //   break;
+        
+      // case 1007: // Corn Field - If you have less than 2 constructed landmarks, get 1 coin from the bank, on anyone's turn
+      //   if (owner.ownedLandmarks.length < 2) {
+      //     transferFromBank(owner.id, 1);
+      //   }
+      //   break;
+        
+      // case 1008: // Convenience Store - Get 3 coins from the bank, on your turn only
+        
+      //   break;
+        
+      // case 1009: // Flower Orchard - Get 1 coin from the bank, on anyone's turn
+      //   transferFromBank(owner.id, 1);
+      //   break;
+        
+      // case 1010: // Demolition Company - If possible, you must demolish one of your constructed landmarks by turning it back over to its unconstructed side. When you do get 8 coins from the bank, on your turn only
+        
+      //   break;
+        
+      // case 1011: // Forest - Get 1 coin from the bank, on anyone's turn
+      //   transferFromBank(owner.id, 1);
+      //   break;
+        
+      // case 1012: // Loan Office - When you construct this building, get 5 coins from the bank. When this building is activated, pay 2 coins to the bank, on your turn only
+        
+      //   break;
+        
+      // case 1013: // French Restaurant - If the player who rolled the dice has 2 or more constructed landmarks, get 5 coins from the player who rolled the dice
+      //   if (rollingPlayer.ownedLandmarks.length >= 2) {
+      //     transferCoins(rollingPlayer.id, owner.id, 5);
+      //   }
+      //   break;
+        
+      // case 1014: // Stadium - Get 2 coins from all players, on your turn only
+        
+      //   break;
+        
+      // case 1015: // TV Station - Take 5 coins from any one player, on your turn only
+        
+      //   break;
+        
+      // case 1016: // Business Center - Trade 1 non-purple with another player, on your turn only
+        
+      //   break;
+        
+      // case 1017: // Flower Shop - Get 1 coin from the bank for each Flower Orchard you own, on your turn only
+        
+      //   break;
+        
+      // case 1018: // Cheese Factory - Get 3 coins from the bank for each Ranch you own, on your turn only
+        
+      //   break;
+        
+      // case 1019: // Pizza Joint - Get 1 coin from the player who rolled the dice
+      //   transferCoins(rollingPlayer.id, owner.id, 1);
+      //   break;
+        
+      // case 1020: // Publisher - Take 1 coin from each player for each Cup and Box card they own, on your turn only
+        
+      //   break;
+        
+      // case 1021: // Vineyard - Get 3 coins from the bank, on anyone's turn
+      //   transferFromBank(owner.id, 3);
+      //   break;
+        
+      // case 1022: // Furniture Factory - Get 3 coins from the bank for each Gear you own, on your turn only
+        
+      //   break;
+        
+      // case 1023: // Mackerel Boat - If you have a Harbor, get 3 coins from the bank, on anyone's turn
+        
+      //   break;
+        
+      // case 1024: // Hamburguesa Stand - Get 1 coin from the player who rolled the dice
+      //   transferCoins(rollingPlayer.id, owner.id, 1);
+      //   break;
+        
+      // case 1025: // Tax Office - From each player with 10 or more coins, take half of their coins, on your turn only
+        
+      //   break;
+        
+      // case 1026: // Renovation Company - Choose a non-purple card. All cards owned by any player of that type are closed for renovations. Get 1 coin from each player for each of their buildings closed for renovation, on your turn only
+        
+      //   break;
+        
+      // case 1027: // Mine - Get 5 coins from the bank, on anyone's turn
+      //   transferFromBank(owner.id, 5);
+      //   break;
+        
+      // case 1028: // Winery - Get 6 coins for each Vineyard you own, on your turn only. Then, close this building for renovation
+        
+      //   break;
+        
+      // case 1029: // Family Restaurant - Get 2 coins from the player who rolled the dice
+      //   transferCoins(rollingPlayer.id, owner.id, 2);
+      //   break;
+        
+      // case 1030: // Moving Company - You must give a non-purple card that you own to another player. When you do, get 4 coins from the bank, on your turn only
+        
+      //   break;
+        
+      // case 1031: // Apple Orchard - Get 3 coins from the bank, on anyone's turn
+      //   transferFromBank(owner.id, 3);
+      //   break;
+        
+      // case 1032: // Tech Startup - At the end of each of your turns, you may place 1 coin on this card. The total placed here is your investment. When activated, get an amount equal to your investment from all players, on your turn only
+        
+      //   break;
+        
+      // case 1033: // Convention Center - You may choose to activate another of your non-purple cards in place of this one, on your turn only. If you do, return this card to the market
+        
+      //   break;
+        
+      // case 1034: // Soda Bottling Plant - Get 1 coin from the bank for each Cup card owned by all players, on your turn only
+        
+      //   break;
+        
+      // case 1035: // Fruit and Vegetable Market - Get 2 coins from the bank for each Wheat card you own, on your turn only
+        
+      //   break;
+        
+      // case 1036: // Park - Redistribute all players' coins evenly among all players, on your turn only. If there is an uneven amount of coins, take coins from the bank to make up the difference
+        
+      //   break;
+        
+      // case 1037: // Food Warehouse - Get 2 coins from the bank for each Cup card you own, on your turn only
+        
+      //   break;
+        
+      // case 1038: // Member's Only Club - If the player who rolled this number has 3 or more constructed landmarks, get all of their coins
+        
+      //   break;
+        
+      // case 1039: // Tuna Boat - On anyone's Turn: The current player rolls 2 dice. If you have a harbor you get as many coins as the dice total
+        
+      //   break;
+        
+      default:
+        console.log(`Card effect not implemented for ${card.name} (ID: ${card.id})`);
+    }
+  };
+
+  // Main payout processing function
+  const processCardActivations = (diceValue: number, rollingPlayerId: number): void => {
+    const rollingPlayer = players.find(p => p.id === rollingPlayerId);
+    if (!rollingPlayer) return;
+
+    console.log(`Processing activations for dice roll: ${diceValue} by ${rollingPlayer.name}`);
+    
+    const playerOrder = getPlayerActivationOrder(rollingPlayerId);
+    const cardTypes = ['Red', 'Blue', 'Green', 'Purple']; // Processing order
+    
+    // Process each card type in order
+    for (const cardType of cardTypes) {
+      console.log(`Processing ${cardType} cards...`);
+      
+      // Process each player in the correct order
+      for (const player of playerOrder) {
+        // Get cards of this type that activate on this dice value
+        const activatingCards = player.ownedCards
+          .map(cardId => getCardById(cardId))
+          .filter(card => card && 
+                   card.card_type === cardType && 
+                   card.activationNumbers.includes(diceValue));
+        
+        // Execute each card's effect
+        for (const card of activatingCards) {
+          if (card) {
+            console.log(`${player.name}'s ${card.name} activated!`);
+            executeCardEffect(card, player, rollingPlayer, diceValue);
+          }
+        }
+      }
+    }
+  };
+
   // Function to handle passing turn to next player
   const passTurn = useCallback(() => {
     setPlayers(currentPlayers => {
@@ -75,10 +338,13 @@ function App(): React.JSX.Element {
 
   // Modified dice roll handler
   const handleDiceRoll = (value: number) => {
-    if (!hasRolled) {
+    if (!hasRolled && currentPlayer) {
       setHasRolled(true);
       setLastRoll(value);
       console.log('Dice rolled:', value);
+      
+      // Process card activations
+      processCardActivations(value, currentPlayer.id);
     }
   };
 
