@@ -24,7 +24,7 @@ export const landmarkBank: Landmark[] = [
         id: 2004,
         name: "Shopping Mall",
         cost: 10,
-        effect: "Every coin earned from a Cup or Box establishment is worth 2 coins."
+        effect: "When a Cup or Box card is activated, the effect is 1 coin greater."
     },
     {
         id: 2005,

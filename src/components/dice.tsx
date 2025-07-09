@@ -24,13 +24,13 @@ function Dice({ onRoll, disabled = false, diceCount = 1 }: DiceProps): React.JSX
     
     if (diceCount === 1) {
       // Single die roll (1-6)
-      const newValue = Math.floor(Math.random() * 6) + 1
+      const newValue = 6//Math.floor(Math.random() * 6) + 1
       setValue(newValue)
       onRoll(newValue)
     } else {
       // Two dice roll (2-12)
-      const die1 = 3//Math.floor(Math.random() * 6) + 1
-      const die2 = 3//Math.floor(Math.random() * 6) + 1
+      const die1 = Math.floor(Math.random() * 6) + 1
+      const die2 = Math.floor(Math.random() * 6) + 1
       const total = die1 + die2
       setValue(total)
       onRoll(total)

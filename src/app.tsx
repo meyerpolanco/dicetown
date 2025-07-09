@@ -17,24 +17,24 @@ function App(): React.JSX.Element {
       name: "Max",
       coins: 0,
       isCurrentTurn: true,
-      ownedCards: [1014],
-      ownedLandmarks: [2003]
+      ownedCards: [1017, 1009],
+      ownedLandmarks: [2003, 2004]
     },
     {
       id: 2,
       name: "Meyer",
-      coins: 1,
+      coins: 0,
       isCurrentTurn: false,
-      ownedCards: [],
+      ownedCards: [1017, 1009],
       ownedLandmarks: [2003]
     },
     {
       id: 3,
       name: "Aiden",
-      coins: 5,
+      coins: 0,
       isCurrentTurn: false,
-      ownedCards: [],
-      ownedLandmarks: [2003]
+      ownedCards: [1017, 1009, 1009, 1009],
+      ownedLandmarks: [2003, 2004]
     }
   ])
 
@@ -133,13 +133,15 @@ function App(): React.JSX.Element {
         
       case 1002: // Bakery - Get 1 coin from the bank, on your turn only
         if (isOwnerTurn) {
-          transferFromBank(owner.id, 1);
+          const payoutValue = owner.ownedLandmarks.includes(2004) ? 2 : 1;
+          transferFromBank(owner.id, payoutValue);
         }
         break;
         
       case 1003: // Sushi Bar - If you have a Harbor, you get 3 coins from the player who rolled the dice
         if (owner.ownedLandmarks.includes(2002) && !isOwnerTurn) {
-          transferCoins(rollingPlayer.id, owner.id, 3);
+          const payoutValue = owner.ownedLandmarks.includes(2004) ? 4 : 3;
+          transferCoins(rollingPlayer.id, owner.id, payoutValue);
         }
         break;
         
@@ -149,13 +151,15 @@ function App(): React.JSX.Element {
         
       case 1005: // General Store - If you have less than 2 constructed landmarks, get 2 coins from the bank, on your turn only
         if (isOwnerTurn && owner.ownedLandmarks.length < 3) { // Use 3 to account for the City Hall landmark
-          transferFromBank(owner.id, 2);
+          const payoutValue = owner.ownedLandmarks.includes(2004) ? 3 : 2;
+          transferFromBank(owner.id, payoutValue);
         }
         break;
         
       case 1006: // Cafe - Get 1 coin from the player who rolled the dice
         if (!isOwnerTurn) {
-          transferCoins(rollingPlayer.id, owner.id, 1);
+          const payoutValue = owner.ownedLandmarks.includes(2004) ? 2 : 1;
+          transferCoins(rollingPlayer.id, owner.id, payoutValue);
         }
         break;
         
@@ -167,7 +171,8 @@ function App(): React.JSX.Element {
         
       case 1008: // Convenience Store - Get 3 coins from the bank, on your turn only
         if (isOwnerTurn) {
-          transferFromBank(owner.id, 3);
+          const payoutValue = owner.ownedLandmarks.includes(2004) ? 4 : 3;
+          transferFromBank(owner.id, payoutValue);
         }
         break;
         
@@ -189,7 +194,8 @@ function App(): React.JSX.Element {
         
        case 1013: // French Restaurant - If the player who rolled the dice has 2 or more constructed landmarks, get 5 coins from the player who rolled the dice
         if (rollingPlayer.ownedLandmarks.length >= 3) { // Use 3 to account for the City Hall landmark
-          transferCoins(rollingPlayer.id, owner.id, 5);
+          const payoutValue = owner.ownedLandmarks.includes(2004) ? 6 : 5;
+          transferCoins(rollingPlayer.id, owner.id, payoutValue);
         }
         break;
         
@@ -213,7 +219,8 @@ function App(): React.JSX.Element {
         
       case 1017: // Flower Shop - Get 1 coin from the bank for each Flower Orchard you own, on your turn only
         if (isOwnerTurn) {
-          transferFromBank(owner.id, owner.ownedCards.filter(cardId => getCardById(cardId)?.name === 'Flower Orchard').length);
+          const payoutValueAddition = owner.ownedLandmarks.includes(2004) ? 1 : 0;
+          transferFromBank(owner.id, owner.ownedCards.filter(cardId => getCardById(cardId)?.name === 'Flower Orchard').length + payoutValueAddition);
         }
         break;
         
@@ -225,7 +232,8 @@ function App(): React.JSX.Element {
         
       case 1019: // Pizza Joint - Get 1 coin from the player who rolled the dice
         if (!isOwnerTurn) {
-          transferCoins(rollingPlayer.id, owner.id, 1);
+          const payoutValue = owner.ownedLandmarks.includes(2004) ? 2 : 1;
+          transferCoins(rollingPlayer.id, owner.id, payoutValue);
         }
         break;
         
@@ -258,7 +266,8 @@ function App(): React.JSX.Element {
         
       case 1024: // Hamburguesa Stand - Get 1 coin from the player who rolled the dice
         if (!isOwnerTurn) {
-          transferCoins(rollingPlayer.id, owner.id, 1);
+          const payoutValue = owner.ownedLandmarks.includes(2004) ? 2 : 1;
+          transferCoins(rollingPlayer.id, owner.id, payoutValue);
         }
         break;
         
@@ -289,7 +298,8 @@ function App(): React.JSX.Element {
         
       case 1029: // Family Restaurant - Get 2 coins from the player who rolled the dice
         if (!isOwnerTurn) {
-          transferCoins(rollingPlayer.id, owner.id, 2);
+          const payoutValue = owner.ownedLandmarks.includes(2004) ? 3 : 2;
+          transferCoins(rollingPlayer.id, owner.id, payoutValue);
         }
         break;
         
