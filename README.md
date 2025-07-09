@@ -41,7 +41,7 @@ npm run build
 
 ## TODO
 
-- Card activation effects [ALL] (update with which need to be done as necessary)
+- Card activation effects (switch-cases commented out in app.tsx are not yet implemented)
 - Landmark effects and win condition
 - Online functionality
 - Game statistics 

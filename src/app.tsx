@@ -18,7 +18,7 @@ function App(): React.JSX.Element {
       coins: 0,
       isCurrentTurn: true,
       ownedCards: [],
-      ownedLandmarks: []
+      ownedLandmarks: [2003]
     },
     {
       id: 2,
@@ -34,13 +34,14 @@ function App(): React.JSX.Element {
       coins: 0,
       isCurrentTurn: false,
       ownedCards: [],
-      ownedLandmarks: []
+      ownedLandmarks: [2003]
     }
   ])
 
   // Add state for turn actions
   const [hasRolled, setHasRolled] = useState(false);
   const [lastRoll, setLastRoll] = useState<number | null>(null);
+  const [diceChoice, setDiceChoice] = useState<1 | 2>(1); // Player's choice: 1 or 2 dice
 
   // Add state for the current shop card
   const [currentShopCard, setCurrentShopCard] = useState(() => {
@@ -51,6 +52,8 @@ function App(): React.JSX.Element {
 
   // Get the current player
   const currentPlayer = players.find(player => player.isCurrentTurn) || null;
+  
+  // Test log for dice choice state - removed to prevent issues
 
   // Function to get a new random card for the shop
   const getNewShopCard = () => {
@@ -202,13 +205,17 @@ function App(): React.JSX.Element {
         
       //   break;
         
-      // case 1017: // Flower Shop - Get 1 coin from the bank for each Flower Orchard you own, on your turn only
+      case 1017: // Flower Shop - Get 1 coin from the bank for each Flower Orchard you own, on your turn only
+        if (isOwnerTurn) {
+          transferFromBank(owner.id, owner.ownedCards.filter(cardId => getCardById(cardId)?.name === 'Flower Orchard').length);
+        }
+        break;
         
-      //   break;
-        
-      // case 1018: // Cheese Factory - Get 3 coins from the bank for each Ranch you own, on your turn only
-        
-      //   break;
+      case 1018: // Cheese Factory - Get 3 coins from the bank for each Ranch you own, on your turn only
+        if (isOwnerTurn) {
+          transferFromBank(owner.id, owner.ownedCards.filter(cardId => getCardById(cardId)?.name === 'Ranch').length * 3);
+        }
+        break;
         
       // case 1019: // Pizza Joint - Get 1 coin from the player who rolled the dice
       //   transferCoins(rollingPlayer.id, owner.id, 1);
@@ -347,6 +354,7 @@ function App(): React.JSX.Element {
     // Reset turn states
     setHasRolled(false);
     setLastRoll(null);
+    setDiceChoice(1); // Reset dice choice to 1 when turn passes
   }, []);
 
   // Modified dice roll handler
@@ -454,9 +462,22 @@ function App(): React.JSX.Element {
         onBuy={handleBuy}
         canBuy={hasRolled}
       />
+      {/* Only show dice choice if current player owns Train Station */}
+      {currentPlayer && currentPlayer.ownedLandmarks.includes(2003) ? (
+        <div>
+          <p>Train Station allows you to choose: {diceChoice} dice</p>
+          <button onClick={() => setDiceChoice(1)}>Choose 1 Die</button>
+          <button onClick={() => setDiceChoice(2)}>Choose 2 Dice</button>
+        </div>
+      ) : (
+        <div>
+          <p>Rolling: 1 die</p>
+        </div>
+      )}
       <Dice 
         onRoll={handleDiceRoll}
         disabled={hasRolled}
+        diceCount={currentPlayer?.ownedLandmarks.includes(2003) ? diceChoice : 1}
       />
     </div>
   )
