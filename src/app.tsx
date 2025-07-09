@@ -17,24 +17,24 @@ function App(): React.JSX.Element {
       name: "Max",
       coins: 0,
       isCurrentTurn: true,
-      ownedCards: [1017, 1009],
-      ownedLandmarks: [2003, 2004]
+      ownedCards: [],
+      ownedLandmarks: [2003, 2001]
     },
     {
       id: 2,
       name: "Meyer",
-      coins: 0,
+      coins: 1,
       isCurrentTurn: false,
-      ownedCards: [1017, 1009],
-      ownedLandmarks: [2003]
+      ownedCards: [],
+      ownedLandmarks: [2003, 2001]
     },
     {
       id: 3,
       name: "Aiden",
       coins: 0,
       isCurrentTurn: false,
-      ownedCards: [1017, 1009, 1009, 1009],
-      ownedLandmarks: [2003, 2004]
+      ownedCards: [],
+      ownedLandmarks: [2003]
     }
   ])
 
@@ -42,6 +42,10 @@ function App(): React.JSX.Element {
   const [hasRolled, setHasRolled] = useState(false);
   const [lastRoll, setLastRoll] = useState<number | null>(null);
   const [diceChoice, setDiceChoice] = useState<1 | 2>(1); // Player's choice: 1 or 2 dice
+
+  // Add state for win condition
+  const [gameWinner, setGameWinner] = useState<Player | null>(null);
+  const [isGameOver, setIsGameOver] = useState(false);
 
   // Add state for the current shop card
   const [currentShopCard, setCurrentShopCard] = useState(() => {
@@ -59,6 +63,13 @@ function App(): React.JSX.Element {
   const getNewShopCard = () => {
     const randomIndex = Math.floor(Math.random() * cardBank.length);
     return cardBank[randomIndex];
+  };
+
+  // Helper function to check if a player has won (owns all 7 landmarks)
+  const checkWinCondition = (player: Player): boolean => {
+    // A player wins when they own all 7 landmarks (IDs 2001-2007)
+    const allLandmarkIds = [2001, 2002, 2003, 2004, 2005, 2006, 2007];
+    return allLandmarkIds.every(landmarkId => player.ownedLandmarks.includes(landmarkId));
   };
 
   // Helper function to get player activation order starting from player before current player
@@ -431,6 +442,10 @@ function App(): React.JSX.Element {
       
       // Process card activations
       processCardActivations(value, currentPlayer.id);
+
+      if (currentPlayer.coins === 0 && currentPlayer.ownedLandmarks.includes(2001)) { // City Hall effect
+        transferFromBank(currentPlayer.id, 1);
+      }
     }
   };
 
@@ -462,7 +477,7 @@ function App(): React.JSX.Element {
   // Landmark purchase handler
   const handleLandmarkPurchase = useCallback((landmarkId: number) => {
     const landmark = getLandmarkById(landmarkId);
-    if (!landmark || !currentPlayer || !hasRolled) return;
+    if (!landmark || !currentPlayer || !hasRolled || isGameOver) return;
 
     // Check if player can afford it
     if (currentPlayer.coins < landmark.cost) return;
@@ -473,23 +488,42 @@ function App(): React.JSX.Element {
     setPlayers(currentPlayers => {
       return currentPlayers.map(player => {
         if (player.id === currentPlayer.id) {
-          return {
+          const updatedPlayer = {
             ...player,
             coins: player.coins - landmark.cost,
             ownedLandmarks: [...player.ownedLandmarks, landmarkId]
           };
+          
+          // Check if this player has won after purchasing the landmark
+          if (checkWinCondition(updatedPlayer)) {
+            setGameWinner(updatedPlayer);
+            setIsGameOver(true);
+            console.log(`${updatedPlayer.name} has won the game!`);
+          }
+          
+          return updatedPlayer;
         }
         return player;
       });
     });
 
-    // Pass turn after landmark purchase
-    passTurn();
-  }, [currentPlayer, hasRolled, passTurn]);
+    // Only pass turn if game hasn't ended
+    if (!isGameOver) {
+      passTurn();
+    }
+  }, [currentPlayer, hasRolled, passTurn, isGameOver, checkWinCondition]);
 
   return (
     <div>
       <h1>DiceTown</h1>
+      
+      {/* Display winner if game is over */}
+      {isGameOver && gameWinner && (
+        <div className="game-over">
+          <h2>🎉 Game Over! 🎉</h2>
+          <h3>{gameWinner.name} wins by owning all 7 landmarks!</h3>
+        </div>
+      )}
       
       {/* Display players and their info */}
       <div className="players">
@@ -502,11 +536,11 @@ function App(): React.JSX.Element {
                 <p>Current Turn</p>
                 {lastRoll && <p>Rolled: {lastRoll}</p>}
                 <button 
-                  className={`pass-turn-button ${!hasRolled ? 'disabled' : ''}`}
+                  className={`pass-turn-button ${!hasRolled || isGameOver ? 'disabled' : ''}`}
                   onClick={passTurn}
-                  disabled={!hasRolled}
+                  disabled={!hasRolled || isGameOver}
                 >
-                  {hasRolled ? 'Pass Turn' : 'Roll First'}
+                  {isGameOver ? 'Game Over' : hasRolled ? 'Pass Turn' : 'Roll First'}
                 </button>
               </>
             )}
@@ -514,7 +548,7 @@ function App(): React.JSX.Element {
             <Landmarks 
               player={player} 
               onPurchase={handleLandmarkPurchase}
-              canPurchase={hasRolled}
+              canPurchase={hasRolled && !isGameOver}
               isCurrentPlayer={player.isCurrentTurn}
             />
           </div>
@@ -525,7 +559,7 @@ function App(): React.JSX.Element {
         currentCard={currentShopCard} 
         currentPlayer={currentPlayer}
         onBuy={handleBuy}
-        canBuy={hasRolled}
+        canBuy={hasRolled && !isGameOver}
       />
       {/* Only show dice choice if current player owns Train Station */}
       {currentPlayer && currentPlayer.ownedLandmarks.includes(2003) ? (
@@ -541,7 +575,7 @@ function App(): React.JSX.Element {
       )}
       <Dice 
         onRoll={handleDiceRoll}
-        disabled={hasRolled}
+        disabled={hasRolled || isGameOver}
         diceCount={currentPlayer?.ownedLandmarks.includes(2003) ? diceChoice : 1}
       />
     </div>

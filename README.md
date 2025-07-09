@@ -10,17 +10,20 @@ A web-based board game inspired by MachiKoro.
     - `dice.tsx` & `dice.css` - Interactive dice component
     - `PlayerCards.tsx` & `PlayerCards.css` - Card display with stacking
     - `Shop.tsx` & `Shop.css` - Shop interface component
+    - `Landmarks.tsx` & `Landmarks.css` - Landmark interface component
   - `/types`
     - `player.ts` - Player interface definition
     - `card.ts` - Card interface definition
+    - `landmark.ts` - Landmark interface definition
   - `/data`
     - `cards.ts` - Card definitions and helper functions
+    - `landmarks.ts` - Landmark definitions and helper functions
 
 ## Game Rules
 
 1. On your turn:
    - Roll the dice (required first action)
-   - Buy one establishment (optional)
+   - Buy an establishment or landmark (optional)
    - Pass your turn
 2. Buying cards:
    - Must roll dice before purchasing
@@ -43,6 +46,6 @@ npm run build
 
 - Card activation effects (switch-cases commented out in app.tsx are not yet implemented)
 - Landmark effects and win condition
-  - Fix die rendering (was broken when switching from 1 to 2 die)
+- Add die styling/rendering
 - Online functionality
-- Game statistics 
+- Game statistics (total income, dice results, cards owned, etc)
