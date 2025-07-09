@@ -25,7 +25,7 @@ function Dice({ onRoll, disabled = false }: DiceProps): React.JSX.Element {
   // Create dots based on the current value
   const renderDots = () => {
     // Define which grid areas should have dots for each value
-    const dotPositions = {
+    const dotPositions: { [key: number]: string[] } = {
       1: ['e'],
       2: ['a', 'i'],
       3: ['a', 'e', 'i'],
@@ -46,7 +46,7 @@ function Dice({ onRoll, disabled = false }: DiceProps): React.JSX.Element {
   return (
     // Clickable dice container with dot pattern based on current value
     <div 
-      className={`dice dice-${value} ${disabled ? 'disabled' : ''}`} 
+      className={`dice ${disabled ? 'disabled' : ''}`} 
       onClick={rollDice}
     >
       {renderDots()}

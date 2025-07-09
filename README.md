@@ -41,8 +41,7 @@ npm run build
 
 ## TODO
 
-- More cards
-- Card activation effects
-- Landmarks and win condition
+- Card activation effects [ALL] (update with which need to be done as necessary)
+- Landmark effects and win condition
 - Online functionality
 - Game statistics 

@@ -15,26 +15,26 @@ function App(): React.JSX.Element {
     {
       id: 1,
       name: "Max",
-      coins: 50,  // Starting coins
+      coins: 0,
       isCurrentTurn: true,
-      ownedCards: [1001, 1002],  // Start with Wheat Field + Bakery
-      ownedLandmarks: [2001]  // Start with City Hall
+      ownedCards: [],
+      ownedLandmarks: []
     },
     {
       id: 2,
       name: "Meyer",
-      coins: 50,
+      coins: 0,
       isCurrentTurn: false,
-      ownedCards: [1001, 1002],  // Start with Wheat Field + Bakery
-      ownedLandmarks: [2001]  // Start with City Hall
+      ownedCards: [],
+      ownedLandmarks: []
     },
     {
       id: 3,
       name: "Aiden",
-      coins: 50,
+      coins: 0,
       isCurrentTurn: false,
-      ownedCards: [1001, 1002],  // Start with Wheat Field + Bakery
-      ownedLandmarks: [2001]  // Start with City Hall
+      ownedCards: [],
+      ownedLandmarks: []
     }
   ])
 
@@ -78,11 +78,18 @@ function App(): React.JSX.Element {
   // Helper functions for coin transfers
   const transferCoins = (fromPlayerId: number, toPlayerId: number, amount: number): void => {
     setPlayers(currentPlayers => {
+      // First, find the paying player to calculate actual transfer amount
+      const payingPlayer = currentPlayers.find(p => p.id === fromPlayerId);
+      if (!payingPlayer) return currentPlayers;
+      
+      // Calculate actual amount that can be transferred (can't go below 0)
+      const actualTransfer = Math.min(amount, payingPlayer.coins);
+      
       return currentPlayers.map(player => {
         if (player.id === fromPlayerId) {
-          return { ...player, coins: Math.max(0, player.coins - amount) };
+          return { ...player, coins: player.coins - actualTransfer };
         } else if (player.id === toPlayerId) {
-          return { ...player, coins: player.coins + amount };
+          return { ...player, coins: player.coins + actualTransfer };
         }
         return player;
       });
@@ -121,61 +128,67 @@ function App(): React.JSX.Element {
         transferFromBank(owner.id, 1);
         break;
         
-      // case 1002: // Bakery - Get 1 coin from the bank, on your turn only
-      //   if (isOwnerTurn) {
-      //     transferFromBank(owner.id, 1);
-      //   }
-      //   break;
+      case 1002: // Bakery - Get 1 coin from the bank, on your turn only
+        if (isOwnerTurn) {
+          transferFromBank(owner.id, 1);
+        }
+        break;
         
-      // case 1003: // Sushi Bar - If you have a Harbor, you get 3 coins from the player who rolled the dice
+      case 1003: // Sushi Bar - If you have a Harbor, you get 3 coins from the player who rolled the dice
+        if (owner.ownedLandmarks.includes(2002) && !isOwnerTurn) {
+          transferCoins(rollingPlayer.id, owner.id, 3);
+        }
+        break;
         
-      //   break;
+      case 1004: // Ranch - Get 1 coin from the bank, on anyone's turn
+        transferFromBank(owner.id, 1);
+        break;
         
-      // case 1004: // Ranch - Get 1 coin from the bank, on anyone's turn
-      //   transferFromBank(owner.id, 1);
-      //   break;
+      case 1005: // General Store - If you have less than 2 constructed landmarks, get 2 coins from the bank, on your turn only
+        if (isOwnerTurn && owner.ownedLandmarks.length < 3) { // Use 3 to account for the City Hall landmark
+          transferFromBank(owner.id, 2);
+        }
+        break;
         
-      // case 1005: // General Store - If you have less than 2 constructed landmarks, get 2 coins from the bank, on your turn only
-      //   if (isOwnerTurn && owner.ownedLandmarks.length < 2) {
-      //     transferFromBank(owner.id, 2);
-      //   }
-      //   break;
+      case 1006: // Cafe - Get 1 coin from the player who rolled the dice
+        if (!isOwnerTurn) {
+          transferCoins(rollingPlayer.id, owner.id, 1);
+        }
+        break;
         
-      // case 1006: // Cafe - Get 1 coin from the player who rolled the dice
-      //   transferCoins(rollingPlayer.id, owner.id, 1);
-      //   break;
+      case 1007: // Corn Field - If you have less than 2 constructed landmarks, get 1 coin from the bank, on anyone's turn
+        if (owner.ownedLandmarks.length < 3) { // Use 3 to account for the City Hall landmark
+          transferFromBank(owner.id, 1);
+        }
+        break;
         
-      // case 1007: // Corn Field - If you have less than 2 constructed landmarks, get 1 coin from the bank, on anyone's turn
-      //   if (owner.ownedLandmarks.length < 2) {
-      //     transferFromBank(owner.id, 1);
-      //   }
-      //   break;
+      case 1008: // Convenience Store - Get 3 coins from the bank, on your turn only
+        if (isOwnerTurn) {
+          transferFromBank(owner.id, 3);
+        }
+        break;
         
-      // case 1008: // Convenience Store - Get 3 coins from the bank, on your turn only
-        
-      //   break;
-        
-      // case 1009: // Flower Orchard - Get 1 coin from the bank, on anyone's turn
-      //   transferFromBank(owner.id, 1);
-      //   break;
+      case 1009: // Flower Orchard - Get 1 coin from the bank, on anyone's turn
+        transferFromBank(owner.id, 1);
+        break;
         
       // case 1010: // Demolition Company - If possible, you must demolish one of your constructed landmarks by turning it back over to its unconstructed side. When you do get 8 coins from the bank, on your turn only
         
       //   break;
         
-      // case 1011: // Forest - Get 1 coin from the bank, on anyone's turn
-      //   transferFromBank(owner.id, 1);
-      //   break;
+      case 1011: // Forest - Get 1 coin from the bank, on anyone's turn
+        transferFromBank(owner.id, 1);
+        break;
         
       // case 1012: // Loan Office - When you construct this building, get 5 coins from the bank. When this building is activated, pay 2 coins to the bank, on your turn only
         
       //   break;
         
-      // case 1013: // French Restaurant - If the player who rolled the dice has 2 or more constructed landmarks, get 5 coins from the player who rolled the dice
-      //   if (rollingPlayer.ownedLandmarks.length >= 2) {
-      //     transferCoins(rollingPlayer.id, owner.id, 5);
-      //   }
-      //   break;
+       case 1013: // French Restaurant - If the player who rolled the dice has 2 or more constructed landmarks, get 5 coins from the player who rolled the dice
+        if (rollingPlayer.ownedLandmarks.length >= 3) { // Use 3 to account for the City Hall landmark
+          transferCoins(rollingPlayer.id, owner.id, 5);
+        }
+        break;
         
       // case 1014: // Stadium - Get 2 coins from all players, on your turn only
         
