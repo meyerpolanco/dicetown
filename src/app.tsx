@@ -17,21 +17,21 @@ function App(): React.JSX.Element {
       name: "Max",
       coins: 0,
       isCurrentTurn: true,
-      ownedCards: [],
+      ownedCards: [1014],
       ownedLandmarks: [2003]
     },
     {
       id: 2,
       name: "Meyer",
-      coins: 0,
+      coins: 1,
       isCurrentTurn: false,
       ownedCards: [],
-      ownedLandmarks: []
+      ownedLandmarks: [2003]
     },
     {
       id: 3,
       name: "Aiden",
-      coins: 0,
+      coins: 5,
       isCurrentTurn: false,
       ownedCards: [],
       ownedLandmarks: [2003]
@@ -193,9 +193,15 @@ function App(): React.JSX.Element {
         }
         break;
         
-      // case 1014: // Stadium - Get 2 coins from all players, on your turn only
-        
-      //   break;
+      case 1014: // Stadium - Get 2 coins from all players, on your turn only
+        if (isOwnerTurn) {
+          players.forEach(player => {
+            if (player.id !== owner.id) {
+              transferCoins(player.id, owner.id, 2);
+            }
+          });
+        }
+        break;
         
       // case 1015: // TV Station - Take 5 coins from any one player, on your turn only
         
@@ -217,57 +223,83 @@ function App(): React.JSX.Element {
         }
         break;
         
-      // case 1019: // Pizza Joint - Get 1 coin from the player who rolled the dice
-      //   transferCoins(rollingPlayer.id, owner.id, 1);
-      //   break;
+      case 1019: // Pizza Joint - Get 1 coin from the player who rolled the dice
+        if (!isOwnerTurn) {
+          transferCoins(rollingPlayer.id, owner.id, 1);
+        }
+        break;
         
-      // case 1020: // Publisher - Take 1 coin from each player for each Cup and Box card they own, on your turn only
+      case 1020: // Publisher - Take 1 coin from each player for each Cup and Box card they own, on your turn only
+        if (isOwnerTurn) {
+          players.forEach(player => {
+            if (player.id !== owner.id) {
+              const coinsToTake = player.ownedCards.filter(cardId => getCardById(cardId)?.family === 'Cup' || getCardById(cardId)?.family === 'Box').length;
+              transferCoins(player.id, owner.id, coinsToTake);
+            }
+          });
+        }
+        break;
         
-      //   break;
+      case 1021: // Vineyard - Get 3 coins from the bank, on anyone's turn
+        transferFromBank(owner.id, 3);
+        break;
         
-      // case 1021: // Vineyard - Get 3 coins from the bank, on anyone's turn
-      //   transferFromBank(owner.id, 3);
-      //   break;
+      case 1022: // Furniture Factory - Get 3 coins from the bank for each Gear you own, on your turn only
+        if (isOwnerTurn) {
+          transferFromBank(owner.id, owner.ownedCards.filter(cardId => getCardById(cardId)?.family === 'Gear').length * 3);
+        }
+        break;
         
-      // case 1022: // Furniture Factory - Get 3 coins from the bank for each Gear you own, on your turn only
+      case 1023: // Mackerel Boat - If you have a Harbor, get 3 coins from the bank, on anyone's turn
+        if (owner.ownedLandmarks.includes(2002)) {
+          transferFromBank(owner.id, 3);
+        }
+        break;
         
-      //   break;
+      case 1024: // Hamburguesa Stand - Get 1 coin from the player who rolled the dice
+        if (!isOwnerTurn) {
+          transferCoins(rollingPlayer.id, owner.id, 1);
+        }
+        break;
         
-      // case 1023: // Mackerel Boat - If you have a Harbor, get 3 coins from the bank, on anyone's turn
-        
-      //   break;
-        
-      // case 1024: // Hamburguesa Stand - Get 1 coin from the player who rolled the dice
-      //   transferCoins(rollingPlayer.id, owner.id, 1);
-      //   break;
-        
-      // case 1025: // Tax Office - From each player with 10 or more coins, take half of their coins, on your turn only
-        
-      //   break;
+      case 1025: // Tax Office - From each player with 10 or more coins, take half of their coins, on your turn only
+        if (isOwnerTurn) {
+
+          // Check each player (except the Tax Office owner)
+          players.forEach(player => {
+            if (player.id !== owner.id && player.coins >= 10) {
+              const coinsToTake = Math.floor(player.coins / 2); // Half rounded down
+              transferCoins(player.id, owner.id, coinsToTake);
+            }
+          });
+        }
+        break;
         
       // case 1026: // Renovation Company - Choose a non-purple card. All cards owned by any player of that type are closed for renovations. Get 1 coin from each player for each of their buildings closed for renovation, on your turn only
         
       //   break;
         
-      // case 1027: // Mine - Get 5 coins from the bank, on anyone's turn
-      //   transferFromBank(owner.id, 5);
-      //   break;
+      case 1027: // Mine - Get 5 coins from the bank, on anyone's turn
+        transferFromBank(owner.id, 5);
+        break;
         
       // case 1028: // Winery - Get 6 coins for each Vineyard you own, on your turn only. Then, close this building for renovation
         
       //   break;
         
-      // case 1029: // Family Restaurant - Get 2 coins from the player who rolled the dice
-      //   transferCoins(rollingPlayer.id, owner.id, 2);
-      //   break;
+      case 1029: // Family Restaurant - Get 2 coins from the player who rolled the dice
+        if (!isOwnerTurn) {
+          transferCoins(rollingPlayer.id, owner.id, 2);
+        }
+        break;
         
       // case 1030: // Moving Company - You must give a non-purple card that you own to another player. When you do, get 4 coins from the bank, on your turn only
         
       //   break;
         
-      // case 1031: // Apple Orchard - Get 3 coins from the bank, on anyone's turn
-      //   transferFromBank(owner.id, 3);
-      //   break;
+      case 1031: // Apple Orchard - Get 3 coins from the bank, on anyone's turn
+        transferFromBank(owner.id, 3);
+        break;
         
       // case 1032: // Tech Startup - At the end of each of your turns, you may place 1 coin on this card. The total placed here is your investment. When activated, get an amount equal to your investment from all players, on your turn only
         
@@ -277,25 +309,48 @@ function App(): React.JSX.Element {
         
       //   break;
         
-      // case 1034: // Soda Bottling Plant - Get 1 coin from the bank for each Cup card owned by all players, on your turn only
+      case 1034: // Soda Bottling Plant - Get 1 coin from the bank for each Cup card owned by players, on your turn only
+        if (isOwnerTurn) {
+          transferFromBank(owner.id, players.reduce((sum, player) => sum + player.ownedCards.filter(cardId => getCardById(cardId)?.family === 'Cup').length, 0));
+        }
+        break;
         
-      //   break;
+      case 1035: // Fruit and Vegetable Market - Get 2 coins from the bank for each Wheat card you own, on your turn only
+        if (isOwnerTurn) {
+          transferFromBank(owner.id, owner.ownedCards.filter(cardId => getCardById(cardId)?.family === 'Wheat').length * 2);
+        }
+        break;
         
-      // case 1035: // Fruit and Vegetable Market - Get 2 coins from the bank for each Wheat card you own, on your turn only
+      case 1036: // Park - Redistribute all players' coins evenly among all players, on your turn only. If there is an uneven amount of coins, take coins from the bank to make up the difference
+        if (isOwnerTurn) {
+          // Calculate total coins owned by all players
+          const totalCoins = players.reduce((sum, player) => sum + player.coins, 0);
+          
+          // Calculate coins per player (with ceiling function)
+          const coinsPerPlayer_temp = totalCoins / players.length;
+          const coinsPerPlayer = Math.ceil(coinsPerPlayer_temp);
+          
+          // Set all players' coins to the calculated amount
+          setPlayers(currentPlayers => {
+            return currentPlayers.map(player => ({
+              ...player,
+              coins: coinsPerPlayer
+            }));
+          });
+        }
+        break;
         
-      //   break;
+      case 1037: // Food Warehouse - Get 2 coins from the bank for each Cup card you own, on your turn only
+        if (isOwnerTurn) {
+          transferFromBank(owner.id, owner.ownedCards.filter(cardId => getCardById(cardId)?.family === 'Cup').length * 2);
+        }
+        break;
         
-      // case 1036: // Park - Redistribute all players' coins evenly among all players, on your turn only. If there is an uneven amount of coins, take coins from the bank to make up the difference
-        
-      //   break;
-        
-      // case 1037: // Food Warehouse - Get 2 coins from the bank for each Cup card you own, on your turn only
-        
-      //   break;
-        
-      // case 1038: // Member's Only Club - If the player who rolled this number has 3 or more constructed landmarks, get all of their coins
-        
-      //   break;
+      case 1038: // Member's Only Club - If the player who rolled this number has 3 or more constructed landmarks, get all of their coins
+        if (rollingPlayer.ownedLandmarks.length >= 4) { // Use 4 to account for the City Hall landmark
+          transferCoins(rollingPlayer.id, owner.id, rollingPlayer.coins);
+        }
+        break;
         
       // case 1039: // Tuna Boat - On anyone's Turn: The current player rolls 2 dice. If you have a harbor you get as many coins as the dice total
         

@@ -43,5 +43,6 @@ npm run build
 
 - Card activation effects (switch-cases commented out in app.tsx are not yet implemented)
 - Landmark effects and win condition
+  - Fix die rendering (was broken when switching from 1 to 2 die)
 - Online functionality
 - Game statistics 
