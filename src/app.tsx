@@ -17,23 +17,23 @@ function App(): React.JSX.Element {
     {
       id: 1,
       name: "Max",
-      coins: 0,
+      coins: 100,
       isCurrentTurn: true,
       ownedCards: [],
-      ownedLandmarks: [2003, 2001]
+      ownedLandmarks: [2003]
     },
     {
       id: 2,
       name: "Meyer",
-      coins: 1,
+      coins: 100,
       isCurrentTurn: false,
       ownedCards: [],
-      ownedLandmarks: [2003, 2001]
+      ownedLandmarks: [2003]
     },
     {
       id: 3,
       name: "Aiden",
-      coins: 0,
+      coins: 100,
       isCurrentTurn: false,
       ownedCards: [],
       ownedLandmarks: [2003]
