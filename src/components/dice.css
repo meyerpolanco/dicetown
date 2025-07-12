@@ -1,0 +1,100 @@
+.dice {
+  width: 60px;
+  height: 60px;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 10px;
+  display: grid;
+  grid-template-areas: 
+    "a b c"
+    "d e f"
+    "g h i";
+  padding: 10px;
+  cursor: pointer;
+  margin: 20px;
+}
+
+.dice:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.1);
+  transition: all 0.2s ease;
+}
+
+.dice.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dice.disabled:hover {
+  transform: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background-color: black;
+  border-radius: 50%;
+  align-self: center;
+  justify-self: center;
+}
+
+/* Dot patterns for each dice value */
+.dice-1 {
+  /* Center dot */
+  grid-template-areas: 
+    ". . ."
+    ". e ."
+    ". . .";
+}
+
+.dice-2 {
+  /* Diagonal dots */
+  grid-template-areas: 
+    "a . ."
+    ". . ."
+    ". . i";
+}
+
+.dice-3 {
+  /* Diagonal dots with center */
+  grid-template-areas: 
+    "a . ."
+    ". e ."
+    ". . i";
+}
+
+.dice-4 {
+  /* Corner dots */
+  grid-template-areas: 
+    "a . c"
+    ". . ."
+    "g . i";
+}
+
+.dice-5 {
+  /* Corner dots with center */
+  grid-template-areas: 
+    "a . c"
+    ". e ."
+    "g . i";
+}
+
+.dice-6 {
+  /* All side dots */
+  grid-template-areas: 
+    "a . c"
+    "d . f"
+    "g . i";
+}
+
+.dice-total {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}

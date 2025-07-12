@@ -1,0 +1,67 @@
+.player-cards {
+    margin: 10px 0;
+}
+
+.card-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.card {
+    position: relative;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+    width: 200px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card h4 {
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.card p {
+    margin: 4px 0;
+    font-size: 0.9em;
+}
+
+/* Card type colors */
+.card.blue {
+    background-color: #e3f2fd;
+    border-color: #90caf9;
+}
+
+.card.red {
+    background-color: #ffebee;
+    border-color: #ef9a9a;
+}
+
+.card.green {
+    background-color: #e8f5e9;
+    border-color: #a5d6a7;
+}
+
+.card.purple {
+    background-color: #f3e5f5;
+    border-color: #ce93d8;
+}
+
+.card-count {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: #2196F3;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.8em;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+} 
