@@ -84,7 +84,7 @@ export const purchaseCard = (
     // Card is not stacked, remove it and draw a replacement
     newSlots.splice(slotIndex, 1);
     
-    // Draw replacement cards until we find a new unique card or deck is empty
+    // Draw replacement cards until we have 10 unique cards again or deck is empty
     while (newSlots.length < 10) {
       const { card, newDeckState: updatedDeckState } = drawCard(newDeckState);
       newDeckState = updatedDeckState;
@@ -100,14 +100,15 @@ export const purchaseCard = (
       if (existingSlot) {
         // Card already exists, increment the stack count
         existingSlot.count++;
-        break; // We've processed the drawn card
+        // Continue the loop to try to find a unique card
       } else {
         // New card, add it to the shop
         newSlots.push({
           card: card,
           count: 1
         });
-        break; // We've added a new card
+        // We've added a new unique card, so we can break
+        break;
       }
     }
   }
