@@ -44,7 +44,7 @@ npm run build
 
 ## TODO
 
-- Card activation effects (switch-cases commented out in app.tsx are not yet implemented)
+- Card activation effects (cases commented out in app.tsx are not yet implemented)
 - Landmark effects and win condition
 - Add die styling/rendering
 - Online functionality
