@@ -17344,53 +17344,1638 @@ require("flatted");
 require("setimmediate");
 require("./ai-7998b00f.js");
 var _client5f57c3f = require("./client-5f57c3f2.js");
-},{"nanoid/non-secure":"node_modules/nanoid/non-secure/index.js","./Debug-8242c26e.js":"node_modules/boardgame.io/dist/esm/Debug-8242c26e.js","redux":"node_modules/redux/es/redux.js","./turn-order-8cc4909b.js":"node_modules/boardgame.io/dist/esm/turn-order-8cc4909b.js","immer":"node_modules/immer/dist/immer.esm.js","./plugin-random-087f861e.js":"node_modules/boardgame.io/dist/esm/plugin-random-087f861e.js","lodash.isplainobject":"node_modules/lodash.isplainobject/index.js","./reducer-24ea3e4c.js":"node_modules/boardgame.io/dist/esm/reducer-24ea3e4c.js","rfc6902":"node_modules/rfc6902/index.js","./initialize-7316768f.js":"node_modules/boardgame.io/dist/esm/initialize-7316768f.js","./transport-ce07b771.js":"node_modules/boardgame.io/dist/esm/transport-ce07b771.js","./client-f7f02b82.js":"node_modules/boardgame.io/dist/esm/client-f7f02b82.js","flatted":"node_modules/flatted/esm/index.js","setimmediate":"node_modules/setimmediate/setImmediate.js","./ai-7998b00f.js":"node_modules/boardgame.io/dist/esm/ai-7998b00f.js","./client-5f57c3f2.js":"node_modules/boardgame.io/dist/esm/client-5f57c3f2.js"}],"node_modules/boardgame.io/dist/esm/core.js":[function(require,module,exports) {
-"use strict";
+},{"nanoid/non-secure":"node_modules/nanoid/non-secure/index.js","./Debug-8242c26e.js":"node_modules/boardgame.io/dist/esm/Debug-8242c26e.js","redux":"node_modules/redux/es/redux.js","./turn-order-8cc4909b.js":"node_modules/boardgame.io/dist/esm/turn-order-8cc4909b.js","immer":"node_modules/immer/dist/immer.esm.js","./plugin-random-087f861e.js":"node_modules/boardgame.io/dist/esm/plugin-random-087f861e.js","lodash.isplainobject":"node_modules/lodash.isplainobject/index.js","./reducer-24ea3e4c.js":"node_modules/boardgame.io/dist/esm/reducer-24ea3e4c.js","rfc6902":"node_modules/rfc6902/index.js","./initialize-7316768f.js":"node_modules/boardgame.io/dist/esm/initialize-7316768f.js","./transport-ce07b771.js":"node_modules/boardgame.io/dist/esm/transport-ce07b771.js","./client-f7f02b82.js":"node_modules/boardgame.io/dist/esm/client-f7f02b82.js","flatted":"node_modules/flatted/esm/index.js","setimmediate":"node_modules/setimmediate/setImmediate.js","./ai-7998b00f.js":"node_modules/boardgame.io/dist/esm/ai-7998b00f.js","./client-5f57c3f2.js":"node_modules/boardgame.io/dist/esm/client-5f57c3f2.js"}],"node_modules/boardgame.io/dist/cjs/plugin-random-7425844d.js":[function(require,module,exports) {
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "ActivePlayers", {
-  enumerable: true,
-  get: function () {
-    return _turnOrder8cc4909b.C;
+// Inlined version of Alea from https://github.com/davidbau/seedrandom.
+// Converted to Typescript October 2020.
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var Alea = /*#__PURE__*/function () {
+  function Alea(seed) {
+    _classCallCheck(this, Alea);
+    var mash = Mash();
+    // Apply the seeding algorithm from Baagoe.
+    this.c = 1;
+    this.s0 = mash(' ');
+    this.s1 = mash(' ');
+    this.s2 = mash(' ');
+    this.s0 -= mash(seed);
+    if (this.s0 < 0) {
+      this.s0 += 1;
+    }
+    this.s1 -= mash(seed);
+    if (this.s1 < 0) {
+      this.s1 += 1;
+    }
+    this.s2 -= mash(seed);
+    if (this.s2 < 0) {
+      this.s2 += 1;
+    }
   }
-});
-Object.defineProperty(exports, "GameMethod", {
-  enumerable: true,
-  get: function () {
-    return _turnOrder8cc4909b.G;
+  return _createClass(Alea, [{
+    key: "next",
+    value: function next() {
+      var t = 2091639 * this.s0 + this.c * 2.3283064365386963e-10; // 2^-32
+      this.s0 = this.s1;
+      this.s1 = this.s2;
+      return this.s2 = t - (this.c = Math.trunc(t));
+    }
+  }]);
+}();
+function Mash() {
+  var n = 0xefc8249d;
+  var mash = function mash(data) {
+    var str = data.toString();
+    for (var i = 0; i < str.length; i++) {
+      n += str.charCodeAt(i);
+      var h = 0.02519603282416938 * n;
+      n = h >>> 0;
+      h -= n;
+      h *= n;
+      n = h >>> 0;
+      h -= n;
+      n += h * 0x100000000; // 2^32
+    }
+    return (n >>> 0) * 2.3283064365386963e-10; // 2^-32
+  };
+  return mash;
+}
+function copy(f, t) {
+  t.c = f.c;
+  t.s0 = f.s0;
+  t.s1 = f.s1;
+  t.s2 = f.s2;
+  return t;
+}
+function alea(seed, state) {
+  var xg = new Alea(seed);
+  var prng = xg.next.bind(xg);
+  if (state) copy(state, xg);
+  prng.state = function () {
+    return copy(xg, {});
+  };
+  return prng;
+}
+
+/*
+ * Copyright 2017 The boardgame.io Authors
+ *
+ * Use of this source code is governed by a MIT-style
+ * license that can be found in the LICENSE file or at
+ * https://opensource.org/licenses/MIT.
+ */
+/**
+ * Random
+ *
+ * Calls that require a pseudorandom number generator.
+ * Uses a seed from ctx, and also persists the PRNG
+ * state in ctx so that moves can stay pure.
+ */
+var Random = /*#__PURE__*/function () {
+  /**
+   * constructor
+   * @param {object} ctx - The ctx object to initialize from.
+   */
+  function Random(state) {
+    _classCallCheck(this, Random);
+    // If we are on the client, the seed is not present.
+    // Just use a temporary seed to execute the move without
+    // crashing it. The move state itself is discarded,
+    // so the actual value doesn't matter.
+    this.state = state || {
+      seed: '0'
+    };
+    this.used = false;
   }
-});
-Object.defineProperty(exports, "INVALID_MOVE", {
-  enumerable: true,
-  get: function () {
-    return _turnOrder8cc4909b.n;
+  /**
+   * Generates a new seed from the current date / time.
+   */
+  return _createClass(Random, [{
+    key: "isUsed",
+    value: function isUsed() {
+      return this.used;
+    }
+  }, {
+    key: "getState",
+    value: function getState() {
+      return this.state;
+    }
+    /**
+     * Generate a random number.
+     */
+  }, {
+    key: "_random",
+    value: function _random() {
+      this.used = true;
+      var R = this.state;
+      var seed = R.prngstate ? '' : R.seed;
+      var rand = alea(seed, R.prngstate);
+      var number = rand();
+      this.state = _objectSpread(_objectSpread({}, R), {}, {
+        prngstate: rand.state()
+      });
+      return number;
+    }
+  }, {
+    key: "api",
+    value: function api() {
+      var random = this._random.bind(this);
+      var SpotValue = {
+        D4: 4,
+        D6: 6,
+        D8: 8,
+        D10: 10,
+        D12: 12,
+        D20: 20
+      };
+      // Generate functions for predefined dice values D4 - D20.
+      var predefined = {};
+      var _loop = function _loop() {
+        var spotvalue = SpotValue[key];
+        predefined[key] = function (diceCount) {
+          return diceCount === undefined ? Math.floor(random() * spotvalue) + 1 : Array.from({
+            length: diceCount
+          }).map(function () {
+            return Math.floor(random() * spotvalue) + 1;
+          });
+        };
+      };
+      for (var key in SpotValue) {
+        _loop();
+      }
+      function Die() {
+        var spotvalue = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 6;
+        var diceCount = arguments.length > 1 ? arguments[1] : undefined;
+        return diceCount === undefined ? Math.floor(random() * spotvalue) + 1 : Array.from({
+          length: diceCount
+        }).map(function () {
+          return Math.floor(random() * spotvalue) + 1;
+        });
+      }
+      return _objectSpread(_objectSpread({}, predefined), {}, {
+        /**
+         * Roll a die of specified spot value.
+         *
+         * @param {number} spotvalue - The die dimension (default: 6).
+         * @param {number} diceCount - number of dice to throw.
+         *                             if not defined, defaults to 1 and returns the value directly.
+         *                             if defined, returns an array containing the random dice values.
+         */
+        Die: Die,
+        /**
+         * Generate a random number between 0 and 1.
+         */
+        Number: function Number() {
+          return random();
+        },
+        /**
+         * Shuffle an array.
+         *
+         * @param {Array} deck - The array to shuffle. Does not mutate
+         *                       the input, but returns the shuffled array.
+         */
+        Shuffle: function Shuffle(deck) {
+          var clone = _toConsumableArray(deck);
+          var sourceIndex = deck.length;
+          var destinationIndex = 0;
+          var shuffled = Array.from({
+            length: sourceIndex
+          });
+          while (sourceIndex) {
+            var randomIndex = Math.trunc(sourceIndex * random());
+            shuffled[destinationIndex++] = clone[randomIndex];
+            clone[randomIndex] = clone[--sourceIndex];
+          }
+          return shuffled;
+        },
+        _private: this
+      });
+    }
+  }], [{
+    key: "seed",
+    value: function seed() {
+      return Date.now().toString(36).slice(-10);
+    }
+  }]);
+}();
+/*
+ * Copyright 2018 The boardgame.io Authors
+ *
+ * Use of this source code is governed by a MIT-style
+ * license that can be found in the LICENSE file or at
+ * https://opensource.org/licenses/MIT.
+ */
+var RandomPlugin = {
+  name: 'random',
+  noClient: function noClient(_ref) {
+    var api = _ref.api;
+    return api._private.isUsed();
+  },
+  flush: function flush(_ref2) {
+    var api = _ref2.api;
+    return api._private.getState();
+  },
+  api: function api(_ref3) {
+    var data = _ref3.data;
+    var random = new Random(data);
+    return random.api();
+  },
+  setup: function setup(_ref4) {
+    var game = _ref4.game;
+    var seed = game.seed;
+    if (seed === undefined) {
+      seed = Random.seed();
+    }
+    return {
+      seed: seed
+    };
+  },
+  playerView: function playerView() {
+    return undefined;
   }
+};
+exports.RandomPlugin = RandomPlugin;
+exports.alea = alea;
+},{}],"node_modules/boardgame.io/dist/cjs/turn-order-4ab12333.js":[function(require,module,exports) {
+'use strict';
+
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t.return || t.return(); } finally { if (u) throw o; } } }; }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _interopDefault(ex) {
+  return ex && _typeof(ex) === 'object' && 'default' in ex ? ex['default'] : ex;
+}
+var produce = _interopDefault(require('immer'));
+var pluginRandom = require('./plugin-random-7425844d.js');
+var isPlainObject = _interopDefault(require('lodash.isplainobject'));
+
+/*
+ * Copyright 2017 The boardgame.io Authors
+ *
+ * Use of this source code is governed by a MIT-style
+ * license that can be found in the LICENSE file or at
+ * https://opensource.org/licenses/MIT.
+ */
+var MAKE_MOVE = 'MAKE_MOVE';
+var GAME_EVENT = 'GAME_EVENT';
+var REDO = 'REDO';
+var RESET = 'RESET';
+var SYNC = 'SYNC';
+var UNDO = 'UNDO';
+var UPDATE = 'UPDATE';
+var PATCH = 'PATCH';
+var PLUGIN = 'PLUGIN';
+var STRIP_TRANSIENTS = 'STRIP_TRANSIENTS';
+
+/*
+ * Copyright 2017 The boardgame.io Authors
+ *
+ * Use of this source code is governed by a MIT-style
+ * license that can be found in the LICENSE file or at
+ * https://opensource.org/licenses/MIT.
+ */
+/**
+ * Generate a move to be dispatched to the game move reducer.
+ *
+ * @param {string} type - The move type.
+ * @param {Array}  args - Additional arguments.
+ * @param {string}  playerID - The ID of the player making this action.
+ * @param {string}  credentials - (optional) The credentials for the player making this action.
+ */
+var makeMove = function makeMove(type, args, playerID, credentials) {
+  return {
+    type: MAKE_MOVE,
+    payload: {
+      type: type,
+      args: args,
+      playerID: playerID,
+      credentials: credentials
+    }
+  };
+};
+/**
+ * Generate a game event to be dispatched to the flow reducer.
+ *
+ * @param {string} type - The event type.
+ * @param {Array}  args - Additional arguments.
+ * @param {string}  playerID - The ID of the player making this action.
+ * @param {string}  credentials - (optional) The credentials for the player making this action.
+ */
+var gameEvent = function gameEvent(type, args, playerID, credentials) {
+  return {
+    type: GAME_EVENT,
+    payload: {
+      type: type,
+      args: args,
+      playerID: playerID,
+      credentials: credentials
+    }
+  };
+};
+/**
+ * Generate an automatic game event that is a side-effect of a move.
+ * @param {string} type - The event type.
+ * @param {Array}  args - Additional arguments.
+ * @param {string}  playerID - The ID of the player making this action.
+ * @param {string}  credentials - (optional) The credentials for the player making this action.
+ */
+var automaticGameEvent = function automaticGameEvent(type, args, playerID, credentials) {
+  return {
+    type: GAME_EVENT,
+    payload: {
+      type: type,
+      args: args,
+      playerID: playerID,
+      credentials: credentials
+    },
+    automatic: true
+  };
+};
+var sync = function sync(info) {
+  return {
+    type: SYNC,
+    state: info.state,
+    log: info.log,
+    initialState: info.initialState,
+    clientOnly: true
+  };
+};
+/**
+ * Used to update the Redux store's state with patch in response to
+ * an action coming from another player.
+ * @param prevStateID previous stateID
+ * @param stateID stateID after this patch
+ * @param {Operation[]} patch - The patch to apply.
+ * @param {LogEntry[]} deltalog - A log delta.
+ */
+var patch = function patch(prevStateID, stateID, _patch, deltalog) {
+  return {
+    type: PATCH,
+    prevStateID: prevStateID,
+    stateID: stateID,
+    patch: _patch,
+    deltalog: deltalog,
+    clientOnly: true
+  };
+};
+/**
+ * Used to update the Redux store's state in response to
+ * an action coming from another player.
+ * @param {object} state - The state to restore.
+ * @param {Array} deltalog - A log delta.
+ */
+var update = function update(state, deltalog) {
+  return {
+    type: UPDATE,
+    state: state,
+    deltalog: deltalog,
+    clientOnly: true
+  };
+};
+/**
+ * Used to reset the game state.
+ * @param {object} state - The initial state.
+ */
+var reset = function reset(state) {
+  return {
+    type: RESET,
+    state: state,
+    clientOnly: true
+  };
+};
+/**
+ * Used to undo the last move.
+ * @param {string}  playerID - The ID of the player making this action.
+ * @param {string}  credentials - (optional) The credentials for the player making this action.
+ */
+var undo = function undo(playerID, credentials) {
+  return {
+    type: UNDO,
+    payload: {
+      type: null,
+      args: null,
+      playerID: playerID,
+      credentials: credentials
+    }
+  };
+};
+/**
+ * Used to redo the last undone move.
+ * @param {string}  playerID - The ID of the player making this action.
+ * @param {string}  credentials - (optional) The credentials for the player making this action.
+ */
+var redo = function redo(playerID, credentials) {
+  return {
+    type: REDO,
+    payload: {
+      type: null,
+      args: null,
+      playerID: playerID,
+      credentials: credentials
+    }
+  };
+};
+/**
+ * Allows plugins to define their own actions and intercept them.
+ */
+var plugin = function plugin(type, args, playerID, credentials) {
+  return {
+    type: PLUGIN,
+    payload: {
+      type: type,
+      args: args,
+      playerID: playerID,
+      credentials: credentials
+    }
+  };
+};
+/**
+ * Private action used to strip transient metadata (e.g. errors) from the game
+ * state.
+ */
+var stripTransients = function stripTransients() {
+  return {
+    type: STRIP_TRANSIENTS
+  };
+};
+var ActionCreators = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  makeMove: makeMove,
+  gameEvent: gameEvent,
+  automaticGameEvent: automaticGameEvent,
+  sync: sync,
+  patch: patch,
+  update: update,
+  reset: reset,
+  undo: undo,
+  redo: redo,
+  plugin: plugin,
+  stripTransients: stripTransients
 });
-exports.PlayerView = void 0;
-Object.defineProperty(exports, "Stage", {
-  enumerable: true,
-  get: function () {
-    return _turnOrder8cc4909b.S;
+
+/**
+ * Moves can return this when they want to indicate
+ * that the combination of arguments is illegal and
+ * the move ought to be discarded.
+ */
+var INVALID_MOVE = 'INVALID_MOVE';
+
+/*
+ * Copyright 2018 The boardgame.io Authors
+ *
+ * Use of this source code is governed by a MIT-style
+ * license that can be found in the LICENSE file or at
+ * https://opensource.org/licenses/MIT.
+ */
+/**
+ * Plugin that allows using Immer to make immutable changes
+ * to G by just mutating it.
+ */
+var ImmerPlugin = {
+  name: 'plugin-immer',
+  fnWrap: function fnWrap(move) {
+    return function (context) {
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+      var isInvalid = false;
+      var newG = produce(context.G, function (G) {
+        var result = move.apply(void 0, [_objectSpread(_objectSpread({}, context), {}, {
+          G: G
+        })].concat(args));
+        if (result === INVALID_MOVE) {
+          isInvalid = true;
+          return;
+        }
+        return result;
+      });
+      if (isInvalid) return INVALID_MOVE;
+      return newG;
+    };
   }
-});
-Object.defineProperty(exports, "TurnOrder", {
-  enumerable: true,
-  get: function () {
-    return _turnOrder8cc4909b.T;
+};
+(function (GameMethod) {
+  GameMethod["MOVE"] = "MOVE";
+  GameMethod["GAME_ON_END"] = "GAME_ON_END";
+  GameMethod["PHASE_ON_BEGIN"] = "PHASE_ON_BEGIN";
+  GameMethod["PHASE_ON_END"] = "PHASE_ON_END";
+  GameMethod["TURN_ON_BEGIN"] = "TURN_ON_BEGIN";
+  GameMethod["TURN_ON_MOVE"] = "TURN_ON_MOVE";
+  GameMethod["TURN_ON_END"] = "TURN_ON_END";
+})(exports.GameMethod || (exports.GameMethod = {}));
+
+/*
+ * Copyright 2018 The boardgame.io Authors
+ *
+ * Use of this source code is governed by a MIT-style
+ * license that can be found in the LICENSE file or at
+ * https://opensource.org/licenses/MIT.
+ */
+var Errors;
+(function (Errors) {
+  Errors["CalledOutsideHook"] = "Events must be called from moves or the `onBegin`, `onEnd`, and `onMove` hooks.\nThis error probably means you called an event from other game code, like an `endIf` trigger or one of the `turn.order` methods.";
+  Errors["EndTurnInOnEnd"] = "`endTurn` is disallowed in `onEnd` hooks \u2014 the turn is already ending.";
+  Errors["MaxTurnEndings"] = "Maximum number of turn endings exceeded for this update.\nThis likely means game code is triggering an infinite loop.";
+  Errors["PhaseEventInOnEnd"] = "`setPhase` & `endPhase` are disallowed in a phase\u2019s `onEnd` hook \u2014 the phase is already ending.\nIf you\u2019re trying to dynamically choose the next phase when a phase ends, use the phase\u2019s `next` trigger.";
+  Errors["StageEventInOnEnd"] = "`setStage`, `endStage` & `setActivePlayers` are disallowed in `onEnd` hooks.";
+  Errors["StageEventInPhaseBegin"] = "`setStage`, `endStage` & `setActivePlayers` are disallowed in a phase\u2019s `onBegin` hook.\nUse `setActivePlayers` in a `turn.onBegin` hook or declare stages with `turn.activePlayers` instead.";
+  Errors["StageEventInTurnBegin"] = "`setStage` & `endStage` are disallowed in `turn.onBegin`.\nUse `setActivePlayers` or declare stages with `turn.activePlayers` instead.";
+})(Errors || (Errors = {}));
+/**
+ * Events
+ */
+var Events = /*#__PURE__*/function () {
+  function Events(flow, ctx, playerID) {
+    _classCallCheck(this, Events);
+    this.flow = flow;
+    this.playerID = playerID;
+    this.dispatch = [];
+    this.initialTurn = ctx.turn;
+    this.updateTurnContext(ctx, undefined);
+    // This is an arbitrarily large upper threshold, which could be made
+    // configurable via a game option if the need arises.
+    this.maxEndedTurnsPerAction = ctx.numPlayers * 100;
   }
-});
-var _turnOrder8cc4909b = require("./turn-order-8cc4909b.js");
-require("immer");
-require("./plugin-random-087f861e.js");
-require("lodash.isplainobject");
+  return _createClass(Events, [{
+    key: "api",
+    value: function api() {
+      var _this = this;
+      var events = {
+        _private: this
+      };
+      var _iterator = _createForOfIteratorHelper(this.flow.eventNames),
+        _step;
+      try {
+        var _loop = function _loop() {
+          var type = _step.value;
+          events[type] = function () {
+            for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+              args[_key2] = arguments[_key2];
+            }
+            _this.dispatch.push({
+              type: type,
+              args: args,
+              phase: _this.currentPhase,
+              turn: _this.currentTurn,
+              calledFrom: _this.currentMethod,
+              // Used to capture a stack trace in case it is needed later.
+              error: new Error('Events Plugin Error')
+            });
+          };
+        };
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          _loop();
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+      return events;
+    }
+  }, {
+    key: "isUsed",
+    value: function isUsed() {
+      return this.dispatch.length > 0;
+    }
+  }, {
+    key: "updateTurnContext",
+    value: function updateTurnContext(ctx, methodType) {
+      this.currentPhase = ctx.phase;
+      this.currentTurn = ctx.turn;
+      this.currentMethod = methodType;
+    }
+  }, {
+    key: "unsetCurrentMethod",
+    value: function unsetCurrentMethod() {
+      this.currentMethod = undefined;
+    }
+    /**
+     * Updates ctx with the triggered events.
+     * @param {object} state - The state object { G, ctx }.
+     */
+  }, {
+    key: "update",
+    value: function update(state) {
+      var initialState = state;
+      var stateWithError = function stateWithError(_ref, message) {
+        var stack = _ref.stack;
+        return _objectSpread(_objectSpread({}, initialState), {}, {
+          plugins: _objectSpread(_objectSpread({}, initialState.plugins), {}, {
+            events: _objectSpread(_objectSpread({}, initialState.plugins.events), {}, {
+              data: {
+                error: message + '\n' + stack
+              }
+            })
+          })
+        });
+      };
+      EventQueue: for (var i = 0; i < this.dispatch.length; i++) {
+        var event = this.dispatch[i];
+        var turnHasEnded = event.turn !== state.ctx.turn;
+        // This protects against potential infinite loops if specific events are called on hooks.
+        // The moment we exceed the defined threshold, we just bail out of all phases.
+        var endedTurns = this.currentTurn - this.initialTurn;
+        if (endedTurns >= this.maxEndedTurnsPerAction) {
+          return stateWithError(event.error, Errors.MaxTurnEndings);
+        }
+        if (event.calledFrom === undefined) {
+          return stateWithError(event.error, Errors.CalledOutsideHook);
+        }
+        // Stop processing events once the game has finished.
+        if (state.ctx.gameover) break EventQueue;
+        switch (event.type) {
+          case 'endStage':
+          case 'setStage':
+          case 'setActivePlayers':
+            {
+              switch (event.calledFrom) {
+                // Disallow all stage events in onEnd and phase.onBegin hooks.
+                case exports.GameMethod.TURN_ON_END:
+                case exports.GameMethod.PHASE_ON_END:
+                  return stateWithError(event.error, Errors.StageEventInOnEnd);
+                case exports.GameMethod.PHASE_ON_BEGIN:
+                  return stateWithError(event.error, Errors.StageEventInPhaseBegin);
+                // Disallow setStage & endStage in turn.onBegin hooks.
+                case exports.GameMethod.TURN_ON_BEGIN:
+                  if (event.type === 'setActivePlayers') break;
+                  return stateWithError(event.error, Errors.StageEventInTurnBegin);
+              }
+              // If the turn already ended, don't try to process stage events.
+              if (turnHasEnded) continue EventQueue;
+              break;
+            }
+          case 'endTurn':
+            {
+              if (event.calledFrom === exports.GameMethod.TURN_ON_END || event.calledFrom === exports.GameMethod.PHASE_ON_END) {
+                return stateWithError(event.error, Errors.EndTurnInOnEnd);
+              }
+              // If the turn already ended some other way,
+              // don't try to end the turn again.
+              if (turnHasEnded) continue EventQueue;
+              break;
+            }
+          case 'endPhase':
+          case 'setPhase':
+            {
+              if (event.calledFrom === exports.GameMethod.PHASE_ON_END) {
+                return stateWithError(event.error, Errors.PhaseEventInOnEnd);
+              }
+              // If the phase already ended some other way,
+              // don't try to end the phase again.
+              if (event.phase !== state.ctx.phase) continue EventQueue;
+              break;
+            }
+        }
+        var action = automaticGameEvent(event.type, event.args, this.playerID);
+        state = this.flow.processEvent(state, action);
+      }
+      return state;
+    }
+  }]);
+}();
+/*
+ * Copyright 2020 The boardgame.io Authors
+ *
+ * Use of this source code is governed by a MIT-style
+ * license that can be found in the LICENSE file or at
+ * https://opensource.org/licenses/MIT.
+ */
+var EventsPlugin = {
+  name: 'events',
+  noClient: function noClient(_ref2) {
+    var api = _ref2.api;
+    return api._private.isUsed();
+  },
+  isInvalid: function isInvalid(_ref3) {
+    var data = _ref3.data;
+    return data.error || false;
+  },
+  // Update the events plugin’s internal turn context each time a move
+  // or hook is called. This allows events called after turn or phase
+  // endings to dispatch the current turn and phase correctly.
+  fnWrap: function fnWrap(method, methodType) {
+    return function (context) {
+      var api = context.events;
+      if (api) api._private.updateTurnContext(context.ctx, methodType);
+      for (var _len3 = arguments.length, args = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
+        args[_key3 - 1] = arguments[_key3];
+      }
+      var G = method.apply(void 0, [context].concat(args));
+      if (api) api._private.unsetCurrentMethod();
+      return G;
+    };
+  },
+  dangerouslyFlushRawState: function dangerouslyFlushRawState(_ref4) {
+    var state = _ref4.state,
+      api = _ref4.api;
+    return api._private.update(state);
+  },
+  api: function api(_ref5) {
+    var game = _ref5.game,
+      ctx = _ref5.ctx,
+      playerID = _ref5.playerID;
+    return new Events(game.flow, ctx, playerID).api();
+  }
+};
+
+/*
+ * Copyright 2018 The boardgame.io Authors
+ *
+ * Use of this source code is governed by a MIT-style
+ * license that can be found in the LICENSE file or at
+ * https://opensource.org/licenses/MIT.
+ */
+/**
+ * Plugin that makes it possible to add metadata to log entries.
+ * During a move, you can set metadata using ctx.log.setMetadata and it will be
+ * available on the log entry for that move.
+ */
+var LogPlugin = {
+  name: 'log',
+  flush: function flush() {
+    return {};
+  },
+  api: function api(_ref6) {
+    var data = _ref6.data;
+    return {
+      setMetadata: function setMetadata(metadata) {
+        data.metadata = metadata;
+      }
+    };
+  },
+  setup: function setup() {
+    return {};
+  }
+};
+
+/**
+ * Check if a value can be serialized (e.g. using `JSON.stringify`).
+ * Adapted from: https://stackoverflow.com/a/30712764/3829557
+ */
+function isSerializable(value) {
+  // Primitives are OK.
+  if (value === undefined || value === null || typeof value === 'boolean' || typeof value === 'number' || typeof value === 'string') {
+    return true;
+  }
+  // A non-primitive value that is neither a POJO or an array cannot be serialized.
+  if (!isPlainObject(value) && !Array.isArray(value)) {
+    return false;
+  }
+  // Recurse entries if the value is an object or array.
+  for (var key in value) {
+    if (!isSerializable(value[key])) return false;
+  }
+  return true;
+}
+/**
+ * Plugin that checks whether state is serializable, in order to avoid
+ * network serialization bugs.
+ */
+var SerializablePlugin = {
+  name: 'plugin-serializable',
+  fnWrap: function fnWrap(move) {
+    return function (context) {
+      for (var _len4 = arguments.length, args = new Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
+        args[_key4 - 1] = arguments[_key4];
+      }
+      var result = move.apply(void 0, [context].concat(args));
+      // Check state in non-production environments.
+      if ("development" !== 'production' && !isSerializable(result)) {
+        throw new Error('Move state is not JSON-serialiazable.\n' + 'See https://boardgame.io/documentation/#/?id=state for more information.');
+      }
+      return result;
+    };
+  }
+};
+
+/*
+ * Copyright 2018 The boardgame.io Authors
+ *
+ * Use of this source code is governed by a MIT-style
+ * license that can be found in the LICENSE file or at
+ * https://opensource.org/licenses/MIT.
+ */
+var production = "development" === 'production';
+var logfn = production ? function () {} : function () {
+  var _console;
+  return (_console = console).log.apply(_console, arguments);
+};
+var errorfn = function errorfn() {
+  var _console2;
+  return (_console2 = console).error.apply(_console2, arguments);
+};
+function info(msg) {
+  logfn("INFO: ".concat(msg));
+}
+function error(error) {
+  errorfn('ERROR:', error);
+}
+
+/*
+ * Copyright 2018 The boardgame.io Authors
+ *
+ * Use of this source code is governed by a MIT-style
+ * license that can be found in the LICENSE file or at
+ * https://opensource.org/licenses/MIT.
+ */
+/**
+ * List of plugins that are always added.
+ */
+var CORE_PLUGINS = [ImmerPlugin, pluginRandom.RandomPlugin, LogPlugin, SerializablePlugin];
+var DEFAULT_PLUGINS = [].concat(CORE_PLUGINS, [EventsPlugin]);
+/**
+ * Allow plugins to intercept actions and process them.
+ */
+var ProcessAction = function ProcessAction(state, action, opts) {
+  // TODO(#723): Extend error handling to plugins.
+  opts.game.plugins.filter(function (plugin) {
+    return plugin.action !== undefined;
+  }).filter(function (plugin) {
+    return plugin.name === action.payload.type;
+  }).forEach(function (plugin) {
+    var name = plugin.name;
+    var pluginState = state.plugins[name] || {
+      data: {}
+    };
+    var data = plugin.action(pluginState.data, action.payload);
+    state = _objectSpread(_objectSpread({}, state), {}, {
+      plugins: _objectSpread(_objectSpread({}, state.plugins), {}, _defineProperty({}, name, _objectSpread(_objectSpread({}, pluginState), {}, {
+        data: data
+      })))
+    });
+  });
+  return state;
+};
+/**
+ * The APIs created by various plugins are stored in the plugins
+ * section of the state object:
+ *
+ * {
+ *   G: {},
+ *   ctx: {},
+ *   plugins: {
+ *     plugin-a: {
+ *       data: {},  // this is generated by the plugin at Setup / Flush.
+ *       api: {},   // this is ephemeral and generated by Enhance.
+ *     }
+ *   }
+ * }
+ *
+ * This function retrieves plugin APIs and returns them as an object
+ * for consumption as used by move contexts.
+ */
+var GetAPIs = function GetAPIs(_ref7) {
+  var plugins = _ref7.plugins;
+  return Object.entries(plugins || {}).reduce(function (apis, _ref8) {
+    var _ref9 = _slicedToArray(_ref8, 2),
+      name = _ref9[0],
+      api = _ref9[1].api;
+    apis[name] = api;
+    return apis;
+  }, {});
+};
+/**
+ * Applies the provided plugins to the given move / flow function.
+ *
+ * @param methodToWrap - The move function or hook to apply the plugins to.
+ * @param methodType - The type of the move or hook being wrapped.
+ * @param plugins - The list of plugins.
+ */
+var FnWrap = function FnWrap(methodToWrap, methodType, plugins) {
+  return [].concat(CORE_PLUGINS, _toConsumableArray(plugins), [EventsPlugin]).filter(function (plugin) {
+    return plugin.fnWrap !== undefined;
+  }).reduce(function (method, _ref0) {
+    var fnWrap = _ref0.fnWrap;
+    return fnWrap(method, methodType);
+  }, methodToWrap);
+};
+/**
+ * Allows the plugin to generate its initial state.
+ */
+var Setup = function Setup(state, opts) {
+  [].concat(_toConsumableArray(DEFAULT_PLUGINS), _toConsumableArray(opts.game.plugins)).filter(function (plugin) {
+    return plugin.setup !== undefined;
+  }).forEach(function (plugin) {
+    var name = plugin.name;
+    var data = plugin.setup({
+      G: state.G,
+      ctx: state.ctx,
+      game: opts.game
+    });
+    state = _objectSpread(_objectSpread({}, state), {}, {
+      plugins: _objectSpread(_objectSpread({}, state.plugins), {}, _defineProperty({}, name, {
+        data: data
+      }))
+    });
+  });
+  return state;
+};
+/**
+ * Invokes the plugin before a move or event.
+ * The API that the plugin generates is stored inside
+ * the `plugins` section of the state (which is subsequently
+ * merged into ctx).
+ */
+var Enhance = function Enhance(state, opts) {
+  [].concat(_toConsumableArray(DEFAULT_PLUGINS), _toConsumableArray(opts.game.plugins)).filter(function (plugin) {
+    return plugin.api !== undefined;
+  }).forEach(function (plugin) {
+    var name = plugin.name;
+    var pluginState = state.plugins[name] || {
+      data: {}
+    };
+    var api = plugin.api({
+      G: state.G,
+      ctx: state.ctx,
+      data: pluginState.data,
+      game: opts.game,
+      playerID: opts.playerID
+    });
+    state = _objectSpread(_objectSpread({}, state), {}, {
+      plugins: _objectSpread(_objectSpread({}, state.plugins), {}, _defineProperty({}, name, _objectSpread(_objectSpread({}, pluginState), {}, {
+        api: api
+      })))
+    });
+  });
+  return state;
+};
+/**
+ * Allows plugins to update their state after a move / event.
+ */
+var Flush = function Flush(state, opts) {
+  // We flush the events plugin first, then custom plugins and the core plugins.
+  // This means custom plugins cannot use the events API but will be available in event hooks.
+  // Note that plugins are flushed in reverse, to allow custom plugins calling each other.
+  [].concat(CORE_PLUGINS, _toConsumableArray(opts.game.plugins), [EventsPlugin]).reverse().forEach(function (plugin) {
+    var name = plugin.name;
+    var pluginState = state.plugins[name] || {
+      data: {}
+    };
+    if (plugin.flush) {
+      var newData = plugin.flush({
+        G: state.G,
+        ctx: state.ctx,
+        game: opts.game,
+        api: pluginState.api,
+        data: pluginState.data
+      });
+      state = _objectSpread(_objectSpread({}, state), {}, {
+        plugins: _objectSpread(_objectSpread({}, state.plugins), {}, _defineProperty({}, plugin.name, {
+          data: newData
+        }))
+      });
+    } else if (plugin.dangerouslyFlushRawState) {
+      state = plugin.dangerouslyFlushRawState({
+        state: state,
+        game: opts.game,
+        api: pluginState.api,
+        data: pluginState.data
+      });
+      // Remove everything other than data.
+      var data = state.plugins[name].data;
+      state = _objectSpread(_objectSpread({}, state), {}, {
+        plugins: _objectSpread(_objectSpread({}, state.plugins), {}, _defineProperty({}, plugin.name, {
+          data: data
+        }))
+      });
+    }
+  });
+  return state;
+};
+/**
+ * Allows plugins to indicate if they should not be materialized on the client.
+ * This will cause the client to discard the state update and wait for the
+ * master instead.
+ */
+var NoClient = function NoClient(state, opts) {
+  return [].concat(_toConsumableArray(DEFAULT_PLUGINS), _toConsumableArray(opts.game.plugins)).filter(function (plugin) {
+    return plugin.noClient !== undefined;
+  }).map(function (plugin) {
+    var name = plugin.name;
+    var pluginState = state.plugins[name];
+    if (pluginState) {
+      return plugin.noClient({
+        G: state.G,
+        ctx: state.ctx,
+        game: opts.game,
+        api: pluginState.api,
+        data: pluginState.data
+      });
+    }
+    return false;
+  }).includes(true);
+};
+/**
+ * Allows plugins to indicate if the entire action should be thrown out
+ * as invalid. This will cancel the entire state update.
+ */
+var IsInvalid = function IsInvalid(state, opts) {
+  var firstInvalidReturn = [].concat(_toConsumableArray(DEFAULT_PLUGINS), _toConsumableArray(opts.game.plugins)).filter(function (plugin) {
+    return plugin.isInvalid !== undefined;
+  }).map(function (plugin) {
+    var name = plugin.name;
+    var pluginState = state.plugins[name];
+    var message = plugin.isInvalid({
+      G: state.G,
+      ctx: state.ctx,
+      game: opts.game,
+      data: pluginState && pluginState.data
+    });
+    return message ? {
+      plugin: name,
+      message: message
+    } : false;
+  }).find(function (value) {
+    return value;
+  });
+  return firstInvalidReturn || false;
+};
+/**
+ * Update plugin state after move/event & check if plugins consider the update to be valid.
+ * @returns Tuple of `[updatedState]` or `[originalState, invalidError]`.
+ */
+var FlushAndValidate = function FlushAndValidate(state, opts) {
+  var updatedState = Flush(state, opts);
+  var isInvalid = IsInvalid(updatedState, opts);
+  if (!isInvalid) return [updatedState];
+  var plugin = isInvalid.plugin,
+    message = isInvalid.message;
+  error("".concat(plugin, " plugin declared action invalid:\n").concat(message));
+  return [state, isInvalid];
+};
+/**
+ * Allows plugins to customize their data for specific players.
+ * For example, a plugin may want to share no data with the client, or
+ * want to keep some player data secret from opponents.
+ */
+var PlayerView = function PlayerView(_ref1, _ref10) {
+  var G = _ref1.G,
+    ctx = _ref1.ctx,
+    _ref1$plugins = _ref1.plugins,
+    plugins = _ref1$plugins === void 0 ? {} : _ref1$plugins;
+  var game = _ref10.game,
+    playerID = _ref10.playerID;
+  [].concat(_toConsumableArray(DEFAULT_PLUGINS), _toConsumableArray(game.plugins)).forEach(function (_ref11) {
+    var name = _ref11.name,
+      playerView = _ref11.playerView;
+    if (!playerView) return;
+    var _ref12 = plugins[name] || {
+        data: {}
+      },
+      data = _ref12.data;
+    var newData = playerView({
+      G: G,
+      ctx: ctx,
+      game: game,
+      data: data,
+      playerID: playerID
+    });
+    plugins = _objectSpread(_objectSpread({}, plugins), {}, _defineProperty({}, name, {
+      data: newData
+    }));
+  });
+  return plugins;
+};
+
+/**
+ * Adjust the given options to use the new minMoves/maxMoves if a legacy moveLimit was given
+ * @param options The options object to apply backwards compatibility to
+ * @param enforceMinMoves Use moveLimit to set both minMoves and maxMoves
+ */
+function supportDeprecatedMoveLimit(options) {
+  var enforceMinMoves = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  if (options.moveLimit) {
+    if (enforceMinMoves) {
+      options.minMoves = options.moveLimit;
+    }
+    options.maxMoves = options.moveLimit;
+    delete options.moveLimit;
+  }
+}
+
+/*
+ * Copyright 2017 The boardgame.io Authors
+ *
+ * Use of this source code is governed by a MIT-style
+ * license that can be found in the LICENSE file or at
+ * https://opensource.org/licenses/MIT.
+ */
+function SetActivePlayers(ctx, arg) {
+  var activePlayers = {};
+  var _prevActivePlayers = [];
+  var _nextActivePlayers = null;
+  var _activePlayersMinMoves = {};
+  var _activePlayersMaxMoves = {};
+  if (Array.isArray(arg)) {
+    // support a simple array of player IDs as active players
+    var value = {};
+    arg.forEach(function (v) {
+      return value[v] = Stage.NULL;
+    });
+    activePlayers = value;
+  } else {
+    // process active players argument object
+    // stages previously did not enforce minMoves, this behaviour is kept intentionally
+    supportDeprecatedMoveLimit(arg);
+    if (arg.next) {
+      _nextActivePlayers = arg.next;
+    }
+    if (arg.revert) {
+      _prevActivePlayers = [].concat(_toConsumableArray(ctx._prevActivePlayers), [{
+        activePlayers: ctx.activePlayers,
+        _activePlayersMinMoves: ctx._activePlayersMinMoves,
+        _activePlayersMaxMoves: ctx._activePlayersMaxMoves,
+        _activePlayersNumMoves: ctx._activePlayersNumMoves
+      }]);
+    }
+    if (arg.currentPlayer !== undefined) {
+      ApplyActivePlayerArgument(activePlayers, _activePlayersMinMoves, _activePlayersMaxMoves, ctx.currentPlayer, arg.currentPlayer);
+    }
+    if (arg.others !== undefined) {
+      for (var i = 0; i < ctx.playOrder.length; i++) {
+        var id = ctx.playOrder[i];
+        if (id !== ctx.currentPlayer) {
+          ApplyActivePlayerArgument(activePlayers, _activePlayersMinMoves, _activePlayersMaxMoves, id, arg.others);
+        }
+      }
+    }
+    if (arg.all !== undefined) {
+      for (var _i = 0; _i < ctx.playOrder.length; _i++) {
+        var _id = ctx.playOrder[_i];
+        ApplyActivePlayerArgument(activePlayers, _activePlayersMinMoves, _activePlayersMaxMoves, _id, arg.all);
+      }
+    }
+    if (arg.value) {
+      for (var _id2 in arg.value) {
+        ApplyActivePlayerArgument(activePlayers, _activePlayersMinMoves, _activePlayersMaxMoves, _id2, arg.value[_id2]);
+      }
+    }
+    if (arg.minMoves) {
+      for (var _id3 in activePlayers) {
+        if (_activePlayersMinMoves[_id3] === undefined) {
+          _activePlayersMinMoves[_id3] = arg.minMoves;
+        }
+      }
+    }
+    if (arg.maxMoves) {
+      for (var _id4 in activePlayers) {
+        if (_activePlayersMaxMoves[_id4] === undefined) {
+          _activePlayersMaxMoves[_id4] = arg.maxMoves;
+        }
+      }
+    }
+  }
+  if (Object.keys(activePlayers).length === 0) {
+    activePlayers = null;
+  }
+  if (Object.keys(_activePlayersMinMoves).length === 0) {
+    _activePlayersMinMoves = null;
+  }
+  if (Object.keys(_activePlayersMaxMoves).length === 0) {
+    _activePlayersMaxMoves = null;
+  }
+  var _activePlayersNumMoves = {};
+  for (var _id5 in activePlayers) {
+    _activePlayersNumMoves[_id5] = 0;
+  }
+  return _objectSpread(_objectSpread({}, ctx), {}, {
+    activePlayers: activePlayers,
+    _activePlayersMinMoves: _activePlayersMinMoves,
+    _activePlayersMaxMoves: _activePlayersMaxMoves,
+    _activePlayersNumMoves: _activePlayersNumMoves,
+    _prevActivePlayers: _prevActivePlayers,
+    _nextActivePlayers: _nextActivePlayers
+  });
+}
+/**
+ * Update activePlayers, setting it to previous, next or null values
+ * when it becomes empty.
+ * @param ctx
+ */
+function UpdateActivePlayersOnceEmpty(ctx) {
+  var _ctx = ctx,
+    activePlayers = _ctx.activePlayers,
+    _activePlayersMinMoves = _ctx._activePlayersMinMoves,
+    _activePlayersMaxMoves = _ctx._activePlayersMaxMoves,
+    _activePlayersNumMoves = _ctx._activePlayersNumMoves,
+    _prevActivePlayers = _ctx._prevActivePlayers,
+    _nextActivePlayers = _ctx._nextActivePlayers;
+  if (activePlayers && Object.keys(activePlayers).length === 0) {
+    if (_nextActivePlayers) {
+      ctx = SetActivePlayers(ctx, _nextActivePlayers);
+      var _ctx2 = ctx;
+      activePlayers = _ctx2.activePlayers;
+      _activePlayersMinMoves = _ctx2._activePlayersMinMoves;
+      _activePlayersMaxMoves = _ctx2._activePlayersMaxMoves;
+      _activePlayersNumMoves = _ctx2._activePlayersNumMoves;
+      _prevActivePlayers = _ctx2._prevActivePlayers;
+    } else if (_prevActivePlayers.length > 0) {
+      var lastIndex = _prevActivePlayers.length - 1;
+      var _prevActivePlayers$la = _prevActivePlayers[lastIndex];
+      activePlayers = _prevActivePlayers$la.activePlayers;
+      _activePlayersMinMoves = _prevActivePlayers$la._activePlayersMinMoves;
+      _activePlayersMaxMoves = _prevActivePlayers$la._activePlayersMaxMoves;
+      _activePlayersNumMoves = _prevActivePlayers$la._activePlayersNumMoves;
+      _prevActivePlayers = _prevActivePlayers.slice(0, lastIndex);
+    } else {
+      activePlayers = null;
+      _activePlayersMinMoves = null;
+      _activePlayersMaxMoves = null;
+    }
+  }
+  return _objectSpread(_objectSpread({}, ctx), {}, {
+    activePlayers: activePlayers,
+    _activePlayersMinMoves: _activePlayersMinMoves,
+    _activePlayersMaxMoves: _activePlayersMaxMoves,
+    _activePlayersNumMoves: _activePlayersNumMoves,
+    _prevActivePlayers: _prevActivePlayers
+  });
+}
+/**
+ * Apply an active player argument to the given player ID
+ * @param {Object} activePlayers
+ * @param {Object} _activePlayersMinMoves
+ * @param {Object} _activePlayersMaxMoves
+ * @param {String} playerID The player to apply the parameter to
+ * @param {(String|Object)} arg An active player argument
+ */
+function ApplyActivePlayerArgument(activePlayers, _activePlayersMinMoves, _activePlayersMaxMoves, playerID, arg) {
+  if (_typeof(arg) !== 'object' || arg === Stage.NULL) {
+    arg = {
+      stage: arg
+    };
+  }
+  if (arg.stage !== undefined) {
+    // stages previously did not enforce minMoves, this behaviour is kept intentionally
+    supportDeprecatedMoveLimit(arg);
+    activePlayers[playerID] = arg.stage;
+    if (arg.minMoves) _activePlayersMinMoves[playerID] = arg.minMoves;
+    if (arg.maxMoves) _activePlayersMaxMoves[playerID] = arg.maxMoves;
+  }
+}
+/**
+ * Converts a playOrderPos index into its value in playOrder.
+ * @param {Array} playOrder - An array of player ID's.
+ * @param {number} playOrderPos - An index into the above.
+ */
+function getCurrentPlayer(playOrder, playOrderPos) {
+  // convert to string in case playOrder is set to number[]
+  return playOrder[playOrderPos] + '';
+}
+/**
+ * Called at the start of a turn to initialize turn order state.
+ *
+ * TODO: This is called inside StartTurn, which is called from
+ * both UpdateTurn and StartPhase (so it's called at the beginning
+ * of a new phase as well as between turns). We should probably
+ * split it into two.
+ */
+function InitTurnOrderState(state, turn) {
+  var G = state.G,
+    ctx = state.ctx;
+  var _ctx3 = ctx,
+    numPlayers = _ctx3.numPlayers;
+  var pluginAPIs = GetAPIs(state);
+  var context = _objectSpread(_objectSpread({}, pluginAPIs), {}, {
+    G: G,
+    ctx: ctx
+  });
+  var order = turn.order;
+  var playOrder = _toConsumableArray(Array.from({
+    length: numPlayers
+  })).map(function (_, i) {
+    return i + '';
+  });
+  if (order.playOrder !== undefined) {
+    playOrder = order.playOrder(context);
+  }
+  var playOrderPos = order.first(context);
+  var posType = _typeof(playOrderPos);
+  if (posType !== 'number') {
+    error("invalid value returned by turn.order.first \u2014 expected number got ".concat(posType, " \u201C").concat(playOrderPos, "\u201D."));
+  }
+  var currentPlayer = getCurrentPlayer(playOrder, playOrderPos);
+  ctx = _objectSpread(_objectSpread({}, ctx), {}, {
+    currentPlayer: currentPlayer,
+    playOrderPos: playOrderPos,
+    playOrder: playOrder
+  });
+  ctx = SetActivePlayers(ctx, turn.activePlayers || {});
+  return ctx;
+}
+/**
+ * Called at the end of each turn to update the turn order state.
+ * @param {object} G - The game object G.
+ * @param {object} ctx - The game object ctx.
+ * @param {object} turn - A turn object for this phase.
+ * @param {string} endTurnArg - An optional argument to endTurn that
+                                may specify the next player.
+ */
+function UpdateTurnOrderState(state, currentPlayer, turn, endTurnArg) {
+  var order = turn.order;
+  var G = state.G,
+    ctx = state.ctx;
+  var playOrderPos = ctx.playOrderPos;
+  var endPhase = false;
+  if (endTurnArg && endTurnArg !== true) {
+    if (_typeof(endTurnArg) !== 'object') {
+      error("invalid argument to endTurn: ".concat(endTurnArg));
+    }
+    Object.keys(endTurnArg).forEach(function (arg) {
+      switch (arg) {
+        case 'remove':
+          currentPlayer = getCurrentPlayer(ctx.playOrder, playOrderPos);
+          break;
+        case 'next':
+          playOrderPos = ctx.playOrder.indexOf(endTurnArg.next);
+          currentPlayer = endTurnArg.next;
+          break;
+        default:
+          error("invalid argument to endTurn: ".concat(arg));
+      }
+    });
+  } else {
+    var pluginAPIs = GetAPIs(state);
+    var context = _objectSpread(_objectSpread({}, pluginAPIs), {}, {
+      G: G,
+      ctx: ctx
+    });
+    var t = order.next(context);
+    var type = _typeof(t);
+    if (t !== undefined && type !== 'number') {
+      error("invalid value returned by turn.order.next \u2014 expected number or undefined got ".concat(type, " \u201C").concat(t, "\u201D."));
+    }
+    if (t === undefined) {
+      endPhase = true;
+    } else {
+      playOrderPos = t;
+      currentPlayer = getCurrentPlayer(ctx.playOrder, playOrderPos);
+    }
+  }
+  ctx = _objectSpread(_objectSpread({}, ctx), {}, {
+    playOrderPos: playOrderPos,
+    currentPlayer: currentPlayer
+  });
+  return {
+    endPhase: endPhase,
+    ctx: ctx
+  };
+}
+/**
+ * Set of different turn orders possible in a phase.
+ * These are meant to be passed to the `turn` setting
+ * in the flow objects.
+ *
+ * Each object defines the first player when the phase / game
+ * begins, and also a function `next` to determine who the
+ * next player is when the turn ends.
+ *
+ * The phase ends if next() returns undefined.
+ */
+var TurnOrder = {
+  /**
+   * DEFAULT
+   *
+   * The default round-robin turn order.
+   */
+  DEFAULT: {
+    first: function first(_ref13) {
+      var ctx = _ref13.ctx;
+      return ctx.turn === 0 ? ctx.playOrderPos : (ctx.playOrderPos + 1) % ctx.playOrder.length;
+    },
+    next: function next(_ref14) {
+      var ctx = _ref14.ctx;
+      return (ctx.playOrderPos + 1) % ctx.playOrder.length;
+    }
+  },
+  /**
+   * RESET
+   *
+   * Similar to DEFAULT, but starts from 0 each time.
+   */
+  RESET: {
+    first: function first() {
+      return 0;
+    },
+    next: function next(_ref15) {
+      var ctx = _ref15.ctx;
+      return (ctx.playOrderPos + 1) % ctx.playOrder.length;
+    }
+  },
+  /**
+   * CONTINUE
+   *
+   * Similar to DEFAULT, but starts with the player who ended the last phase.
+   */
+  CONTINUE: {
+    first: function first(_ref16) {
+      var ctx = _ref16.ctx;
+      return ctx.playOrderPos;
+    },
+    next: function next(_ref17) {
+      var ctx = _ref17.ctx;
+      return (ctx.playOrderPos + 1) % ctx.playOrder.length;
+    }
+  },
+  /**
+   * ONCE
+   *
+   * Another round-robin turn order, but goes around just once.
+   * The phase ends after all players have played.
+   */
+  ONCE: {
+    first: function first() {
+      return 0;
+    },
+    next: function next(_ref18) {
+      var ctx = _ref18.ctx;
+      if (ctx.playOrderPos < ctx.playOrder.length - 1) {
+        return ctx.playOrderPos + 1;
+      }
+    }
+  },
+  /**
+   * CUSTOM
+   *
+   * Identical to DEFAULT, but also sets playOrder at the
+   * beginning of the phase.
+   *
+   * @param {Array} playOrder - The play order.
+   */
+  CUSTOM: function CUSTOM(_playOrder) {
+    return {
+      playOrder: function playOrder() {
+        return _playOrder;
+      },
+      first: function first() {
+        return 0;
+      },
+      next: function next(_ref19) {
+        var ctx = _ref19.ctx;
+        return (ctx.playOrderPos + 1) % ctx.playOrder.length;
+      }
+    };
+  },
+  /**
+   * CUSTOM_FROM
+   *
+   * Identical to DEFAULT, but also sets playOrder at the
+   * beginning of the phase to a value specified by a field
+   * in G.
+   *
+   * @param {string} playOrderField - Field in G.
+   */
+  CUSTOM_FROM: function CUSTOM_FROM(playOrderField) {
+    return {
+      playOrder: function playOrder(_ref20) {
+        var G = _ref20.G;
+        return G[playOrderField];
+      },
+      first: function first() {
+        return 0;
+      },
+      next: function next(_ref21) {
+        var ctx = _ref21.ctx;
+        return (ctx.playOrderPos + 1) % ctx.playOrder.length;
+      }
+    };
+  }
+};
+var Stage = {
+  NULL: null
+};
+var ActivePlayers = {
+  /**
+   * ALL
+   *
+   * The turn stays with one player, but any player can play (in any order)
+   * until the phase ends.
+   */
+  ALL: {
+    all: Stage.NULL
+  },
+  /**
+   * ALL_ONCE
+   *
+   * The turn stays with one player, but any player can play (once, and in any order).
+   * This is typically used in a phase where you want to elicit a response
+   * from every player in the game.
+   */
+  ALL_ONCE: {
+    all: Stage.NULL,
+    minMoves: 1,
+    maxMoves: 1
+  },
+  /**
+   * OTHERS
+   *
+   * The turn stays with one player, and every *other* player can play (in any order)
+   * until the phase ends.
+   */
+  OTHERS: {
+    others: Stage.NULL
+  },
+  /**
+   * OTHERS_ONCE
+   *
+   * The turn stays with one player, and every *other* player can play (once, and in any order).
+   * This is typically used in a phase where you want to elicit a response
+   * from every *other* player in the game.
+   */
+  OTHERS_ONCE: {
+    others: Stage.NULL,
+    minMoves: 1,
+    maxMoves: 1
+  }
+};
+exports.ActionCreators = ActionCreators;
+exports.ActivePlayers = ActivePlayers;
+exports.Enhance = Enhance;
+exports.FlushAndValidate = FlushAndValidate;
+exports.FnWrap = FnWrap;
+exports.GAME_EVENT = GAME_EVENT;
+exports.GetAPIs = GetAPIs;
+exports.INVALID_MOVE = INVALID_MOVE;
+exports.InitTurnOrderState = InitTurnOrderState;
+exports.MAKE_MOVE = MAKE_MOVE;
+exports.NoClient = NoClient;
+exports.PATCH = PATCH;
+exports.PLUGIN = PLUGIN;
+exports.PlayerView = PlayerView;
+exports.ProcessAction = ProcessAction;
+exports.REDO = REDO;
+exports.RESET = RESET;
+exports.STRIP_TRANSIENTS = STRIP_TRANSIENTS;
+exports.SYNC = SYNC;
+exports.SetActivePlayers = SetActivePlayers;
+exports.Setup = Setup;
+exports.Stage = Stage;
+exports.TurnOrder = TurnOrder;
+exports.UNDO = UNDO;
+exports.UPDATE = UPDATE;
+exports.UpdateActivePlayersOnceEmpty = UpdateActivePlayersOnceEmpty;
+exports.UpdateTurnOrderState = UpdateTurnOrderState;
+exports.error = error;
+exports.gameEvent = gameEvent;
+exports.info = info;
+exports.makeMove = makeMove;
+exports.patch = patch;
+exports.redo = redo;
+exports.reset = reset;
+exports.stripTransients = stripTransients;
+exports.supportDeprecatedMoveLimit = supportDeprecatedMoveLimit;
+exports.sync = sync;
+exports.undo = undo;
+exports.update = update;
+},{"immer":"node_modules/immer/dist/immer.esm.js","./plugin-random-7425844d.js":"node_modules/boardgame.io/dist/cjs/plugin-random-7425844d.js","lodash.isplainobject":"node_modules/lodash.isplainobject/index.js"}],"node_modules/boardgame.io/dist/cjs/core.js":[function(require,module,exports) {
+'use strict';
+
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var turnOrder = require('./turn-order-4ab12333.js');
+require('immer');
+require('./plugin-random-7425844d.js');
+require('lodash.isplainobject');
+
 /*
  * Copyright 2018 The boardgame.io Authors
  *
@@ -17401,7 +18986,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 /**
  * PlayerView reducers.
  */
-var PlayerView = exports.PlayerView = {
+var PlayerView = {
   /**
    * STRIP_SECRETS
    *
@@ -17422,14 +19007,25 @@ var PlayerView = exports.PlayerView = {
     return r;
   }
 };
-},{"./turn-order-8cc4909b.js":"node_modules/boardgame.io/dist/esm/turn-order-8cc4909b.js","immer":"node_modules/immer/dist/immer.esm.js","./plugin-random-087f861e.js":"node_modules/boardgame.io/dist/esm/plugin-random-087f861e.js","lodash.isplainobject":"node_modules/lodash.isplainobject/index.js"}],"src/Game.js":[function(require,module,exports) {
+exports.ActivePlayers = turnOrder.ActivePlayers;
+Object.defineProperty(exports, 'GameMethod', {
+  enumerable: true,
+  get: function get() {
+    return turnOrder.GameMethod;
+  }
+});
+exports.INVALID_MOVE = turnOrder.INVALID_MOVE;
+exports.Stage = turnOrder.Stage;
+exports.TurnOrder = turnOrder.TurnOrder;
+exports.PlayerView = PlayerView;
+},{"./turn-order-4ab12333.js":"node_modules/boardgame.io/dist/cjs/turn-order-4ab12333.js","immer":"node_modules/immer/dist/immer.esm.js","./plugin-random-7425844d.js":"node_modules/boardgame.io/dist/cjs/plugin-random-7425844d.js","lodash.isplainobject":"node_modules/lodash.isplainobject/index.js"}],"src/Game.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.TicTacToe = void 0;
-var _core = require("boardgame.io/core");
+var _core = require("boardgame.io/dist/cjs/core.js");
 // Return true if `cells` is in a winning configuration.
 function IsVictory(cells) {
   var positions = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
@@ -17487,11 +19083,5974 @@ var TicTacToe = exports.TicTacToe = {
     }
   }
 };
-},{"boardgame.io/core":"node_modules/boardgame.io/dist/esm/core.js"}],"src/App.js":[function(require,module,exports) {
+},{"boardgame.io/dist/cjs/core.js":"node_modules/boardgame.io/dist/cjs/core.js"}],"node_modules/boardgame.io/dist/esm/util-991e76bb.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.c = exports.S = exports.A = void 0;
+exports.i = isSynchronous;
+var _initialize7316768f = require("./initialize-7316768f.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i.return) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var Type;
+(function (Type) {
+  Type[Type["SYNC"] = 0] = "SYNC";
+  Type[Type["ASYNC"] = 1] = "ASYNC";
+})(Type || (Type = {}));
+/**
+ * Type guard that checks if a storage implementation is synchronous.
+ */
+function isSynchronous(storageAPI) {
+  return storageAPI.type() === Type.SYNC;
+}
+var Async = exports.A = /*#__PURE__*/function () {
+  function Async() {
+    _classCallCheck(this, Async);
+  }
+  return _createClass(Async, [{
+    key: "type",
+    value: /* istanbul ignore next */
+    function type() {
+      /* istanbul ignore next */
+      return Type.ASYNC;
+    }
+    /**
+     * Create a new match.
+     *
+     * This might just need to call setState and setMetadata in
+     * most implementations.
+     *
+     * However, it exists as a separate call so that the
+     * implementation can provision things differently when
+     * a match is created.  For example, it might stow away the
+     * initial match state in a separate field for easier retrieval.
+     */
+    /* istanbul ignore next */
+  }, {
+    key: "createMatch",
+    value: (function () {
+      var _createMatch = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee(matchID, opts) {
+        return _regenerator().w(function (_context) {
+          while (1) switch (_context.n) {
+            case 0:
+              if (!this.createGame) {
+                _context.n = 1;
+                break;
+              }
+              console.warn('The database connector does not implement a createMatch method.', '\nUsing the deprecated createGame method instead.');
+              return _context.a(2, this.createGame(matchID, opts));
+            case 1:
+              console.error('The database connector does not implement a createMatch method.');
+            case 2:
+              return _context.a(2);
+          }
+        }, _callee, this);
+      }));
+      function createMatch(_x, _x2) {
+        return _createMatch.apply(this, arguments);
+      }
+      return createMatch;
+    }()
+    /**
+     * Return all matches.
+     */
+    /* istanbul ignore next */
+    )
+  }, {
+    key: "listMatches",
+    value: (function () {
+      var _listMatches = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(opts) {
+        return _regenerator().w(function (_context2) {
+          while (1) switch (_context2.n) {
+            case 0:
+              if (!this.listGames) {
+                _context2.n = 1;
+                break;
+              }
+              console.warn('The database connector does not implement a listMatches method.', '\nUsing the deprecated listGames method instead.');
+              return _context2.a(2, this.listGames(opts));
+            case 1:
+              console.error('The database connector does not implement a listMatches method.');
+            case 2:
+              return _context2.a(2);
+          }
+        }, _callee2, this);
+      }));
+      function listMatches(_x3) {
+        return _listMatches.apply(this, arguments);
+      }
+      return listMatches;
+    }())
+  }]);
+}();
+var Sync = exports.S = /*#__PURE__*/function () {
+  function Sync() {
+    _classCallCheck(this, Sync);
+  }
+  return _createClass(Sync, [{
+    key: "type",
+    value: function type() {
+      return Type.SYNC;
+    }
+    /**
+     * Connect.
+     */
+  }, {
+    key: "connect",
+    value: function connect() {
+      return;
+    }
+    /**
+     * Create a new match.
+     *
+     * This might just need to call setState and setMetadata in
+     * most implementations.
+     *
+     * However, it exists as a separate call so that the
+     * implementation can provision things differently when
+     * a match is created.  For example, it might stow away the
+     * initial match state in a separate field for easier retrieval.
+     */
+    /* istanbul ignore next */
+  }, {
+    key: "createMatch",
+    value: function createMatch(matchID, opts) {
+      if (this.createGame) {
+        console.warn('The database connector does not implement a createMatch method.', '\nUsing the deprecated createGame method instead.');
+        return this.createGame(matchID, opts);
+      } else {
+        console.error('The database connector does not implement a createMatch method.');
+      }
+    }
+    /**
+     * Return all matches.
+     */
+    /* istanbul ignore next */
+  }, {
+    key: "listMatches",
+    value: function listMatches(opts) {
+      if (this.listGames) {
+        console.warn('The database connector does not implement a listMatches method.', '\nUsing the deprecated listGames method instead.');
+        return this.listGames(opts);
+      } else {
+        console.error('The database connector does not implement a listMatches method.');
+      }
+    }
+  }]);
+}();
+/**
+ * Creates a new match metadata object.
+ */
+var createMetadata = function createMetadata(_ref) {
+  var game = _ref.game,
+    unlisted = _ref.unlisted,
+    setupData = _ref.setupData,
+    numPlayers = _ref.numPlayers;
+  var metadata = {
+    gameName: game.name,
+    unlisted: !!unlisted,
+    players: {},
+    createdAt: Date.now(),
+    updatedAt: Date.now()
+  };
+  if (setupData !== undefined) metadata.setupData = setupData;
+  for (var playerIndex = 0; playerIndex < numPlayers; playerIndex++) {
+    metadata.players[playerIndex] = {
+      id: playerIndex
+    };
+  }
+  return metadata;
+};
+/**
+ * Creates initial state and metadata for a new match.
+ * If the provided `setupData` doesn’t pass the game’s validation,
+ * an error object is returned instead.
+ */
+var createMatch = exports.c = function createMatch(_ref2) {
+  var game = _ref2.game,
+    numPlayers = _ref2.numPlayers,
+    setupData = _ref2.setupData,
+    unlisted = _ref2.unlisted;
+  if (!numPlayers || typeof numPlayers !== 'number') numPlayers = 2;
+  var setupDataError = game.validateSetupData && game.validateSetupData(setupData, numPlayers);
+  if (setupDataError !== undefined) return {
+    setupDataError: setupDataError
+  };
+  var metadata = createMetadata({
+    game: game,
+    numPlayers: numPlayers,
+    setupData: setupData,
+    unlisted: unlisted
+  });
+  var initialState = (0, _initialize7316768f.I)({
+    game: game,
+    numPlayers: numPlayers,
+    setupData: setupData
+  });
+  return {
+    metadata: metadata,
+    initialState: initialState
+  };
+};
+},{"./initialize-7316768f.js":"node_modules/boardgame.io/dist/esm/initialize-7316768f.js"}],"node_modules/boardgame.io/dist/esm/master-17425f07.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.M = void 0;
+var _redux = require("redux");
+var _turnOrder8cc4909b = require("./turn-order-8cc4909b.js");
+var _reducer24ea3e4c = require("./reducer-24ea3e4c.js");
+var _util991e76bb = require("./util-991e76bb.js");
+var _excluded = ["credentials"],
+  _excluded2 = ["credentials"],
+  _excluded3 = ["deltalog"];
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i.return) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+/*
+ * Copyright 2018 The boardgame.io Authors
+ *
+ * Use of this source code is governed by a MIT-style
+ * license that can be found in the LICENSE file or at
+ * https://opensource.org/licenses/MIT.
+ */
+/**
+ * Filter match data to get a player metadata object with credentials stripped.
+ */
+var filterMatchData = function filterMatchData(matchData) {
+  return Object.values(matchData.players).map(function (player) {
+    var credentials = player.credentials,
+      filteredData = _objectWithoutProperties(player, _excluded);
+    return filteredData;
+  });
+};
+/**
+ * Remove player credentials from action payload
+ */
+var stripCredentialsFromAction = function stripCredentialsFromAction(action) {
+  var _action$payload = action.payload,
+    credentials = _action$payload.credentials,
+    payload = _objectWithoutProperties(_action$payload, _excluded2);
+  return _objectSpread(_objectSpread({}, action), {}, {
+    payload: payload
+  });
+};
+/**
+ * Master
+ *
+ * Class that runs the game and maintains the authoritative state.
+ * It uses the transportAPI to communicate with clients and the
+ * storageAPI to communicate with the database.
+ */
+var Master = exports.M = /*#__PURE__*/function () {
+  function Master(game, storageAPI, transportAPI, auth) {
+    _classCallCheck(this, Master);
+    this.game = (0, _reducer24ea3e4c.P)(game);
+    this.storageAPI = storageAPI;
+    this.transportAPI = transportAPI;
+    this.subscribeCallback = function () {};
+    this.auth = auth;
+  }
+  return _createClass(Master, [{
+    key: "subscribe",
+    value: function subscribe(fn) {
+      this.subscribeCallback = fn;
+    }
+    /**
+     * Called on each move / event made by the client.
+     * Computes the new value of the game state and returns it
+     * along with a deltalog.
+     */
+  }, {
+    key: "onUpdate",
+    value: (function () {
+      var _onUpdate = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee(credAction, stateID, matchID, playerID) {
+        var metadata, _this$storageAPI$fetc, _yield$this$storageAP, isAuthentic, action, key, state, _this$storageAPI$fetc2, _yield$this$storageAP2, reducer, middleware, store, hasActivePlayers, isCurrentPlayer, move, prevState, _state, deltalog, stateWithoutDeltalog, newMetadata, writes;
+        return _regenerator().w(function (_context) {
+          while (1) switch (_context.n) {
+            case 0:
+              if (!(!credAction || !credAction.payload)) {
+                _context.n = 1;
+                break;
+              }
+              return _context.a(2, {
+                error: 'missing action or action payload'
+              });
+            case 1:
+              if (!(0, _util991e76bb.i)(this.storageAPI)) {
+                _context.n = 2;
+                break;
+              }
+              _this$storageAPI$fetc = this.storageAPI.fetch(matchID, {
+                metadata: true
+              });
+              metadata = _this$storageAPI$fetc.metadata;
+              _context.n = 4;
+              break;
+            case 2:
+              _context.n = 3;
+              return this.storageAPI.fetch(matchID, {
+                metadata: true
+              });
+            case 3:
+              _yield$this$storageAP = _context.v;
+              metadata = _yield$this$storageAP.metadata;
+            case 4:
+              if (!this.auth) {
+                _context.n = 6;
+                break;
+              }
+              _context.n = 5;
+              return this.auth.authenticateCredentials({
+                playerID: playerID,
+                credentials: credAction.payload.credentials,
+                metadata: metadata
+              });
+            case 5:
+              isAuthentic = _context.v;
+              if (isAuthentic) {
+                _context.n = 6;
+                break;
+              }
+              return _context.a(2, {
+                error: 'unauthorized action'
+              });
+            case 6:
+              action = stripCredentialsFromAction(credAction);
+              key = matchID;
+              if (!(0, _util991e76bb.i)(this.storageAPI)) {
+                _context.n = 7;
+                break;
+              }
+              _this$storageAPI$fetc2 = this.storageAPI.fetch(key, {
+                state: true
+              });
+              state = _this$storageAPI$fetc2.state;
+              _context.n = 9;
+              break;
+            case 7:
+              _context.n = 8;
+              return this.storageAPI.fetch(key, {
+                state: true
+              });
+            case 8:
+              _yield$this$storageAP2 = _context.v;
+              state = _yield$this$storageAP2.state;
+            case 9:
+              if (!(state === undefined)) {
+                _context.n = 10;
+                break;
+              }
+              (0, _turnOrder8cc4909b.e)("game not found, matchID=[".concat(key, "]"));
+              return _context.a(2, {
+                error: 'game not found'
+              });
+            case 10:
+              if (!(state.ctx.gameover !== undefined)) {
+                _context.n = 11;
+                break;
+              }
+              (0, _turnOrder8cc4909b.e)("game over - matchID=[".concat(key, "] - playerID=[").concat(playerID, "]") + " - action[".concat(action.payload.type, "]"));
+              return _context.a(2);
+            case 11:
+              reducer = (0, _reducer24ea3e4c.C)({
+                game: this.game
+              });
+              middleware = (0, _redux.applyMiddleware)(_reducer24ea3e4c.T);
+              store = (0, _redux.createStore)(reducer, state, middleware); // Only allow UNDO / REDO if there is exactly one player
+              // that can make moves right now and the person doing the
+              // action is that player.
+              if (!(action.type == _turnOrder8cc4909b.j || action.type == _turnOrder8cc4909b.R)) {
+                _context.n = 12;
+                break;
+              }
+              hasActivePlayers = state.ctx.activePlayers !== null;
+              isCurrentPlayer = state.ctx.currentPlayer === playerID;
+              if (!(
+              // If activePlayers is empty, non-current players can’t undo.
+              !hasActivePlayers && !isCurrentPlayer ||
+              // If player is not active or multiple players are active, can’t undo.
+              hasActivePlayers && (state.ctx.activePlayers[playerID] === undefined || Object.keys(state.ctx.activePlayers).length > 1))) {
+                _context.n = 12;
+                break;
+              }
+              (0, _turnOrder8cc4909b.e)("playerID=[".concat(playerID, "] cannot undo / redo right now"));
+              return _context.a(2);
+            case 12:
+              if (this.game.flow.isPlayerActive(state.G, state.ctx, playerID)) {
+                _context.n = 13;
+                break;
+              }
+              (0, _turnOrder8cc4909b.e)("player not active - playerID=[".concat(playerID, "]") + " - action[".concat(action.payload.type, "]"));
+              return _context.a(2);
+            case 13:
+              // Get move for further checks
+              move = action.type == _turnOrder8cc4909b.M ? this.game.flow.getMove(state.ctx, action.payload.type, playerID) : null; // Check whether the player is allowed to make the move.
+              if (!(action.type == _turnOrder8cc4909b.M && !move)) {
+                _context.n = 14;
+                break;
+              }
+              (0, _turnOrder8cc4909b.e)("move not processed - canPlayerMakeMove=false - playerID=[".concat(playerID, "]") + " - action[".concat(action.payload.type, "]"));
+              return _context.a(2);
+            case 14:
+              if (!(state._stateID !== stateID && !(move && (0, _reducer24ea3e4c.I)(move) && move.ignoreStaleStateID))) {
+                _context.n = 15;
+                break;
+              }
+              (0, _turnOrder8cc4909b.e)("invalid stateID, was=[".concat(stateID, "], expected=[").concat(state._stateID, "]") + " - playerID=[".concat(playerID, "] - action[").concat(action.payload.type, "]"));
+              return _context.a(2);
+            case 15:
+              prevState = store.getState(); // Update server's version of the store.
+              store.dispatch(action);
+              state = store.getState();
+              this.subscribeCallback({
+                state: state,
+                action: action,
+                matchID: matchID
+              });
+              if (this.game.deltaState) {
+                this.transportAPI.sendAll({
+                  type: 'patch',
+                  args: [matchID, stateID, prevState, state]
+                });
+              } else {
+                this.transportAPI.sendAll({
+                  type: 'update',
+                  args: [matchID, state]
+                });
+              }
+              _state = state, deltalog = _state.deltalog, stateWithoutDeltalog = _objectWithoutProperties(_state, _excluded3);
+              if (metadata && (metadata.gameover === undefined || metadata.gameover === null)) {
+                newMetadata = _objectSpread(_objectSpread({}, metadata), {}, {
+                  updatedAt: Date.now()
+                });
+                if (state.ctx.gameover !== undefined) {
+                  newMetadata.gameover = state.ctx.gameover;
+                }
+              }
+              if (!(0, _util991e76bb.i)(this.storageAPI)) {
+                _context.n = 16;
+                break;
+              }
+              this.storageAPI.setState(key, stateWithoutDeltalog, deltalog);
+              if (newMetadata) this.storageAPI.setMetadata(key, newMetadata);
+              _context.n = 17;
+              break;
+            case 16:
+              writes = [this.storageAPI.setState(key, stateWithoutDeltalog, deltalog)];
+              if (newMetadata) {
+                writes.push(this.storageAPI.setMetadata(key, newMetadata));
+              }
+              _context.n = 17;
+              return Promise.all(writes);
+            case 17:
+              return _context.a(2);
+          }
+        }, _callee, this);
+      }));
+      function onUpdate(_x, _x2, _x3, _x4) {
+        return _onUpdate.apply(this, arguments);
+      }
+      return onUpdate;
+    }()
+    /**
+     * Called when the client connects / reconnects.
+     * Returns the latest game state and the entire log.
+     */
+    )
+  }, {
+    key: "onSync",
+    value: (function () {
+      var _onSync = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(matchID, playerID, credentials) {
+        var numPlayers,
+          key,
+          fetchOpts,
+          fetchResult,
+          state,
+          initialState,
+          log,
+          metadata,
+          isAuthentic,
+          match,
+          filteredMetadata,
+          syncInfo,
+          _args2 = arguments,
+          _t;
+        return _regenerator().w(function (_context2) {
+          while (1) switch (_context2.n) {
+            case 0:
+              numPlayers = _args2.length > 3 && _args2[3] !== undefined ? _args2[3] : 2;
+              key = matchID;
+              fetchOpts = {
+                state: true,
+                metadata: true,
+                log: true,
+                initialState: true
+              };
+              if (!(0, _util991e76bb.i)(this.storageAPI)) {
+                _context2.n = 1;
+                break;
+              }
+              _t = this.storageAPI.fetch(key, fetchOpts);
+              _context2.n = 3;
+              break;
+            case 1:
+              _context2.n = 2;
+              return this.storageAPI.fetch(key, fetchOpts);
+            case 2:
+              _t = _context2.v;
+            case 3:
+              fetchResult = _t;
+              state = fetchResult.state, initialState = fetchResult.initialState, log = fetchResult.log, metadata = fetchResult.metadata;
+              if (!(this.auth && playerID !== undefined && playerID !== null)) {
+                _context2.n = 5;
+                break;
+              }
+              _context2.n = 4;
+              return this.auth.authenticateCredentials({
+                playerID: playerID,
+                credentials: credentials,
+                metadata: metadata
+              });
+            case 4:
+              isAuthentic = _context2.v;
+              if (isAuthentic) {
+                _context2.n = 5;
+                break;
+              }
+              return _context2.a(2, {
+                error: 'unauthorized'
+              });
+            case 5:
+              if (!(state === undefined)) {
+                _context2.n = 8;
+                break;
+              }
+              match = (0, _util991e76bb.c)({
+                game: this.game,
+                unlisted: true,
+                numPlayers: numPlayers,
+                setupData: undefined
+              });
+              if (!('setupDataError' in match)) {
+                _context2.n = 6;
+                break;
+              }
+              return _context2.a(2, {
+                error: 'game requires setupData'
+              });
+            case 6:
+              initialState = state = match.initialState;
+              metadata = match.metadata;
+              this.subscribeCallback({
+                state: state,
+                matchID: matchID
+              });
+              if (!(0, _util991e76bb.i)(this.storageAPI)) {
+                _context2.n = 7;
+                break;
+              }
+              this.storageAPI.createMatch(key, {
+                initialState: initialState,
+                metadata: metadata
+              });
+              _context2.n = 8;
+              break;
+            case 7:
+              _context2.n = 8;
+              return this.storageAPI.createMatch(key, {
+                initialState: initialState,
+                metadata: metadata
+              });
+            case 8:
+              filteredMetadata = metadata ? filterMatchData(metadata) : undefined;
+              syncInfo = {
+                state: state,
+                log: log,
+                filteredMetadata: filteredMetadata,
+                initialState: initialState
+              };
+              this.transportAPI.send({
+                playerID: playerID,
+                type: 'sync',
+                args: [matchID, syncInfo]
+              });
+              return _context2.a(2);
+          }
+        }, _callee2, this);
+      }));
+      function onSync(_x5, _x6, _x7) {
+        return _onSync.apply(this, arguments);
+      }
+      return onSync;
+    }()
+    /**
+     * Called when a client connects or disconnects.
+     * Updates and sends out metadata to reflect the player’s connection status.
+     */
+    )
+  }, {
+    key: "onConnectionChange",
+    value: (function () {
+      var _onConnectionChange = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3(matchID, playerID, credentials, connected) {
+        var key, metadata, _this$storageAPI$fetc3, _yield$this$storageAP3, isAuthentic, filteredMetadata;
+        return _regenerator().w(function (_context3) {
+          while (1) switch (_context3.n) {
+            case 0:
+              key = matchID; // Ignore changes for clients without a playerID, e.g. spectators.
+              if (!(playerID === undefined || playerID === null)) {
+                _context3.n = 1;
+                break;
+              }
+              return _context3.a(2);
+            case 1:
+              if (!(0, _util991e76bb.i)(this.storageAPI)) {
+                _context3.n = 2;
+                break;
+              }
+              _this$storageAPI$fetc3 = this.storageAPI.fetch(key, {
+                metadata: true
+              });
+              metadata = _this$storageAPI$fetc3.metadata;
+              _context3.n = 4;
+              break;
+            case 2:
+              _context3.n = 3;
+              return this.storageAPI.fetch(key, {
+                metadata: true
+              });
+            case 3:
+              _yield$this$storageAP3 = _context3.v;
+              metadata = _yield$this$storageAP3.metadata;
+            case 4:
+              if (!(metadata === undefined)) {
+                _context3.n = 5;
+                break;
+              }
+              (0, _turnOrder8cc4909b.e)("metadata not found for matchID=[".concat(key, "]"));
+              return _context3.a(2, {
+                error: 'metadata not found'
+              });
+            case 5:
+              if (!(metadata.players[playerID] === undefined)) {
+                _context3.n = 6;
+                break;
+              }
+              (0, _turnOrder8cc4909b.e)("Player not in the match, matchID=[".concat(key, "] playerID=[").concat(playerID, "]"));
+              return _context3.a(2, {
+                error: 'player not in the match'
+              });
+            case 6:
+              if (!this.auth) {
+                _context3.n = 8;
+                break;
+              }
+              _context3.n = 7;
+              return this.auth.authenticateCredentials({
+                playerID: playerID,
+                credentials: credentials,
+                metadata: metadata
+              });
+            case 7:
+              isAuthentic = _context3.v;
+              if (isAuthentic) {
+                _context3.n = 8;
+                break;
+              }
+              return _context3.a(2, {
+                error: 'unauthorized'
+              });
+            case 8:
+              metadata.players[playerID].isConnected = connected;
+              filteredMetadata = filterMatchData(metadata);
+              this.transportAPI.sendAll({
+                type: 'matchData',
+                args: [matchID, filteredMetadata]
+              });
+              if (!(0, _util991e76bb.i)(this.storageAPI)) {
+                _context3.n = 9;
+                break;
+              }
+              this.storageAPI.setMetadata(key, metadata);
+              _context3.n = 10;
+              break;
+            case 9:
+              _context3.n = 10;
+              return this.storageAPI.setMetadata(key, metadata);
+            case 10:
+              return _context3.a(2);
+          }
+        }, _callee3, this);
+      }));
+      function onConnectionChange(_x8, _x9, _x0, _x1) {
+        return _onConnectionChange.apply(this, arguments);
+      }
+      return onConnectionChange;
+    }())
+  }, {
+    key: "onChatMessage",
+    value: function () {
+      var _onChatMessage = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4(matchID, chatMessage, credentials) {
+        var key, _yield$this$storageAP4, metadata, isAuthentic;
+        return _regenerator().w(function (_context4) {
+          while (1) switch (_context4.n) {
+            case 0:
+              key = matchID;
+              if (!this.auth) {
+                _context4.n = 4;
+                break;
+              }
+              _context4.n = 1;
+              return this.storageAPI.fetch(key, {
+                metadata: true
+              });
+            case 1:
+              _yield$this$storageAP4 = _context4.v;
+              metadata = _yield$this$storageAP4.metadata;
+              if (chatMessage && typeof chatMessage.sender === 'string') {
+                _context4.n = 2;
+                break;
+              }
+              return _context4.a(2, {
+                error: 'unauthorized'
+              });
+            case 2:
+              _context4.n = 3;
+              return this.auth.authenticateCredentials({
+                playerID: chatMessage.sender,
+                credentials: credentials,
+                metadata: metadata
+              });
+            case 3:
+              isAuthentic = _context4.v;
+              if (isAuthentic) {
+                _context4.n = 4;
+                break;
+              }
+              return _context4.a(2, {
+                error: 'unauthorized'
+              });
+            case 4:
+              this.transportAPI.sendAll({
+                type: 'chat',
+                args: [matchID, chatMessage]
+              });
+            case 5:
+              return _context4.a(2);
+          }
+        }, _callee4, this);
+      }));
+      function onChatMessage(_x10, _x11, _x12) {
+        return _onChatMessage.apply(this, arguments);
+      }
+      return onChatMessage;
+    }()
+  }]);
+}();
+},{"redux":"node_modules/redux/es/redux.js","./turn-order-8cc4909b.js":"node_modules/boardgame.io/dist/esm/turn-order-8cc4909b.js","./reducer-24ea3e4c.js":"node_modules/boardgame.io/dist/esm/reducer-24ea3e4c.js","./util-991e76bb.js":"node_modules/boardgame.io/dist/esm/util-991e76bb.js"}],"node_modules/boardgame.io/dist/esm/filter-player-view-43ed49b0.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.g = void 0;
+var _turnOrder8cc4909b = require("./turn-order-8cc4909b.js");
+var _rfc = require("rfc6902");
+var _excluded = ["redact"];
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var applyPlayerView = function applyPlayerView(game, playerID, state) {
+  return _objectSpread(_objectSpread({}, state), {}, {
+    G: game.playerView({
+      G: state.G,
+      ctx: state.ctx,
+      playerID: playerID
+    }),
+    plugins: (0, _turnOrder8cc4909b.x)(state, {
+      playerID: playerID,
+      game: game
+    }),
+    deltalog: undefined,
+    _undo: [],
+    _redo: []
+  });
+};
+/** Gets a function that filters the TransportData for a given player and game. */
+var getFilterPlayerView = exports.g = function getFilterPlayerView(game) {
+  return function (playerID, payload) {
+    switch (payload.type) {
+      case 'patch':
+        {
+          var _payload$args = _slicedToArray(payload.args, 4),
+            matchID = _payload$args[0],
+            stateID = _payload$args[1],
+            prevState = _payload$args[2],
+            state = _payload$args[3];
+          var log = redactLog(state.deltalog, playerID);
+          var filteredState = applyPlayerView(game, playerID, state);
+          var newStateID = state._stateID;
+          var prevFilteredState = applyPlayerView(game, playerID, prevState);
+          var patch = (0, _rfc.createPatch)(prevFilteredState, filteredState);
+          return {
+            type: 'patch',
+            args: [matchID, stateID, newStateID, patch, log]
+          };
+        }
+      case 'update':
+        {
+          var _payload$args2 = _slicedToArray(payload.args, 2),
+            _matchID = _payload$args2[0],
+            _state = _payload$args2[1];
+          var _log = redactLog(_state.deltalog, playerID);
+          var _filteredState = applyPlayerView(game, playerID, _state);
+          return {
+            type: 'update',
+            args: [_matchID, _filteredState, _log]
+          };
+        }
+      case 'sync':
+        {
+          var _payload$args3 = _slicedToArray(payload.args, 2),
+            _matchID2 = _payload$args3[0],
+            syncInfo = _payload$args3[1];
+          var _filteredState2 = applyPlayerView(game, playerID, syncInfo.state);
+          var _log2 = redactLog(syncInfo.log, playerID);
+          var newSyncInfo = _objectSpread(_objectSpread({}, syncInfo), {}, {
+            state: _filteredState2,
+            log: _log2
+          });
+          return {
+            type: 'sync',
+            args: [_matchID2, newSyncInfo]
+          };
+        }
+      default:
+        {
+          return payload;
+        }
+    }
+  };
+};
+/**
+ * Redact the log.
+ *
+ * @param {Array} log - The game log (or deltalog).
+ * @param {String} playerID - The playerID that this log is
+ *                            to be sent to.
+ */
+function redactLog(log, playerID) {
+  if (log === undefined) {
+    return log;
+  }
+  return log.map(function (logEvent) {
+    // filter for all other players and spectators.
+    if (playerID !== null && +playerID === +logEvent.action.payload.playerID) {
+      return logEvent;
+    }
+    if (logEvent.redact !== true) {
+      return logEvent;
+    }
+    var payload = _objectSpread(_objectSpread({}, logEvent.action.payload), {}, {
+      args: null
+    });
+    var filteredEvent = _objectSpread(_objectSpread({}, logEvent), {}, {
+      action: _objectSpread(_objectSpread({}, logEvent.action), {}, {
+        payload: payload
+      })
+    });
+    var redact = filteredEvent.redact,
+      remaining = _objectWithoutProperties(filteredEvent, _excluded);
+    return remaining;
+  });
+}
+},{"./turn-order-8cc4909b.js":"node_modules/boardgame.io/dist/esm/turn-order-8cc4909b.js","rfc6902":"node_modules/rfc6902/index.js"}],"node_modules/engine.io-parser/build/esm/commons.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.PACKET_TYPES_REVERSE = exports.PACKET_TYPES = exports.ERROR_PACKET = void 0;
+const PACKET_TYPES = exports.PACKET_TYPES = Object.create(null); // no Map = no polyfill
+PACKET_TYPES["open"] = "0";
+PACKET_TYPES["close"] = "1";
+PACKET_TYPES["ping"] = "2";
+PACKET_TYPES["pong"] = "3";
+PACKET_TYPES["message"] = "4";
+PACKET_TYPES["upgrade"] = "5";
+PACKET_TYPES["noop"] = "6";
+const PACKET_TYPES_REVERSE = exports.PACKET_TYPES_REVERSE = Object.create(null);
+Object.keys(PACKET_TYPES).forEach(key => {
+  PACKET_TYPES_REVERSE[PACKET_TYPES[key]] = key;
+});
+const ERROR_PACKET = exports.ERROR_PACKET = {
+  type: "error",
+  data: "parser error"
+};
+},{}],"node_modules/engine.io-parser/build/esm/encodePacket.browser.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.encodePacket = void 0;
+exports.encodePacketToBinary = encodePacketToBinary;
+var _commons = require("./commons.js");
+const withNativeBlob = typeof Blob === "function" || typeof Blob !== "undefined" && Object.prototype.toString.call(Blob) === "[object BlobConstructor]";
+const withNativeArrayBuffer = typeof ArrayBuffer === "function";
+// ArrayBuffer.isView method is not defined in IE10
+const isView = obj => {
+  return typeof ArrayBuffer.isView === "function" ? ArrayBuffer.isView(obj) : obj && obj.buffer instanceof ArrayBuffer;
+};
+const encodePacket = ({
+  type,
+  data
+}, supportsBinary, callback) => {
+  if (withNativeBlob && data instanceof Blob) {
+    if (supportsBinary) {
+      return callback(data);
+    } else {
+      return encodeBlobAsBase64(data, callback);
+    }
+  } else if (withNativeArrayBuffer && (data instanceof ArrayBuffer || isView(data))) {
+    if (supportsBinary) {
+      return callback(data);
+    } else {
+      return encodeBlobAsBase64(new Blob([data]), callback);
+    }
+  }
+  // plain string
+  return callback(_commons.PACKET_TYPES[type] + (data || ""));
+};
+exports.encodePacket = encodePacket;
+const encodeBlobAsBase64 = (data, callback) => {
+  const fileReader = new FileReader();
+  fileReader.onload = function () {
+    const content = fileReader.result.split(",")[1];
+    callback("b" + (content || ""));
+  };
+  return fileReader.readAsDataURL(data);
+};
+function toArray(data) {
+  if (data instanceof Uint8Array) {
+    return data;
+  } else if (data instanceof ArrayBuffer) {
+    return new Uint8Array(data);
+  } else {
+    return new Uint8Array(data.buffer, data.byteOffset, data.byteLength);
+  }
+}
+let TEXT_ENCODER;
+function encodePacketToBinary(packet, callback) {
+  if (withNativeBlob && packet.data instanceof Blob) {
+    return packet.data.arrayBuffer().then(toArray).then(callback);
+  } else if (withNativeArrayBuffer && (packet.data instanceof ArrayBuffer || isView(packet.data))) {
+    return callback(toArray(packet.data));
+  }
+  encodePacket(packet, false, encoded => {
+    if (!TEXT_ENCODER) {
+      TEXT_ENCODER = new TextEncoder();
+    }
+    callback(TEXT_ENCODER.encode(encoded));
+  });
+}
+},{"./commons.js":"node_modules/engine.io-parser/build/esm/commons.js"}],"node_modules/engine.io-parser/build/esm/contrib/base64-arraybuffer.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.encode = exports.decode = void 0;
+// imported from https://github.com/socketio/base64-arraybuffer
+const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+// Use a lookup table to find the index.
+const lookup = typeof Uint8Array === 'undefined' ? [] : new Uint8Array(256);
+for (let i = 0; i < chars.length; i++) {
+  lookup[chars.charCodeAt(i)] = i;
+}
+const encode = arraybuffer => {
+  let bytes = new Uint8Array(arraybuffer),
+    i,
+    len = bytes.length,
+    base64 = '';
+  for (i = 0; i < len; i += 3) {
+    base64 += chars[bytes[i] >> 2];
+    base64 += chars[(bytes[i] & 3) << 4 | bytes[i + 1] >> 4];
+    base64 += chars[(bytes[i + 1] & 15) << 2 | bytes[i + 2] >> 6];
+    base64 += chars[bytes[i + 2] & 63];
+  }
+  if (len % 3 === 2) {
+    base64 = base64.substring(0, base64.length - 1) + '=';
+  } else if (len % 3 === 1) {
+    base64 = base64.substring(0, base64.length - 2) + '==';
+  }
+  return base64;
+};
+exports.encode = encode;
+const decode = base64 => {
+  let bufferLength = base64.length * 0.75,
+    len = base64.length,
+    i,
+    p = 0,
+    encoded1,
+    encoded2,
+    encoded3,
+    encoded4;
+  if (base64[base64.length - 1] === '=') {
+    bufferLength--;
+    if (base64[base64.length - 2] === '=') {
+      bufferLength--;
+    }
+  }
+  const arraybuffer = new ArrayBuffer(bufferLength),
+    bytes = new Uint8Array(arraybuffer);
+  for (i = 0; i < len; i += 4) {
+    encoded1 = lookup[base64.charCodeAt(i)];
+    encoded2 = lookup[base64.charCodeAt(i + 1)];
+    encoded3 = lookup[base64.charCodeAt(i + 2)];
+    encoded4 = lookup[base64.charCodeAt(i + 3)];
+    bytes[p++] = encoded1 << 2 | encoded2 >> 4;
+    bytes[p++] = (encoded2 & 15) << 4 | encoded3 >> 2;
+    bytes[p++] = (encoded3 & 3) << 6 | encoded4 & 63;
+  }
+  return arraybuffer;
+};
+exports.decode = decode;
+},{}],"node_modules/engine.io-parser/build/esm/decodePacket.browser.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.decodePacket = void 0;
+var _commons = require("./commons.js");
+var _base64Arraybuffer = require("./contrib/base64-arraybuffer.js");
+const withNativeArrayBuffer = typeof ArrayBuffer === "function";
+const decodePacket = (encodedPacket, binaryType) => {
+  if (typeof encodedPacket !== "string") {
+    return {
+      type: "message",
+      data: mapBinary(encodedPacket, binaryType)
+    };
+  }
+  const type = encodedPacket.charAt(0);
+  if (type === "b") {
+    return {
+      type: "message",
+      data: decodeBase64Packet(encodedPacket.substring(1), binaryType)
+    };
+  }
+  const packetType = _commons.PACKET_TYPES_REVERSE[type];
+  if (!packetType) {
+    return _commons.ERROR_PACKET;
+  }
+  return encodedPacket.length > 1 ? {
+    type: _commons.PACKET_TYPES_REVERSE[type],
+    data: encodedPacket.substring(1)
+  } : {
+    type: _commons.PACKET_TYPES_REVERSE[type]
+  };
+};
+exports.decodePacket = decodePacket;
+const decodeBase64Packet = (data, binaryType) => {
+  if (withNativeArrayBuffer) {
+    const decoded = (0, _base64Arraybuffer.decode)(data);
+    return mapBinary(decoded, binaryType);
+  } else {
+    return {
+      base64: true,
+      data
+    }; // fallback for old browsers
+  }
+};
+const mapBinary = (data, binaryType) => {
+  switch (binaryType) {
+    case "blob":
+      if (data instanceof Blob) {
+        // from WebSocket + binaryType "blob"
+        return data;
+      } else {
+        // from HTTP long-polling or WebTransport
+        return new Blob([data]);
+      }
+    case "arraybuffer":
+    default:
+      if (data instanceof ArrayBuffer) {
+        // from HTTP long-polling (base64) or WebSocket + binaryType "arraybuffer"
+        return data;
+      } else {
+        // from WebTransport (Uint8Array)
+        return data.buffer;
+      }
+  }
+};
+},{"./commons.js":"node_modules/engine.io-parser/build/esm/commons.js","./contrib/base64-arraybuffer.js":"node_modules/engine.io-parser/build/esm/contrib/base64-arraybuffer.js"}],"node_modules/engine.io-parser/build/esm/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.createPacketDecoderStream = createPacketDecoderStream;
+exports.createPacketEncoderStream = createPacketEncoderStream;
+Object.defineProperty(exports, "decodePacket", {
+  enumerable: true,
+  get: function () {
+    return _decodePacket.decodePacket;
+  }
+});
+exports.decodePayload = void 0;
+Object.defineProperty(exports, "encodePacket", {
+  enumerable: true,
+  get: function () {
+    return _encodePacket.encodePacket;
+  }
+});
+exports.protocol = exports.encodePayload = void 0;
+var _encodePacket = require("./encodePacket.js");
+var _decodePacket = require("./decodePacket.js");
+var _commons = require("./commons.js");
+const SEPARATOR = String.fromCharCode(30); // see https://en.wikipedia.org/wiki/Delimiter#ASCII_delimited_text
+const encodePayload = (packets, callback) => {
+  // some packets may be added to the array while encoding, so the initial length must be saved
+  const length = packets.length;
+  const encodedPackets = new Array(length);
+  let count = 0;
+  packets.forEach((packet, i) => {
+    // force base64 encoding for binary packets
+    (0, _encodePacket.encodePacket)(packet, false, encodedPacket => {
+      encodedPackets[i] = encodedPacket;
+      if (++count === length) {
+        callback(encodedPackets.join(SEPARATOR));
+      }
+    });
+  });
+};
+exports.encodePayload = encodePayload;
+const decodePayload = (encodedPayload, binaryType) => {
+  const encodedPackets = encodedPayload.split(SEPARATOR);
+  const packets = [];
+  for (let i = 0; i < encodedPackets.length; i++) {
+    const decodedPacket = (0, _decodePacket.decodePacket)(encodedPackets[i], binaryType);
+    packets.push(decodedPacket);
+    if (decodedPacket.type === "error") {
+      break;
+    }
+  }
+  return packets;
+};
+exports.decodePayload = decodePayload;
+function createPacketEncoderStream() {
+  return new TransformStream({
+    transform(packet, controller) {
+      (0, _encodePacket.encodePacketToBinary)(packet, encodedPacket => {
+        const payloadLength = encodedPacket.length;
+        let header;
+        // inspired by the WebSocket format: https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_servers#decoding_payload_length
+        if (payloadLength < 126) {
+          header = new Uint8Array(1);
+          new DataView(header.buffer).setUint8(0, payloadLength);
+        } else if (payloadLength < 65536) {
+          header = new Uint8Array(3);
+          const view = new DataView(header.buffer);
+          view.setUint8(0, 126);
+          view.setUint16(1, payloadLength);
+        } else {
+          header = new Uint8Array(9);
+          const view = new DataView(header.buffer);
+          view.setUint8(0, 127);
+          view.setBigUint64(1, BigInt(payloadLength));
+        }
+        // first bit indicates whether the payload is plain text (0) or binary (1)
+        if (packet.data && typeof packet.data !== "string") {
+          header[0] |= 0x80;
+        }
+        controller.enqueue(header);
+        controller.enqueue(encodedPacket);
+      });
+    }
+  });
+}
+let TEXT_DECODER;
+function totalLength(chunks) {
+  return chunks.reduce((acc, chunk) => acc + chunk.length, 0);
+}
+function concatChunks(chunks, size) {
+  if (chunks[0].length === size) {
+    return chunks.shift();
+  }
+  const buffer = new Uint8Array(size);
+  let j = 0;
+  for (let i = 0; i < size; i++) {
+    buffer[i] = chunks[0][j++];
+    if (j === chunks[0].length) {
+      chunks.shift();
+      j = 0;
+    }
+  }
+  if (chunks.length && j < chunks[0].length) {
+    chunks[0] = chunks[0].slice(j);
+  }
+  return buffer;
+}
+function createPacketDecoderStream(maxPayload, binaryType) {
+  if (!TEXT_DECODER) {
+    TEXT_DECODER = new TextDecoder();
+  }
+  const chunks = [];
+  let state = 0 /* State.READ_HEADER */;
+  let expectedLength = -1;
+  let isBinary = false;
+  return new TransformStream({
+    transform(chunk, controller) {
+      chunks.push(chunk);
+      while (true) {
+        if (state === 0 /* State.READ_HEADER */) {
+          if (totalLength(chunks) < 1) {
+            break;
+          }
+          const header = concatChunks(chunks, 1);
+          isBinary = (header[0] & 0x80) === 0x80;
+          expectedLength = header[0] & 0x7f;
+          if (expectedLength < 126) {
+            state = 3 /* State.READ_PAYLOAD */;
+          } else if (expectedLength === 126) {
+            state = 1 /* State.READ_EXTENDED_LENGTH_16 */;
+          } else {
+            state = 2 /* State.READ_EXTENDED_LENGTH_64 */;
+          }
+        } else if (state === 1 /* State.READ_EXTENDED_LENGTH_16 */) {
+          if (totalLength(chunks) < 2) {
+            break;
+          }
+          const headerArray = concatChunks(chunks, 2);
+          expectedLength = new DataView(headerArray.buffer, headerArray.byteOffset, headerArray.length).getUint16(0);
+          state = 3 /* State.READ_PAYLOAD */;
+        } else if (state === 2 /* State.READ_EXTENDED_LENGTH_64 */) {
+          if (totalLength(chunks) < 8) {
+            break;
+          }
+          const headerArray = concatChunks(chunks, 8);
+          const view = new DataView(headerArray.buffer, headerArray.byteOffset, headerArray.length);
+          const n = view.getUint32(0);
+          if (n > Math.pow(2, 53 - 32) - 1) {
+            // the maximum safe integer in JavaScript is 2^53 - 1
+            controller.enqueue(_commons.ERROR_PACKET);
+            break;
+          }
+          expectedLength = n * Math.pow(2, 32) + view.getUint32(4);
+          state = 3 /* State.READ_PAYLOAD */;
+        } else {
+          if (totalLength(chunks) < expectedLength) {
+            break;
+          }
+          const data = concatChunks(chunks, expectedLength);
+          controller.enqueue((0, _decodePacket.decodePacket)(isBinary ? data : TEXT_DECODER.decode(data), binaryType));
+          state = 0 /* State.READ_HEADER */;
+        }
+        if (expectedLength === 0 || expectedLength > maxPayload) {
+          controller.enqueue(_commons.ERROR_PACKET);
+          break;
+        }
+      }
+    }
+  });
+}
+const protocol = exports.protocol = 4;
+},{"./encodePacket.js":"node_modules/engine.io-parser/build/esm/encodePacket.browser.js","./decodePacket.js":"node_modules/engine.io-parser/build/esm/decodePacket.browser.js","./commons.js":"node_modules/engine.io-parser/build/esm/commons.js"}],"node_modules/@socket.io/component-emitter/lib/esm/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Emitter = Emitter;
+/**
+ * Initialize a new `Emitter`.
+ *
+ * @api public
+ */
+
+function Emitter(obj) {
+  if (obj) return mixin(obj);
+}
+
+/**
+ * Mixin the emitter properties.
+ *
+ * @param {Object} obj
+ * @return {Object}
+ * @api private
+ */
+
+function mixin(obj) {
+  for (var key in Emitter.prototype) {
+    obj[key] = Emitter.prototype[key];
+  }
+  return obj;
+}
+
+/**
+ * Listen on the given `event` with `fn`.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.on = Emitter.prototype.addEventListener = function (event, fn) {
+  this._callbacks = this._callbacks || {};
+  (this._callbacks['$' + event] = this._callbacks['$' + event] || []).push(fn);
+  return this;
+};
+
+/**
+ * Adds an `event` listener that will be invoked a single
+ * time then automatically removed.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.once = function (event, fn) {
+  function on() {
+    this.off(event, on);
+    fn.apply(this, arguments);
+  }
+  on.fn = fn;
+  this.on(event, on);
+  return this;
+};
+
+/**
+ * Remove the given callback for `event` or all
+ * registered callbacks.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.off = Emitter.prototype.removeListener = Emitter.prototype.removeAllListeners = Emitter.prototype.removeEventListener = function (event, fn) {
+  this._callbacks = this._callbacks || {};
+
+  // all
+  if (0 == arguments.length) {
+    this._callbacks = {};
+    return this;
+  }
+
+  // specific event
+  var callbacks = this._callbacks['$' + event];
+  if (!callbacks) return this;
+
+  // remove all handlers
+  if (1 == arguments.length) {
+    delete this._callbacks['$' + event];
+    return this;
+  }
+
+  // remove specific handler
+  var cb;
+  for (var i = 0; i < callbacks.length; i++) {
+    cb = callbacks[i];
+    if (cb === fn || cb.fn === fn) {
+      callbacks.splice(i, 1);
+      break;
+    }
+  }
+
+  // Remove event specific arrays for event types that no
+  // one is subscribed for to avoid memory leak.
+  if (callbacks.length === 0) {
+    delete this._callbacks['$' + event];
+  }
+  return this;
+};
+
+/**
+ * Emit `event` with the given args.
+ *
+ * @param {String} event
+ * @param {Mixed} ...
+ * @return {Emitter}
+ */
+
+Emitter.prototype.emit = function (event) {
+  this._callbacks = this._callbacks || {};
+  var args = new Array(arguments.length - 1),
+    callbacks = this._callbacks['$' + event];
+  for (var i = 1; i < arguments.length; i++) {
+    args[i - 1] = arguments[i];
+  }
+  if (callbacks) {
+    callbacks = callbacks.slice(0);
+    for (var i = 0, len = callbacks.length; i < len; ++i) {
+      callbacks[i].apply(this, args);
+    }
+  }
+  return this;
+};
+
+// alias used for reserved events (protected method)
+Emitter.prototype.emitReserved = Emitter.prototype.emit;
+
+/**
+ * Return array of callbacks for `event`.
+ *
+ * @param {String} event
+ * @return {Array}
+ * @api public
+ */
+
+Emitter.prototype.listeners = function (event) {
+  this._callbacks = this._callbacks || {};
+  return this._callbacks['$' + event] || [];
+};
+
+/**
+ * Check if this emitter has `event` handlers.
+ *
+ * @param {String} event
+ * @return {Boolean}
+ * @api public
+ */
+
+Emitter.prototype.hasListeners = function (event) {
+  return !!this.listeners(event).length;
+};
+},{}],"node_modules/engine.io-client/build/esm/globals.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.createCookieJar = createCookieJar;
+exports.nextTick = exports.globalThisShim = exports.defaultBinaryType = void 0;
+const nextTick = exports.nextTick = (() => {
+  const isPromiseAvailable = typeof Promise === "function" && typeof Promise.resolve === "function";
+  if (isPromiseAvailable) {
+    return cb => Promise.resolve().then(cb);
+  } else {
+    return (cb, setTimeoutFn) => setTimeoutFn(cb, 0);
+  }
+})();
+const globalThisShim = exports.globalThisShim = (() => {
+  if (typeof self !== "undefined") {
+    return self;
+  } else if (typeof window !== "undefined") {
+    return window;
+  } else {
+    return Function("return this")();
+  }
+})();
+const defaultBinaryType = exports.defaultBinaryType = "arraybuffer";
+function createCookieJar() {}
+},{}],"node_modules/engine.io-client/build/esm/util.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.byteLength = byteLength;
+exports.installTimerFunctions = installTimerFunctions;
+exports.pick = pick;
+exports.randomString = randomString;
+var _globalsNode = require("./globals.node.js");
+function pick(obj, ...attr) {
+  return attr.reduce((acc, k) => {
+    if (obj.hasOwnProperty(k)) {
+      acc[k] = obj[k];
+    }
+    return acc;
+  }, {});
+}
+// Keep a reference to the real timeout functions so they can be used when overridden
+const NATIVE_SET_TIMEOUT = _globalsNode.globalThisShim.setTimeout;
+const NATIVE_CLEAR_TIMEOUT = _globalsNode.globalThisShim.clearTimeout;
+function installTimerFunctions(obj, opts) {
+  if (opts.useNativeTimers) {
+    obj.setTimeoutFn = NATIVE_SET_TIMEOUT.bind(_globalsNode.globalThisShim);
+    obj.clearTimeoutFn = NATIVE_CLEAR_TIMEOUT.bind(_globalsNode.globalThisShim);
+  } else {
+    obj.setTimeoutFn = _globalsNode.globalThisShim.setTimeout.bind(_globalsNode.globalThisShim);
+    obj.clearTimeoutFn = _globalsNode.globalThisShim.clearTimeout.bind(_globalsNode.globalThisShim);
+  }
+}
+// base64 encoded buffers are about 33% bigger (https://en.wikipedia.org/wiki/Base64)
+const BASE64_OVERHEAD = 1.33;
+// we could also have used `new Blob([obj]).size`, but it isn't supported in IE9
+function byteLength(obj) {
+  if (typeof obj === "string") {
+    return utf8Length(obj);
+  }
+  // arraybuffer or blob
+  return Math.ceil((obj.byteLength || obj.size) * BASE64_OVERHEAD);
+}
+function utf8Length(str) {
+  let c = 0,
+    length = 0;
+  for (let i = 0, l = str.length; i < l; i++) {
+    c = str.charCodeAt(i);
+    if (c < 0x80) {
+      length += 1;
+    } else if (c < 0x800) {
+      length += 2;
+    } else if (c < 0xd800 || c >= 0xe000) {
+      length += 3;
+    } else {
+      i++;
+      length += 4;
+    }
+  }
+  return length;
+}
+/**
+ * Generates a random 8-characters string.
+ */
+function randomString() {
+  return Date.now().toString(36).substring(3) + Math.random().toString(36).substring(2, 5);
+}
+},{"./globals.node.js":"node_modules/engine.io-client/build/esm/globals.js"}],"node_modules/engine.io-client/build/esm/contrib/parseqs.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.decode = decode;
+exports.encode = encode;
+// imported from https://github.com/galkn/querystring
+/**
+ * Compiles a querystring
+ * Returns string representation of the object
+ *
+ * @param {Object}
+ * @api private
+ */
+function encode(obj) {
+  let str = '';
+  for (let i in obj) {
+    if (obj.hasOwnProperty(i)) {
+      if (str.length) str += '&';
+      str += encodeURIComponent(i) + '=' + encodeURIComponent(obj[i]);
+    }
+  }
+  return str;
+}
+/**
+ * Parses a simple querystring into an object
+ *
+ * @param {String} qs
+ * @api private
+ */
+function decode(qs) {
+  let qry = {};
+  let pairs = qs.split('&');
+  for (let i = 0, l = pairs.length; i < l; i++) {
+    let pair = pairs[i].split('=');
+    qry[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+  }
+  return qry;
+}
+},{}],"node_modules/engine.io-client/build/esm/transport.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.TransportError = exports.Transport = void 0;
+var _engine = require("engine.io-parser");
+var _componentEmitter = require("@socket.io/component-emitter");
+var _util = require("./util.js");
+var _parseqs = require("./contrib/parseqs.js");
+class TransportError extends Error {
+  constructor(reason, description, context) {
+    super(reason);
+    this.description = description;
+    this.context = context;
+    this.type = "TransportError";
+  }
+}
+exports.TransportError = TransportError;
+class Transport extends _componentEmitter.Emitter {
+  /**
+   * Transport abstract constructor.
+   *
+   * @param {Object} opts - options
+   * @protected
+   */
+  constructor(opts) {
+    super();
+    this.writable = false;
+    (0, _util.installTimerFunctions)(this, opts);
+    this.opts = opts;
+    this.query = opts.query;
+    this.socket = opts.socket;
+    this.supportsBinary = !opts.forceBase64;
+  }
+  /**
+   * Emits an error.
+   *
+   * @param {String} reason
+   * @param description
+   * @param context - the error context
+   * @return {Transport} for chaining
+   * @protected
+   */
+  onError(reason, description, context) {
+    super.emitReserved("error", new TransportError(reason, description, context));
+    return this;
+  }
+  /**
+   * Opens the transport.
+   */
+  open() {
+    this.readyState = "opening";
+    this.doOpen();
+    return this;
+  }
+  /**
+   * Closes the transport.
+   */
+  close() {
+    if (this.readyState === "opening" || this.readyState === "open") {
+      this.doClose();
+      this.onClose();
+    }
+    return this;
+  }
+  /**
+   * Sends multiple packets.
+   *
+   * @param {Array} packets
+   */
+  send(packets) {
+    if (this.readyState === "open") {
+      this.write(packets);
+    } else {
+      // this might happen if the transport was silently closed in the beforeunload event handler
+    }
+  }
+  /**
+   * Called upon open
+   *
+   * @protected
+   */
+  onOpen() {
+    this.readyState = "open";
+    this.writable = true;
+    super.emitReserved("open");
+  }
+  /**
+   * Called with data.
+   *
+   * @param {String} data
+   * @protected
+   */
+  onData(data) {
+    const packet = (0, _engine.decodePacket)(data, this.socket.binaryType);
+    this.onPacket(packet);
+  }
+  /**
+   * Called with a decoded packet.
+   *
+   * @protected
+   */
+  onPacket(packet) {
+    super.emitReserved("packet", packet);
+  }
+  /**
+   * Called upon close.
+   *
+   * @protected
+   */
+  onClose(details) {
+    this.readyState = "closed";
+    super.emitReserved("close", details);
+  }
+  /**
+   * Pauses the transport, in order not to lose packets during an upgrade.
+   *
+   * @param onPause
+   */
+  pause(onPause) {}
+  createUri(schema, query = {}) {
+    return schema + "://" + this._hostname() + this._port() + this.opts.path + this._query(query);
+  }
+  _hostname() {
+    const hostname = this.opts.hostname;
+    return hostname.indexOf(":") === -1 ? hostname : "[" + hostname + "]";
+  }
+  _port() {
+    if (this.opts.port && (this.opts.secure && Number(this.opts.port) !== 443 || !this.opts.secure && Number(this.opts.port) !== 80)) {
+      return ":" + this.opts.port;
+    } else {
+      return "";
+    }
+  }
+  _query(query) {
+    const encodedQuery = (0, _parseqs.encode)(query);
+    return encodedQuery.length ? "?" + encodedQuery : "";
+  }
+}
+exports.Transport = Transport;
+},{"engine.io-parser":"node_modules/engine.io-parser/build/esm/index.js","@socket.io/component-emitter":"node_modules/@socket.io/component-emitter/lib/esm/index.js","./util.js":"node_modules/engine.io-client/build/esm/util.js","./contrib/parseqs.js":"node_modules/engine.io-client/build/esm/contrib/parseqs.js"}],"node_modules/engine.io-client/build/esm/transports/polling.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Polling = void 0;
+var _transport = require("../transport.js");
+var _util = require("../util.js");
+var _engine = require("engine.io-parser");
+class Polling extends _transport.Transport {
+  constructor() {
+    super(...arguments);
+    this._polling = false;
+  }
+  get name() {
+    return "polling";
+  }
+  /**
+   * Opens the socket (triggers polling). We write a PING message to determine
+   * when the transport is open.
+   *
+   * @protected
+   */
+  doOpen() {
+    this._poll();
+  }
+  /**
+   * Pauses polling.
+   *
+   * @param {Function} onPause - callback upon buffers are flushed and transport is paused
+   * @package
+   */
+  pause(onPause) {
+    this.readyState = "pausing";
+    const pause = () => {
+      this.readyState = "paused";
+      onPause();
+    };
+    if (this._polling || !this.writable) {
+      let total = 0;
+      if (this._polling) {
+        total++;
+        this.once("pollComplete", function () {
+          --total || pause();
+        });
+      }
+      if (!this.writable) {
+        total++;
+        this.once("drain", function () {
+          --total || pause();
+        });
+      }
+    } else {
+      pause();
+    }
+  }
+  /**
+   * Starts polling cycle.
+   *
+   * @private
+   */
+  _poll() {
+    this._polling = true;
+    this.doPoll();
+    this.emitReserved("poll");
+  }
+  /**
+   * Overloads onData to detect payloads.
+   *
+   * @protected
+   */
+  onData(data) {
+    const callback = packet => {
+      // if its the first message we consider the transport open
+      if ("opening" === this.readyState && packet.type === "open") {
+        this.onOpen();
+      }
+      // if its a close packet, we close the ongoing requests
+      if ("close" === packet.type) {
+        this.onClose({
+          description: "transport closed by the server"
+        });
+        return false;
+      }
+      // otherwise bypass onData and handle the message
+      this.onPacket(packet);
+    };
+    // decode payload
+    (0, _engine.decodePayload)(data, this.socket.binaryType).forEach(callback);
+    // if an event did not trigger closing
+    if ("closed" !== this.readyState) {
+      // if we got data we're not polling
+      this._polling = false;
+      this.emitReserved("pollComplete");
+      if ("open" === this.readyState) {
+        this._poll();
+      } else {}
+    }
+  }
+  /**
+   * For polling, send a close packet.
+   *
+   * @protected
+   */
+  doClose() {
+    const close = () => {
+      this.write([{
+        type: "close"
+      }]);
+    };
+    if ("open" === this.readyState) {
+      close();
+    } else {
+      // in case we're trying to close while
+      // handshaking is in progress (GH-164)
+      this.once("open", close);
+    }
+  }
+  /**
+   * Writes a packets payload.
+   *
+   * @param {Array} packets - data packets
+   * @protected
+   */
+  write(packets) {
+    this.writable = false;
+    (0, _engine.encodePayload)(packets, data => {
+      this.doWrite(data, () => {
+        this.writable = true;
+        this.emitReserved("drain");
+      });
+    });
+  }
+  /**
+   * Generates uri for connection.
+   *
+   * @private
+   */
+  uri() {
+    const schema = this.opts.secure ? "https" : "http";
+    const query = this.query || {};
+    // cache busting is forced
+    if (false !== this.opts.timestampRequests) {
+      query[this.opts.timestampParam] = (0, _util.randomString)();
+    }
+    if (!this.supportsBinary && !query.sid) {
+      query.b64 = 1;
+    }
+    return this.createUri(schema, query);
+  }
+}
+exports.Polling = Polling;
+},{"../transport.js":"node_modules/engine.io-client/build/esm/transport.js","../util.js":"node_modules/engine.io-client/build/esm/util.js","engine.io-parser":"node_modules/engine.io-parser/build/esm/index.js"}],"node_modules/engine.io-client/build/esm/contrib/has-cors.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.hasCORS = void 0;
+// imported from https://github.com/component/has-cors
+let value = false;
+try {
+  value = typeof XMLHttpRequest !== 'undefined' && 'withCredentials' in new XMLHttpRequest();
+} catch (err) {
+  // if XMLHttp support is disabled in IE then it will throw
+  // when trying to create
+}
+const hasCORS = exports.hasCORS = value;
+},{}],"node_modules/engine.io-client/build/esm/transports/polling-xhr.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.XHR = exports.Request = exports.BaseXHR = void 0;
+var _polling = require("./polling.js");
+var _componentEmitter = require("@socket.io/component-emitter");
+var _util = require("../util.js");
+var _globalsNode = require("../globals.node.js");
+var _hasCors = require("../contrib/has-cors.js");
+function empty() {}
+class BaseXHR extends _polling.Polling {
+  /**
+   * XHR Polling constructor.
+   *
+   * @param {Object} opts
+   * @package
+   */
+  constructor(opts) {
+    super(opts);
+    if (typeof location !== "undefined") {
+      const isSSL = "https:" === location.protocol;
+      let port = location.port;
+      // some user agents have empty `location.port`
+      if (!port) {
+        port = isSSL ? "443" : "80";
+      }
+      this.xd = typeof location !== "undefined" && opts.hostname !== location.hostname || port !== opts.port;
+    }
+  }
+  /**
+   * Sends data.
+   *
+   * @param {String} data to send.
+   * @param {Function} called upon flush.
+   * @private
+   */
+  doWrite(data, fn) {
+    const req = this.request({
+      method: "POST",
+      data: data
+    });
+    req.on("success", fn);
+    req.on("error", (xhrStatus, context) => {
+      this.onError("xhr post error", xhrStatus, context);
+    });
+  }
+  /**
+   * Starts a poll cycle.
+   *
+   * @private
+   */
+  doPoll() {
+    const req = this.request();
+    req.on("data", this.onData.bind(this));
+    req.on("error", (xhrStatus, context) => {
+      this.onError("xhr poll error", xhrStatus, context);
+    });
+    this.pollXhr = req;
+  }
+}
+exports.BaseXHR = BaseXHR;
+class Request extends _componentEmitter.Emitter {
+  /**
+   * Request constructor
+   *
+   * @param {Object} options
+   * @package
+   */
+  constructor(createRequest, uri, opts) {
+    super();
+    this.createRequest = createRequest;
+    (0, _util.installTimerFunctions)(this, opts);
+    this._opts = opts;
+    this._method = opts.method || "GET";
+    this._uri = uri;
+    this._data = undefined !== opts.data ? opts.data : null;
+    this._create();
+  }
+  /**
+   * Creates the XHR object and sends the request.
+   *
+   * @private
+   */
+  _create() {
+    var _a;
+    const opts = (0, _util.pick)(this._opts, "agent", "pfx", "key", "passphrase", "cert", "ca", "ciphers", "rejectUnauthorized", "autoUnref");
+    opts.xdomain = !!this._opts.xd;
+    const xhr = this._xhr = this.createRequest(opts);
+    try {
+      xhr.open(this._method, this._uri, true);
+      try {
+        if (this._opts.extraHeaders) {
+          // @ts-ignore
+          xhr.setDisableHeaderCheck && xhr.setDisableHeaderCheck(true);
+          for (let i in this._opts.extraHeaders) {
+            if (this._opts.extraHeaders.hasOwnProperty(i)) {
+              xhr.setRequestHeader(i, this._opts.extraHeaders[i]);
+            }
+          }
+        }
+      } catch (e) {}
+      if ("POST" === this._method) {
+        try {
+          xhr.setRequestHeader("Content-type", "text/plain;charset=UTF-8");
+        } catch (e) {}
+      }
+      try {
+        xhr.setRequestHeader("Accept", "*/*");
+      } catch (e) {}
+      (_a = this._opts.cookieJar) === null || _a === void 0 ? void 0 : _a.addCookies(xhr);
+      // ie6 check
+      if ("withCredentials" in xhr) {
+        xhr.withCredentials = this._opts.withCredentials;
+      }
+      if (this._opts.requestTimeout) {
+        xhr.timeout = this._opts.requestTimeout;
+      }
+      xhr.onreadystatechange = () => {
+        var _a;
+        if (xhr.readyState === 3) {
+          (_a = this._opts.cookieJar) === null || _a === void 0 ? void 0 : _a.parseCookies(
+          // @ts-ignore
+          xhr.getResponseHeader("set-cookie"));
+        }
+        if (4 !== xhr.readyState) return;
+        if (200 === xhr.status || 1223 === xhr.status) {
+          this._onLoad();
+        } else {
+          // make sure the `error` event handler that's user-set
+          // does not throw in the same tick and gets caught here
+          this.setTimeoutFn(() => {
+            this._onError(typeof xhr.status === "number" ? xhr.status : 0);
+          }, 0);
+        }
+      };
+      xhr.send(this._data);
+    } catch (e) {
+      // Need to defer since .create() is called directly from the constructor
+      // and thus the 'error' event can only be only bound *after* this exception
+      // occurs.  Therefore, also, we cannot throw here at all.
+      this.setTimeoutFn(() => {
+        this._onError(e);
+      }, 0);
+      return;
+    }
+    if (typeof document !== "undefined") {
+      this._index = Request.requestsCount++;
+      Request.requests[this._index] = this;
+    }
+  }
+  /**
+   * Called upon error.
+   *
+   * @private
+   */
+  _onError(err) {
+    this.emitReserved("error", err, this._xhr);
+    this._cleanup(true);
+  }
+  /**
+   * Cleans up house.
+   *
+   * @private
+   */
+  _cleanup(fromError) {
+    if ("undefined" === typeof this._xhr || null === this._xhr) {
+      return;
+    }
+    this._xhr.onreadystatechange = empty;
+    if (fromError) {
+      try {
+        this._xhr.abort();
+      } catch (e) {}
+    }
+    if (typeof document !== "undefined") {
+      delete Request.requests[this._index];
+    }
+    this._xhr = null;
+  }
+  /**
+   * Called upon load.
+   *
+   * @private
+   */
+  _onLoad() {
+    const data = this._xhr.responseText;
+    if (data !== null) {
+      this.emitReserved("data", data);
+      this.emitReserved("success");
+      this._cleanup();
+    }
+  }
+  /**
+   * Aborts the request.
+   *
+   * @package
+   */
+  abort() {
+    this._cleanup();
+  }
+}
+exports.Request = Request;
+Request.requestsCount = 0;
+Request.requests = {};
+/**
+ * Aborts pending requests when unloading the window. This is needed to prevent
+ * memory leaks (e.g. when using IE) and to ensure that no spurious error is
+ * emitted.
+ */
+if (typeof document !== "undefined") {
+  // @ts-ignore
+  if (typeof attachEvent === "function") {
+    // @ts-ignore
+    attachEvent("onunload", unloadHandler);
+  } else if (typeof addEventListener === "function") {
+    const terminationEvent = "onpagehide" in _globalsNode.globalThisShim ? "pagehide" : "unload";
+    addEventListener(terminationEvent, unloadHandler, false);
+  }
+}
+function unloadHandler() {
+  for (let i in Request.requests) {
+    if (Request.requests.hasOwnProperty(i)) {
+      Request.requests[i].abort();
+    }
+  }
+}
+const hasXHR2 = function () {
+  const xhr = newRequest({
+    xdomain: false
+  });
+  return xhr && xhr.responseType !== null;
+}();
+/**
+ * HTTP long-polling based on the built-in `XMLHttpRequest` object.
+ *
+ * Usage: browser
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest
+ */
+class XHR extends BaseXHR {
+  constructor(opts) {
+    super(opts);
+    const forceBase64 = opts && opts.forceBase64;
+    this.supportsBinary = hasXHR2 && !forceBase64;
+  }
+  request(opts = {}) {
+    Object.assign(opts, {
+      xd: this.xd
+    }, this.opts);
+    return new Request(newRequest, this.uri(), opts);
+  }
+}
+exports.XHR = XHR;
+function newRequest(opts) {
+  const xdomain = opts.xdomain;
+  // XMLHttpRequest can be disabled on IE
+  try {
+    if ("undefined" !== typeof XMLHttpRequest && (!xdomain || _hasCors.hasCORS)) {
+      return new XMLHttpRequest();
+    }
+  } catch (e) {}
+  if (!xdomain) {
+    try {
+      return new _globalsNode.globalThisShim[["Active"].concat("Object").join("X")]("Microsoft.XMLHTTP");
+    } catch (e) {}
+  }
+}
+},{"./polling.js":"node_modules/engine.io-client/build/esm/transports/polling.js","@socket.io/component-emitter":"node_modules/@socket.io/component-emitter/lib/esm/index.js","../util.js":"node_modules/engine.io-client/build/esm/util.js","../globals.node.js":"node_modules/engine.io-client/build/esm/globals.js","../contrib/has-cors.js":"node_modules/engine.io-client/build/esm/contrib/has-cors.js"}],"node_modules/engine.io-client/build/esm/transports/websocket.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.WS = exports.BaseWS = void 0;
+var _transport = require("../transport.js");
+var _util = require("../util.js");
+var _engine = require("engine.io-parser");
+var _globalsNode = require("../globals.node.js");
+// detect ReactNative environment
+const isReactNative = typeof navigator !== "undefined" && typeof navigator.product === "string" && navigator.product.toLowerCase() === "reactnative";
+class BaseWS extends _transport.Transport {
+  get name() {
+    return "websocket";
+  }
+  doOpen() {
+    const uri = this.uri();
+    const protocols = this.opts.protocols;
+    // React Native only supports the 'headers' option, and will print a warning if anything else is passed
+    const opts = isReactNative ? {} : (0, _util.pick)(this.opts, "agent", "perMessageDeflate", "pfx", "key", "passphrase", "cert", "ca", "ciphers", "rejectUnauthorized", "localAddress", "protocolVersion", "origin", "maxPayload", "family", "checkServerIdentity");
+    if (this.opts.extraHeaders) {
+      opts.headers = this.opts.extraHeaders;
+    }
+    try {
+      this.ws = this.createSocket(uri, protocols, opts);
+    } catch (err) {
+      return this.emitReserved("error", err);
+    }
+    this.ws.binaryType = this.socket.binaryType;
+    this.addEventListeners();
+  }
+  /**
+   * Adds event listeners to the socket
+   *
+   * @private
+   */
+  addEventListeners() {
+    this.ws.onopen = () => {
+      if (this.opts.autoUnref) {
+        this.ws._socket.unref();
+      }
+      this.onOpen();
+    };
+    this.ws.onclose = closeEvent => this.onClose({
+      description: "websocket connection closed",
+      context: closeEvent
+    });
+    this.ws.onmessage = ev => this.onData(ev.data);
+    this.ws.onerror = e => this.onError("websocket error", e);
+  }
+  write(packets) {
+    this.writable = false;
+    // encodePacket efficient as it uses WS framing
+    // no need for encodePayload
+    for (let i = 0; i < packets.length; i++) {
+      const packet = packets[i];
+      const lastPacket = i === packets.length - 1;
+      (0, _engine.encodePacket)(packet, this.supportsBinary, data => {
+        // Sometimes the websocket has already been closed but the browser didn't
+        // have a chance of informing us about it yet, in that case send will
+        // throw an error
+        try {
+          this.doWrite(packet, data);
+        } catch (e) {}
+        if (lastPacket) {
+          // fake drain
+          // defer to next tick to allow Socket to clear writeBuffer
+          (0, _globalsNode.nextTick)(() => {
+            this.writable = true;
+            this.emitReserved("drain");
+          }, this.setTimeoutFn);
+        }
+      });
+    }
+  }
+  doClose() {
+    if (typeof this.ws !== "undefined") {
+      this.ws.onerror = () => {};
+      this.ws.close();
+      this.ws = null;
+    }
+  }
+  /**
+   * Generates uri for connection.
+   *
+   * @private
+   */
+  uri() {
+    const schema = this.opts.secure ? "wss" : "ws";
+    const query = this.query || {};
+    // append timestamp to URI
+    if (this.opts.timestampRequests) {
+      query[this.opts.timestampParam] = (0, _util.randomString)();
+    }
+    // communicate binary support capabilities
+    if (!this.supportsBinary) {
+      query.b64 = 1;
+    }
+    return this.createUri(schema, query);
+  }
+}
+exports.BaseWS = BaseWS;
+const WebSocketCtor = _globalsNode.globalThisShim.WebSocket || _globalsNode.globalThisShim.MozWebSocket;
+/**
+ * WebSocket transport based on the built-in `WebSocket` object.
+ *
+ * Usage: browser, Node.js (since v21), Deno, Bun
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/WebSocket
+ * @see https://caniuse.com/mdn-api_websocket
+ * @see https://nodejs.org/api/globals.html#websocket
+ */
+class WS extends BaseWS {
+  createSocket(uri, protocols, opts) {
+    return !isReactNative ? protocols ? new WebSocketCtor(uri, protocols) : new WebSocketCtor(uri) : new WebSocketCtor(uri, protocols, opts);
+  }
+  doWrite(_packet, data) {
+    this.ws.send(data);
+  }
+}
+exports.WS = WS;
+},{"../transport.js":"node_modules/engine.io-client/build/esm/transport.js","../util.js":"node_modules/engine.io-client/build/esm/util.js","engine.io-parser":"node_modules/engine.io-parser/build/esm/index.js","../globals.node.js":"node_modules/engine.io-client/build/esm/globals.js"}],"node_modules/engine.io-client/build/esm/transports/webtransport.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.WT = void 0;
+var _transport = require("../transport.js");
+var _globalsNode = require("../globals.node.js");
+var _engine = require("engine.io-parser");
+/**
+ * WebTransport transport based on the built-in `WebTransport` object.
+ *
+ * Usage: browser, Node.js (with the `@fails-components/webtransport` package)
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/WebTransport
+ * @see https://caniuse.com/webtransport
+ */
+class WT extends _transport.Transport {
+  get name() {
+    return "webtransport";
+  }
+  doOpen() {
+    try {
+      // @ts-ignore
+      this._transport = new WebTransport(this.createUri("https"), this.opts.transportOptions[this.name]);
+    } catch (err) {
+      return this.emitReserved("error", err);
+    }
+    this._transport.closed.then(() => {
+      this.onClose();
+    }).catch(err => {
+      this.onError("webtransport error", err);
+    });
+    // note: we could have used async/await, but that would require some additional polyfills
+    this._transport.ready.then(() => {
+      this._transport.createBidirectionalStream().then(stream => {
+        const decoderStream = (0, _engine.createPacketDecoderStream)(Number.MAX_SAFE_INTEGER, this.socket.binaryType);
+        const reader = stream.readable.pipeThrough(decoderStream).getReader();
+        const encoderStream = (0, _engine.createPacketEncoderStream)();
+        encoderStream.readable.pipeTo(stream.writable);
+        this._writer = encoderStream.writable.getWriter();
+        const read = () => {
+          reader.read().then(({
+            done,
+            value
+          }) => {
+            if (done) {
+              return;
+            }
+            this.onPacket(value);
+            read();
+          }).catch(err => {});
+        };
+        read();
+        const packet = {
+          type: "open"
+        };
+        if (this.query.sid) {
+          packet.data = `{"sid":"${this.query.sid}"}`;
+        }
+        this._writer.write(packet).then(() => this.onOpen());
+      });
+    });
+  }
+  write(packets) {
+    this.writable = false;
+    for (let i = 0; i < packets.length; i++) {
+      const packet = packets[i];
+      const lastPacket = i === packets.length - 1;
+      this._writer.write(packet).then(() => {
+        if (lastPacket) {
+          (0, _globalsNode.nextTick)(() => {
+            this.writable = true;
+            this.emitReserved("drain");
+          }, this.setTimeoutFn);
+        }
+      });
+    }
+  }
+  doClose() {
+    var _a;
+    (_a = this._transport) === null || _a === void 0 ? void 0 : _a.close();
+  }
+}
+exports.WT = WT;
+},{"../transport.js":"node_modules/engine.io-client/build/esm/transport.js","../globals.node.js":"node_modules/engine.io-client/build/esm/globals.js","engine.io-parser":"node_modules/engine.io-parser/build/esm/index.js"}],"node_modules/engine.io-client/build/esm/transports/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.transports = void 0;
+var _pollingXhrNode = require("./polling-xhr.node.js");
+var _websocketNode = require("./websocket.node.js");
+var _webtransport = require("./webtransport.js");
+const transports = exports.transports = {
+  websocket: _websocketNode.WS,
+  webtransport: _webtransport.WT,
+  polling: _pollingXhrNode.XHR
+};
+},{"./polling-xhr.node.js":"node_modules/engine.io-client/build/esm/transports/polling-xhr.js","./websocket.node.js":"node_modules/engine.io-client/build/esm/transports/websocket.js","./webtransport.js":"node_modules/engine.io-client/build/esm/transports/webtransport.js"}],"node_modules/engine.io-client/build/esm/contrib/parseuri.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.parse = parse;
+// imported from https://github.com/galkn/parseuri
+/**
+ * Parses a URI
+ *
+ * Note: we could also have used the built-in URL object, but it isn't supported on all platforms.
+ *
+ * See:
+ * - https://developer.mozilla.org/en-US/docs/Web/API/URL
+ * - https://caniuse.com/url
+ * - https://www.rfc-editor.org/rfc/rfc3986#appendix-B
+ *
+ * History of the parse() method:
+ * - first commit: https://github.com/socketio/socket.io-client/commit/4ee1d5d94b3906a9c052b459f1a818b15f38f91c
+ * - export into its own module: https://github.com/socketio/engine.io-client/commit/de2c561e4564efeb78f1bdb1ba39ef81b2822cb3
+ * - reimport: https://github.com/socketio/engine.io-client/commit/df32277c3f6d622eec5ed09f493cae3f3391d242
+ *
+ * @author Steven Levithan <stevenlevithan.com> (MIT license)
+ * @api private
+ */
+const re = /^(?:(?![^:@\/?#]+:[^:@\/]*@)(http|https|ws|wss):\/\/)?((?:(([^:@\/?#]*)(?::([^:@\/?#]*))?)?@)?((?:[a-f0-9]{0,4}:){2,7}[a-f0-9]{0,4}|[^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/;
+const parts = ['source', 'protocol', 'authority', 'userInfo', 'user', 'password', 'host', 'port', 'relative', 'path', 'directory', 'file', 'query', 'anchor'];
+function parse(str) {
+  if (str.length > 8000) {
+    throw "URI too long";
+  }
+  const src = str,
+    b = str.indexOf('['),
+    e = str.indexOf(']');
+  if (b != -1 && e != -1) {
+    str = str.substring(0, b) + str.substring(b, e).replace(/:/g, ';') + str.substring(e, str.length);
+  }
+  let m = re.exec(str || ''),
+    uri = {},
+    i = 14;
+  while (i--) {
+    uri[parts[i]] = m[i] || '';
+  }
+  if (b != -1 && e != -1) {
+    uri.source = src;
+    uri.host = uri.host.substring(1, uri.host.length - 1).replace(/;/g, ':');
+    uri.authority = uri.authority.replace('[', '').replace(']', '').replace(/;/g, ':');
+    uri.ipv6uri = true;
+  }
+  uri.pathNames = pathNames(uri, uri['path']);
+  uri.queryKey = queryKey(uri, uri['query']);
+  return uri;
+}
+function pathNames(obj, path) {
+  const regx = /\/{2,9}/g,
+    names = path.replace(regx, "/").split("/");
+  if (path.slice(0, 1) == '/' || path.length === 0) {
+    names.splice(0, 1);
+  }
+  if (path.slice(-1) == '/') {
+    names.splice(names.length - 1, 1);
+  }
+  return names;
+}
+function queryKey(uri, query) {
+  const data = {};
+  query.replace(/(?:^|&)([^&=]*)=?([^&]*)/g, function ($0, $1, $2) {
+    if ($1) {
+      data[$1] = $2;
+    }
+  });
+  return data;
+}
+},{}],"node_modules/engine.io-client/build/esm/socket.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SocketWithoutUpgrade = exports.SocketWithUpgrade = exports.Socket = void 0;
+var _index = require("./transports/index.js");
+var _util = require("./util.js");
+var _parseqs = require("./contrib/parseqs.js");
+var _parseuri = require("./contrib/parseuri.js");
+var _componentEmitter = require("@socket.io/component-emitter");
+var _engine = require("engine.io-parser");
+var _globalsNode = require("./globals.node.js");
+const withEventListeners = typeof addEventListener === "function" && typeof removeEventListener === "function";
+const OFFLINE_EVENT_LISTENERS = [];
+if (withEventListeners) {
+  // within a ServiceWorker, any event handler for the 'offline' event must be added on the initial evaluation of the
+  // script, so we create one single event listener here which will forward the event to the socket instances
+  addEventListener("offline", () => {
+    OFFLINE_EVENT_LISTENERS.forEach(listener => listener());
+  }, false);
+}
+/**
+ * This class provides a WebSocket-like interface to connect to an Engine.IO server. The connection will be established
+ * with one of the available low-level transports, like HTTP long-polling, WebSocket or WebTransport.
+ *
+ * This class comes without upgrade mechanism, which means that it will keep the first low-level transport that
+ * successfully establishes the connection.
+ *
+ * In order to allow tree-shaking, there are no transports included, that's why the `transports` option is mandatory.
+ *
+ * @example
+ * import { SocketWithoutUpgrade, WebSocket } from "engine.io-client";
+ *
+ * const socket = new SocketWithoutUpgrade({
+ *   transports: [WebSocket]
+ * });
+ *
+ * socket.on("open", () => {
+ *   socket.send("hello");
+ * });
+ *
+ * @see SocketWithUpgrade
+ * @see Socket
+ */
+class SocketWithoutUpgrade extends _componentEmitter.Emitter {
+  /**
+   * Socket constructor.
+   *
+   * @param {String|Object} uri - uri or options
+   * @param {Object} opts - options
+   */
+  constructor(uri, opts) {
+    super();
+    this.binaryType = _globalsNode.defaultBinaryType;
+    this.writeBuffer = [];
+    this._prevBufferLen = 0;
+    this._pingInterval = -1;
+    this._pingTimeout = -1;
+    this._maxPayload = -1;
+    /**
+     * The expiration timestamp of the {@link _pingTimeoutTimer} object is tracked, in case the timer is throttled and the
+     * callback is not fired on time. This can happen for example when a laptop is suspended or when a phone is locked.
+     */
+    this._pingTimeoutTime = Infinity;
+    if (uri && "object" === typeof uri) {
+      opts = uri;
+      uri = null;
+    }
+    if (uri) {
+      const parsedUri = (0, _parseuri.parse)(uri);
+      opts.hostname = parsedUri.host;
+      opts.secure = parsedUri.protocol === "https" || parsedUri.protocol === "wss";
+      opts.port = parsedUri.port;
+      if (parsedUri.query) opts.query = parsedUri.query;
+    } else if (opts.host) {
+      opts.hostname = (0, _parseuri.parse)(opts.host).host;
+    }
+    (0, _util.installTimerFunctions)(this, opts);
+    this.secure = null != opts.secure ? opts.secure : typeof location !== "undefined" && "https:" === location.protocol;
+    if (opts.hostname && !opts.port) {
+      // if no port is specified manually, use the protocol default
+      opts.port = this.secure ? "443" : "80";
+    }
+    this.hostname = opts.hostname || (typeof location !== "undefined" ? location.hostname : "localhost");
+    this.port = opts.port || (typeof location !== "undefined" && location.port ? location.port : this.secure ? "443" : "80");
+    this.transports = [];
+    this._transportsByName = {};
+    opts.transports.forEach(t => {
+      const transportName = t.prototype.name;
+      this.transports.push(transportName);
+      this._transportsByName[transportName] = t;
+    });
+    this.opts = Object.assign({
+      path: "/engine.io",
+      agent: false,
+      withCredentials: false,
+      upgrade: true,
+      timestampParam: "t",
+      rememberUpgrade: false,
+      addTrailingSlash: true,
+      rejectUnauthorized: true,
+      perMessageDeflate: {
+        threshold: 1024
+      },
+      transportOptions: {},
+      closeOnBeforeunload: false
+    }, opts);
+    this.opts.path = this.opts.path.replace(/\/$/, "") + (this.opts.addTrailingSlash ? "/" : "");
+    if (typeof this.opts.query === "string") {
+      this.opts.query = (0, _parseqs.decode)(this.opts.query);
+    }
+    if (withEventListeners) {
+      if (this.opts.closeOnBeforeunload) {
+        // Firefox closes the connection when the "beforeunload" event is emitted but not Chrome. This event listener
+        // ensures every browser behaves the same (no "disconnect" event at the Socket.IO level when the page is
+        // closed/reloaded)
+        this._beforeunloadEventListener = () => {
+          if (this.transport) {
+            // silently close the transport
+            this.transport.removeAllListeners();
+            this.transport.close();
+          }
+        };
+        addEventListener("beforeunload", this._beforeunloadEventListener, false);
+      }
+      if (this.hostname !== "localhost") {
+        this._offlineEventListener = () => {
+          this._onClose("transport close", {
+            description: "network connection lost"
+          });
+        };
+        OFFLINE_EVENT_LISTENERS.push(this._offlineEventListener);
+      }
+    }
+    if (this.opts.withCredentials) {
+      this._cookieJar = (0, _globalsNode.createCookieJar)();
+    }
+    this._open();
+  }
+  /**
+   * Creates transport of the given type.
+   *
+   * @param {String} name - transport name
+   * @return {Transport}
+   * @private
+   */
+  createTransport(name) {
+    const query = Object.assign({}, this.opts.query);
+    // append engine.io protocol identifier
+    query.EIO = _engine.protocol;
+    // transport name
+    query.transport = name;
+    // session id if we already have one
+    if (this.id) query.sid = this.id;
+    const opts = Object.assign({}, this.opts, {
+      query,
+      socket: this,
+      hostname: this.hostname,
+      secure: this.secure,
+      port: this.port
+    }, this.opts.transportOptions[name]);
+    return new this._transportsByName[name](opts);
+  }
+  /**
+   * Initializes transport to use and starts probe.
+   *
+   * @private
+   */
+  _open() {
+    if (this.transports.length === 0) {
+      // Emit error on next tick so it can be listened to
+      this.setTimeoutFn(() => {
+        this.emitReserved("error", "No transports available");
+      }, 0);
+      return;
+    }
+    const transportName = this.opts.rememberUpgrade && SocketWithoutUpgrade.priorWebsocketSuccess && this.transports.indexOf("websocket") !== -1 ? "websocket" : this.transports[0];
+    this.readyState = "opening";
+    const transport = this.createTransport(transportName);
+    transport.open();
+    this.setTransport(transport);
+  }
+  /**
+   * Sets the current transport. Disables the existing one (if any).
+   *
+   * @private
+   */
+  setTransport(transport) {
+    if (this.transport) {
+      this.transport.removeAllListeners();
+    }
+    // set up transport
+    this.transport = transport;
+    // set up transport listeners
+    transport.on("drain", this._onDrain.bind(this)).on("packet", this._onPacket.bind(this)).on("error", this._onError.bind(this)).on("close", reason => this._onClose("transport close", reason));
+  }
+  /**
+   * Called when connection is deemed open.
+   *
+   * @private
+   */
+  onOpen() {
+    this.readyState = "open";
+    SocketWithoutUpgrade.priorWebsocketSuccess = "websocket" === this.transport.name;
+    this.emitReserved("open");
+    this.flush();
+  }
+  /**
+   * Handles a packet.
+   *
+   * @private
+   */
+  _onPacket(packet) {
+    if ("opening" === this.readyState || "open" === this.readyState || "closing" === this.readyState) {
+      this.emitReserved("packet", packet);
+      // Socket is live - any packet counts
+      this.emitReserved("heartbeat");
+      switch (packet.type) {
+        case "open":
+          this.onHandshake(JSON.parse(packet.data));
+          break;
+        case "ping":
+          this._sendPacket("pong");
+          this.emitReserved("ping");
+          this.emitReserved("pong");
+          this._resetPingTimeout();
+          break;
+        case "error":
+          const err = new Error("server error");
+          // @ts-ignore
+          err.code = packet.data;
+          this._onError(err);
+          break;
+        case "message":
+          this.emitReserved("data", packet.data);
+          this.emitReserved("message", packet.data);
+          break;
+      }
+    } else {}
+  }
+  /**
+   * Called upon handshake completion.
+   *
+   * @param {Object} data - handshake obj
+   * @private
+   */
+  onHandshake(data) {
+    this.emitReserved("handshake", data);
+    this.id = data.sid;
+    this.transport.query.sid = data.sid;
+    this._pingInterval = data.pingInterval;
+    this._pingTimeout = data.pingTimeout;
+    this._maxPayload = data.maxPayload;
+    this.onOpen();
+    // In case open handler closes socket
+    if ("closed" === this.readyState) return;
+    this._resetPingTimeout();
+  }
+  /**
+   * Sets and resets ping timeout timer based on server pings.
+   *
+   * @private
+   */
+  _resetPingTimeout() {
+    this.clearTimeoutFn(this._pingTimeoutTimer);
+    const delay = this._pingInterval + this._pingTimeout;
+    this._pingTimeoutTime = Date.now() + delay;
+    this._pingTimeoutTimer = this.setTimeoutFn(() => {
+      this._onClose("ping timeout");
+    }, delay);
+    if (this.opts.autoUnref) {
+      this._pingTimeoutTimer.unref();
+    }
+  }
+  /**
+   * Called on `drain` event
+   *
+   * @private
+   */
+  _onDrain() {
+    this.writeBuffer.splice(0, this._prevBufferLen);
+    // setting prevBufferLen = 0 is very important
+    // for example, when upgrading, upgrade packet is sent over,
+    // and a nonzero prevBufferLen could cause problems on `drain`
+    this._prevBufferLen = 0;
+    if (0 === this.writeBuffer.length) {
+      this.emitReserved("drain");
+    } else {
+      this.flush();
+    }
+  }
+  /**
+   * Flush write buffers.
+   *
+   * @private
+   */
+  flush() {
+    if ("closed" !== this.readyState && this.transport.writable && !this.upgrading && this.writeBuffer.length) {
+      const packets = this._getWritablePackets();
+      this.transport.send(packets);
+      // keep track of current length of writeBuffer
+      // splice writeBuffer and callbackBuffer on `drain`
+      this._prevBufferLen = packets.length;
+      this.emitReserved("flush");
+    }
+  }
+  /**
+   * Ensure the encoded size of the writeBuffer is below the maxPayload value sent by the server (only for HTTP
+   * long-polling)
+   *
+   * @private
+   */
+  _getWritablePackets() {
+    const shouldCheckPayloadSize = this._maxPayload && this.transport.name === "polling" && this.writeBuffer.length > 1;
+    if (!shouldCheckPayloadSize) {
+      return this.writeBuffer;
+    }
+    let payloadSize = 1; // first packet type
+    for (let i = 0; i < this.writeBuffer.length; i++) {
+      const data = this.writeBuffer[i].data;
+      if (data) {
+        payloadSize += (0, _util.byteLength)(data);
+      }
+      if (i > 0 && payloadSize > this._maxPayload) {
+        return this.writeBuffer.slice(0, i);
+      }
+      payloadSize += 2; // separator + packet type
+    }
+    return this.writeBuffer;
+  }
+  /**
+   * Checks whether the heartbeat timer has expired but the socket has not yet been notified.
+   *
+   * Note: this method is private for now because it does not really fit the WebSocket API, but if we put it in the
+   * `write()` method then the message would not be buffered by the Socket.IO client.
+   *
+   * @return {boolean}
+   * @private
+   */
+  /* private */
+  _hasPingExpired() {
+    if (!this._pingTimeoutTime) return true;
+    const hasExpired = Date.now() > this._pingTimeoutTime;
+    if (hasExpired) {
+      this._pingTimeoutTime = 0;
+      (0, _globalsNode.nextTick)(() => {
+        this._onClose("ping timeout");
+      }, this.setTimeoutFn);
+    }
+    return hasExpired;
+  }
+  /**
+   * Sends a message.
+   *
+   * @param {String} msg - message.
+   * @param {Object} options.
+   * @param {Function} fn - callback function.
+   * @return {Socket} for chaining.
+   */
+  write(msg, options, fn) {
+    this._sendPacket("message", msg, options, fn);
+    return this;
+  }
+  /**
+   * Sends a message. Alias of {@link Socket#write}.
+   *
+   * @param {String} msg - message.
+   * @param {Object} options.
+   * @param {Function} fn - callback function.
+   * @return {Socket} for chaining.
+   */
+  send(msg, options, fn) {
+    this._sendPacket("message", msg, options, fn);
+    return this;
+  }
+  /**
+   * Sends a packet.
+   *
+   * @param {String} type: packet type.
+   * @param {String} data.
+   * @param {Object} options.
+   * @param {Function} fn - callback function.
+   * @private
+   */
+  _sendPacket(type, data, options, fn) {
+    if ("function" === typeof data) {
+      fn = data;
+      data = undefined;
+    }
+    if ("function" === typeof options) {
+      fn = options;
+      options = null;
+    }
+    if ("closing" === this.readyState || "closed" === this.readyState) {
+      return;
+    }
+    options = options || {};
+    options.compress = false !== options.compress;
+    const packet = {
+      type: type,
+      data: data,
+      options: options
+    };
+    this.emitReserved("packetCreate", packet);
+    this.writeBuffer.push(packet);
+    if (fn) this.once("flush", fn);
+    this.flush();
+  }
+  /**
+   * Closes the connection.
+   */
+  close() {
+    const close = () => {
+      this._onClose("forced close");
+      this.transport.close();
+    };
+    const cleanupAndClose = () => {
+      this.off("upgrade", cleanupAndClose);
+      this.off("upgradeError", cleanupAndClose);
+      close();
+    };
+    const waitForUpgrade = () => {
+      // wait for upgrade to finish since we can't send packets while pausing a transport
+      this.once("upgrade", cleanupAndClose);
+      this.once("upgradeError", cleanupAndClose);
+    };
+    if ("opening" === this.readyState || "open" === this.readyState) {
+      this.readyState = "closing";
+      if (this.writeBuffer.length) {
+        this.once("drain", () => {
+          if (this.upgrading) {
+            waitForUpgrade();
+          } else {
+            close();
+          }
+        });
+      } else if (this.upgrading) {
+        waitForUpgrade();
+      } else {
+        close();
+      }
+    }
+    return this;
+  }
+  /**
+   * Called upon transport error
+   *
+   * @private
+   */
+  _onError(err) {
+    SocketWithoutUpgrade.priorWebsocketSuccess = false;
+    if (this.opts.tryAllTransports && this.transports.length > 1 && this.readyState === "opening") {
+      this.transports.shift();
+      return this._open();
+    }
+    this.emitReserved("error", err);
+    this._onClose("transport error", err);
+  }
+  /**
+   * Called upon transport close.
+   *
+   * @private
+   */
+  _onClose(reason, description) {
+    if ("opening" === this.readyState || "open" === this.readyState || "closing" === this.readyState) {
+      // clear timers
+      this.clearTimeoutFn(this._pingTimeoutTimer);
+      // stop event from firing again for transport
+      this.transport.removeAllListeners("close");
+      // ensure transport won't stay open
+      this.transport.close();
+      // ignore further transport communication
+      this.transport.removeAllListeners();
+      if (withEventListeners) {
+        if (this._beforeunloadEventListener) {
+          removeEventListener("beforeunload", this._beforeunloadEventListener, false);
+        }
+        if (this._offlineEventListener) {
+          const i = OFFLINE_EVENT_LISTENERS.indexOf(this._offlineEventListener);
+          if (i !== -1) {
+            OFFLINE_EVENT_LISTENERS.splice(i, 1);
+          }
+        }
+      }
+      // set ready state
+      this.readyState = "closed";
+      // clear session id
+      this.id = null;
+      // emit close event
+      this.emitReserved("close", reason, description);
+      // clean buffers after, so users can still
+      // grab the buffers on `close` event
+      this.writeBuffer = [];
+      this._prevBufferLen = 0;
+    }
+  }
+}
+exports.SocketWithoutUpgrade = SocketWithoutUpgrade;
+SocketWithoutUpgrade.protocol = _engine.protocol;
+/**
+ * This class provides a WebSocket-like interface to connect to an Engine.IO server. The connection will be established
+ * with one of the available low-level transports, like HTTP long-polling, WebSocket or WebTransport.
+ *
+ * This class comes with an upgrade mechanism, which means that once the connection is established with the first
+ * low-level transport, it will try to upgrade to a better transport.
+ *
+ * In order to allow tree-shaking, there are no transports included, that's why the `transports` option is mandatory.
+ *
+ * @example
+ * import { SocketWithUpgrade, WebSocket } from "engine.io-client";
+ *
+ * const socket = new SocketWithUpgrade({
+ *   transports: [WebSocket]
+ * });
+ *
+ * socket.on("open", () => {
+ *   socket.send("hello");
+ * });
+ *
+ * @see SocketWithoutUpgrade
+ * @see Socket
+ */
+class SocketWithUpgrade extends SocketWithoutUpgrade {
+  constructor() {
+    super(...arguments);
+    this._upgrades = [];
+  }
+  onOpen() {
+    super.onOpen();
+    if ("open" === this.readyState && this.opts.upgrade) {
+      for (let i = 0; i < this._upgrades.length; i++) {
+        this._probe(this._upgrades[i]);
+      }
+    }
+  }
+  /**
+   * Probes a transport.
+   *
+   * @param {String} name - transport name
+   * @private
+   */
+  _probe(name) {
+    let transport = this.createTransport(name);
+    let failed = false;
+    SocketWithoutUpgrade.priorWebsocketSuccess = false;
+    const onTransportOpen = () => {
+      if (failed) return;
+      transport.send([{
+        type: "ping",
+        data: "probe"
+      }]);
+      transport.once("packet", msg => {
+        if (failed) return;
+        if ("pong" === msg.type && "probe" === msg.data) {
+          this.upgrading = true;
+          this.emitReserved("upgrading", transport);
+          if (!transport) return;
+          SocketWithoutUpgrade.priorWebsocketSuccess = "websocket" === transport.name;
+          this.transport.pause(() => {
+            if (failed) return;
+            if ("closed" === this.readyState) return;
+            cleanup();
+            this.setTransport(transport);
+            transport.send([{
+              type: "upgrade"
+            }]);
+            this.emitReserved("upgrade", transport);
+            transport = null;
+            this.upgrading = false;
+            this.flush();
+          });
+        } else {
+          const err = new Error("probe error");
+          // @ts-ignore
+          err.transport = transport.name;
+          this.emitReserved("upgradeError", err);
+        }
+      });
+    };
+    function freezeTransport() {
+      if (failed) return;
+      // Any callback called by transport should be ignored since now
+      failed = true;
+      cleanup();
+      transport.close();
+      transport = null;
+    }
+    // Handle any error that happens while probing
+    const onerror = err => {
+      const error = new Error("probe error: " + err);
+      // @ts-ignore
+      error.transport = transport.name;
+      freezeTransport();
+      this.emitReserved("upgradeError", error);
+    };
+    function onTransportClose() {
+      onerror("transport closed");
+    }
+    // When the socket is closed while we're probing
+    function onclose() {
+      onerror("socket closed");
+    }
+    // When the socket is upgraded while we're probing
+    function onupgrade(to) {
+      if (transport && to.name !== transport.name) {
+        freezeTransport();
+      }
+    }
+    // Remove all listeners on the transport and on self
+    const cleanup = () => {
+      transport.removeListener("open", onTransportOpen);
+      transport.removeListener("error", onerror);
+      transport.removeListener("close", onTransportClose);
+      this.off("close", onclose);
+      this.off("upgrading", onupgrade);
+    };
+    transport.once("open", onTransportOpen);
+    transport.once("error", onerror);
+    transport.once("close", onTransportClose);
+    this.once("close", onclose);
+    this.once("upgrading", onupgrade);
+    if (this._upgrades.indexOf("webtransport") !== -1 && name !== "webtransport") {
+      // favor WebTransport
+      this.setTimeoutFn(() => {
+        if (!failed) {
+          transport.open();
+        }
+      }, 200);
+    } else {
+      transport.open();
+    }
+  }
+  onHandshake(data) {
+    this._upgrades = this._filterUpgrades(data.upgrades);
+    super.onHandshake(data);
+  }
+  /**
+   * Filters upgrades, returning only those matching client transports.
+   *
+   * @param {Array} upgrades - server upgrades
+   * @private
+   */
+  _filterUpgrades(upgrades) {
+    const filteredUpgrades = [];
+    for (let i = 0; i < upgrades.length; i++) {
+      if (~this.transports.indexOf(upgrades[i])) filteredUpgrades.push(upgrades[i]);
+    }
+    return filteredUpgrades;
+  }
+}
+/**
+ * This class provides a WebSocket-like interface to connect to an Engine.IO server. The connection will be established
+ * with one of the available low-level transports, like HTTP long-polling, WebSocket or WebTransport.
+ *
+ * This class comes with an upgrade mechanism, which means that once the connection is established with the first
+ * low-level transport, it will try to upgrade to a better transport.
+ *
+ * @example
+ * import { Socket } from "engine.io-client";
+ *
+ * const socket = new Socket();
+ *
+ * socket.on("open", () => {
+ *   socket.send("hello");
+ * });
+ *
+ * @see SocketWithoutUpgrade
+ * @see SocketWithUpgrade
+ */
+exports.SocketWithUpgrade = SocketWithUpgrade;
+class Socket extends SocketWithUpgrade {
+  constructor(uri, opts = {}) {
+    const o = typeof uri === "object" ? uri : opts;
+    if (!o.transports || o.transports && typeof o.transports[0] === "string") {
+      o.transports = (o.transports || ["polling", "websocket", "webtransport"]).map(transportName => _index.transports[transportName]).filter(t => !!t);
+    }
+    super(uri, o);
+  }
+}
+exports.Socket = Socket;
+},{"./transports/index.js":"node_modules/engine.io-client/build/esm/transports/index.js","./util.js":"node_modules/engine.io-client/build/esm/util.js","./contrib/parseqs.js":"node_modules/engine.io-client/build/esm/contrib/parseqs.js","./contrib/parseuri.js":"node_modules/engine.io-client/build/esm/contrib/parseuri.js","@socket.io/component-emitter":"node_modules/@socket.io/component-emitter/lib/esm/index.js","engine.io-parser":"node_modules/engine.io-parser/build/esm/index.js","./globals.node.js":"node_modules/engine.io-client/build/esm/globals.js"}],"node_modules/engine.io-client/build/esm/transports/polling-fetch.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Fetch = void 0;
+var _polling = require("./polling.js");
+/**
+ * HTTP long-polling based on the built-in `fetch()` method.
+ *
+ * Usage: browser, Node.js (since v18), Deno, Bun
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/fetch
+ * @see https://caniuse.com/fetch
+ * @see https://nodejs.org/api/globals.html#fetch
+ */
+class Fetch extends _polling.Polling {
+  doPoll() {
+    this._fetch().then(res => {
+      if (!res.ok) {
+        return this.onError("fetch read error", res.status, res);
+      }
+      res.text().then(data => this.onData(data));
+    }).catch(err => {
+      this.onError("fetch read error", err);
+    });
+  }
+  doWrite(data, callback) {
+    this._fetch(data).then(res => {
+      if (!res.ok) {
+        return this.onError("fetch write error", res.status, res);
+      }
+      callback();
+    }).catch(err => {
+      this.onError("fetch write error", err);
+    });
+  }
+  _fetch(data) {
+    var _a;
+    const isPost = data !== undefined;
+    const headers = new Headers(this.opts.extraHeaders);
+    if (isPost) {
+      headers.set("content-type", "text/plain;charset=UTF-8");
+    }
+    (_a = this.socket._cookieJar) === null || _a === void 0 ? void 0 : _a.appendCookies(headers);
+    return fetch(this.uri(), {
+      method: isPost ? "POST" : "GET",
+      body: isPost ? data : null,
+      headers,
+      credentials: this.opts.withCredentials ? "include" : "omit"
+    }).then(res => {
+      var _a;
+      // @ts-ignore getSetCookie() was added in Node.js v19.7.0
+      (_a = this.socket._cookieJar) === null || _a === void 0 ? void 0 : _a.parseCookies(res.headers.getSetCookie());
+      return res;
+    });
+  }
+}
+exports.Fetch = Fetch;
+},{"./polling.js":"node_modules/engine.io-client/build/esm/transports/polling.js"}],"node_modules/engine.io-client/build/esm/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "Fetch", {
+  enumerable: true,
+  get: function () {
+    return _pollingFetch.Fetch;
+  }
+});
+Object.defineProperty(exports, "NodeWebSocket", {
+  enumerable: true,
+  get: function () {
+    return _websocketNode.WS;
+  }
+});
+Object.defineProperty(exports, "NodeXHR", {
+  enumerable: true,
+  get: function () {
+    return _pollingXhrNode.XHR;
+  }
+});
+Object.defineProperty(exports, "Socket", {
+  enumerable: true,
+  get: function () {
+    return _socket.Socket;
+  }
+});
+Object.defineProperty(exports, "SocketWithUpgrade", {
+  enumerable: true,
+  get: function () {
+    return _socket.SocketWithUpgrade;
+  }
+});
+Object.defineProperty(exports, "SocketWithoutUpgrade", {
+  enumerable: true,
+  get: function () {
+    return _socket.SocketWithoutUpgrade;
+  }
+});
+Object.defineProperty(exports, "Transport", {
+  enumerable: true,
+  get: function () {
+    return _transport.Transport;
+  }
+});
+Object.defineProperty(exports, "TransportError", {
+  enumerable: true,
+  get: function () {
+    return _transport.TransportError;
+  }
+});
+Object.defineProperty(exports, "WebSocket", {
+  enumerable: true,
+  get: function () {
+    return _websocket.WS;
+  }
+});
+Object.defineProperty(exports, "WebTransport", {
+  enumerable: true,
+  get: function () {
+    return _webtransport.WT;
+  }
+});
+Object.defineProperty(exports, "XHR", {
+  enumerable: true,
+  get: function () {
+    return _pollingXhr.XHR;
+  }
+});
+Object.defineProperty(exports, "installTimerFunctions", {
+  enumerable: true,
+  get: function () {
+    return _util.installTimerFunctions;
+  }
+});
+Object.defineProperty(exports, "nextTick", {
+  enumerable: true,
+  get: function () {
+    return _globalsNode.nextTick;
+  }
+});
+Object.defineProperty(exports, "parse", {
+  enumerable: true,
+  get: function () {
+    return _parseuri.parse;
+  }
+});
+exports.protocol = void 0;
+Object.defineProperty(exports, "transports", {
+  enumerable: true,
+  get: function () {
+    return _index.transports;
+  }
+});
+var _socket = require("./socket.js");
+var _transport = require("./transport.js");
+var _index = require("./transports/index.js");
+var _util = require("./util.js");
+var _parseuri = require("./contrib/parseuri.js");
+var _globalsNode = require("./globals.node.js");
+var _pollingFetch = require("./transports/polling-fetch.js");
+var _pollingXhrNode = require("./transports/polling-xhr.node.js");
+var _pollingXhr = require("./transports/polling-xhr.js");
+var _websocketNode = require("./transports/websocket.node.js");
+var _websocket = require("./transports/websocket.js");
+var _webtransport = require("./transports/webtransport.js");
+const protocol = exports.protocol = _socket.Socket.protocol;
+},{"./socket.js":"node_modules/engine.io-client/build/esm/socket.js","./transport.js":"node_modules/engine.io-client/build/esm/transport.js","./transports/index.js":"node_modules/engine.io-client/build/esm/transports/index.js","./util.js":"node_modules/engine.io-client/build/esm/util.js","./contrib/parseuri.js":"node_modules/engine.io-client/build/esm/contrib/parseuri.js","./globals.node.js":"node_modules/engine.io-client/build/esm/globals.js","./transports/polling-fetch.js":"node_modules/engine.io-client/build/esm/transports/polling-fetch.js","./transports/polling-xhr.node.js":"node_modules/engine.io-client/build/esm/transports/polling-xhr.js","./transports/polling-xhr.js":"node_modules/engine.io-client/build/esm/transports/polling-xhr.js","./transports/websocket.node.js":"node_modules/engine.io-client/build/esm/transports/websocket.js","./transports/websocket.js":"node_modules/engine.io-client/build/esm/transports/websocket.js","./transports/webtransport.js":"node_modules/engine.io-client/build/esm/transports/webtransport.js"}],"node_modules/socket.io-client/build/esm/url.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.url = url;
+var _engine = require("engine.io-client");
+/**
+ * URL parser.
+ *
+ * @param uri - url
+ * @param path - the request path of the connection
+ * @param loc - An object meant to mimic window.location.
+ *        Defaults to window.location.
+ * @public
+ */
+function url(uri, path = "", loc) {
+  let obj = uri;
+  // default to window.location
+  loc = loc || typeof location !== "undefined" && location;
+  if (null == uri) uri = loc.protocol + "//" + loc.host;
+  // relative path support
+  if (typeof uri === "string") {
+    if ("/" === uri.charAt(0)) {
+      if ("/" === uri.charAt(1)) {
+        uri = loc.protocol + uri;
+      } else {
+        uri = loc.host + uri;
+      }
+    }
+    if (!/^(https?|wss?):\/\//.test(uri)) {
+      if ("undefined" !== typeof loc) {
+        uri = loc.protocol + "//" + uri;
+      } else {
+        uri = "https://" + uri;
+      }
+    }
+    // parse
+    obj = (0, _engine.parse)(uri);
+  }
+  // make sure we treat `localhost:80` and `localhost` equally
+  if (!obj.port) {
+    if (/^(http|ws)$/.test(obj.protocol)) {
+      obj.port = "80";
+    } else if (/^(http|ws)s$/.test(obj.protocol)) {
+      obj.port = "443";
+    }
+  }
+  obj.path = obj.path || "/";
+  const ipv6 = obj.host.indexOf(":") !== -1;
+  const host = ipv6 ? "[" + obj.host + "]" : obj.host;
+  // define unique id
+  obj.id = obj.protocol + "://" + host + ":" + obj.port + path;
+  // define href
+  obj.href = obj.protocol + "://" + host + (loc && loc.port === obj.port ? "" : ":" + obj.port);
+  return obj;
+}
+},{"engine.io-client":"node_modules/engine.io-client/build/esm/index.js"}],"node_modules/socket.io-parser/build/esm/is-binary.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.hasBinary = hasBinary;
+exports.isBinary = isBinary;
+const withNativeArrayBuffer = typeof ArrayBuffer === "function";
+const isView = obj => {
+  return typeof ArrayBuffer.isView === "function" ? ArrayBuffer.isView(obj) : obj.buffer instanceof ArrayBuffer;
+};
+const toString = Object.prototype.toString;
+const withNativeBlob = typeof Blob === "function" || typeof Blob !== "undefined" && toString.call(Blob) === "[object BlobConstructor]";
+const withNativeFile = typeof File === "function" || typeof File !== "undefined" && toString.call(File) === "[object FileConstructor]";
+/**
+ * Returns true if obj is a Buffer, an ArrayBuffer, a Blob or a File.
+ *
+ * @private
+ */
+function isBinary(obj) {
+  return withNativeArrayBuffer && (obj instanceof ArrayBuffer || isView(obj)) || withNativeBlob && obj instanceof Blob || withNativeFile && obj instanceof File;
+}
+function hasBinary(obj, toJSON) {
+  if (!obj || typeof obj !== "object") {
+    return false;
+  }
+  if (Array.isArray(obj)) {
+    for (let i = 0, l = obj.length; i < l; i++) {
+      if (hasBinary(obj[i])) {
+        return true;
+      }
+    }
+    return false;
+  }
+  if (isBinary(obj)) {
+    return true;
+  }
+  if (obj.toJSON && typeof obj.toJSON === "function" && arguments.length === 1) {
+    return hasBinary(obj.toJSON(), true);
+  }
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key) && hasBinary(obj[key])) {
+      return true;
+    }
+  }
+  return false;
+}
+},{}],"node_modules/socket.io-parser/build/esm/binary.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.deconstructPacket = deconstructPacket;
+exports.reconstructPacket = reconstructPacket;
+var _isBinary = require("./is-binary.js");
+/**
+ * Replaces every Buffer | ArrayBuffer | Blob | File in packet with a numbered placeholder.
+ *
+ * @param {Object} packet - socket.io event packet
+ * @return {Object} with deconstructed packet and list of buffers
+ * @public
+ */
+function deconstructPacket(packet) {
+  const buffers = [];
+  const packetData = packet.data;
+  const pack = packet;
+  pack.data = _deconstructPacket(packetData, buffers);
+  pack.attachments = buffers.length; // number of binary 'attachments'
+  return {
+    packet: pack,
+    buffers: buffers
+  };
+}
+function _deconstructPacket(data, buffers) {
+  if (!data) return data;
+  if ((0, _isBinary.isBinary)(data)) {
+    const placeholder = {
+      _placeholder: true,
+      num: buffers.length
+    };
+    buffers.push(data);
+    return placeholder;
+  } else if (Array.isArray(data)) {
+    const newData = new Array(data.length);
+    for (let i = 0; i < data.length; i++) {
+      newData[i] = _deconstructPacket(data[i], buffers);
+    }
+    return newData;
+  } else if (typeof data === "object" && !(data instanceof Date)) {
+    const newData = {};
+    for (const key in data) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+        newData[key] = _deconstructPacket(data[key], buffers);
+      }
+    }
+    return newData;
+  }
+  return data;
+}
+/**
+ * Reconstructs a binary packet from its placeholder packet and buffers
+ *
+ * @param {Object} packet - event packet with placeholders
+ * @param {Array} buffers - binary buffers to put in placeholder positions
+ * @return {Object} reconstructed packet
+ * @public
+ */
+function reconstructPacket(packet, buffers) {
+  packet.data = _reconstructPacket(packet.data, buffers);
+  delete packet.attachments; // no longer useful
+  return packet;
+}
+function _reconstructPacket(data, buffers) {
+  if (!data) return data;
+  if (data && data._placeholder === true) {
+    const isIndexValid = typeof data.num === "number" && data.num >= 0 && data.num < buffers.length;
+    if (isIndexValid) {
+      return buffers[data.num]; // appropriate buffer (should be natural order anyway)
+    } else {
+      throw new Error("illegal attachments");
+    }
+  } else if (Array.isArray(data)) {
+    for (let i = 0; i < data.length; i++) {
+      data[i] = _reconstructPacket(data[i], buffers);
+    }
+  } else if (typeof data === "object") {
+    for (const key in data) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+        data[key] = _reconstructPacket(data[key], buffers);
+      }
+    }
+  }
+  return data;
+}
+},{"./is-binary.js":"node_modules/socket.io-parser/build/esm/is-binary.js"}],"node_modules/socket.io-parser/build/esm/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.PacketType = exports.Encoder = exports.Decoder = void 0;
+exports.isPacketValid = isPacketValid;
+exports.protocol = void 0;
+var _componentEmitter = require("@socket.io/component-emitter");
+var _binary = require("./binary.js");
+var _isBinary = require("./is-binary.js");
+/**
+ * These strings must not be used as event names, as they have a special meaning.
+ */
+const RESERVED_EVENTS = ["connect",
+// used on the client side
+"connect_error",
+// used on the client side
+"disconnect",
+// used on both sides
+"disconnecting",
+// used on the server side
+"newListener",
+// used by the Node.js EventEmitter
+"removeListener" // used by the Node.js EventEmitter
+];
+/**
+ * Protocol version.
+ *
+ * @public
+ */
+const protocol = exports.protocol = 5;
+var PacketType;
+(function (PacketType) {
+  PacketType[PacketType["CONNECT"] = 0] = "CONNECT";
+  PacketType[PacketType["DISCONNECT"] = 1] = "DISCONNECT";
+  PacketType[PacketType["EVENT"] = 2] = "EVENT";
+  PacketType[PacketType["ACK"] = 3] = "ACK";
+  PacketType[PacketType["CONNECT_ERROR"] = 4] = "CONNECT_ERROR";
+  PacketType[PacketType["BINARY_EVENT"] = 5] = "BINARY_EVENT";
+  PacketType[PacketType["BINARY_ACK"] = 6] = "BINARY_ACK";
+})(PacketType || (exports.PacketType = PacketType = {}));
+/**
+ * A socket.io Encoder instance
+ */
+class Encoder {
+  /**
+   * Encoder constructor
+   *
+   * @param {function} replacer - custom replacer to pass down to JSON.parse
+   */
+  constructor(replacer) {
+    this.replacer = replacer;
+  }
+  /**
+   * Encode a packet as a single string if non-binary, or as a
+   * buffer sequence, depending on packet type.
+   *
+   * @param {Object} obj - packet object
+   */
+  encode(obj) {
+    if (obj.type === PacketType.EVENT || obj.type === PacketType.ACK) {
+      if ((0, _isBinary.hasBinary)(obj)) {
+        return this.encodeAsBinary({
+          type: obj.type === PacketType.EVENT ? PacketType.BINARY_EVENT : PacketType.BINARY_ACK,
+          nsp: obj.nsp,
+          data: obj.data,
+          id: obj.id
+        });
+      }
+    }
+    return [this.encodeAsString(obj)];
+  }
+  /**
+   * Encode packet as string.
+   */
+  encodeAsString(obj) {
+    // first is type
+    let str = "" + obj.type;
+    // attachments if we have them
+    if (obj.type === PacketType.BINARY_EVENT || obj.type === PacketType.BINARY_ACK) {
+      str += obj.attachments + "-";
+    }
+    // if we have a namespace other than `/`
+    // we append it followed by a comma `,`
+    if (obj.nsp && "/" !== obj.nsp) {
+      str += obj.nsp + ",";
+    }
+    // immediately followed by the id
+    if (null != obj.id) {
+      str += obj.id;
+    }
+    // json data
+    if (null != obj.data) {
+      str += JSON.stringify(obj.data, this.replacer);
+    }
+    return str;
+  }
+  /**
+   * Encode packet as 'buffer sequence' by removing blobs, and
+   * deconstructing packet into object with placeholders and
+   * a list of buffers.
+   */
+  encodeAsBinary(obj) {
+    const deconstruction = (0, _binary.deconstructPacket)(obj);
+    const pack = this.encodeAsString(deconstruction.packet);
+    const buffers = deconstruction.buffers;
+    buffers.unshift(pack); // add packet info to beginning of data list
+    return buffers; // write all the buffers
+  }
+}
+/**
+ * A socket.io Decoder instance
+ *
+ * @return {Object} decoder
+ */
+exports.Encoder = Encoder;
+class Decoder extends _componentEmitter.Emitter {
+  /**
+   * Decoder constructor
+   *
+   * @param {function} reviver - custom reviver to pass down to JSON.stringify
+   */
+  constructor(reviver) {
+    super();
+    this.reviver = reviver;
+  }
+  /**
+   * Decodes an encoded packet string into packet JSON.
+   *
+   * @param {String} obj - encoded packet
+   */
+  add(obj) {
+    let packet;
+    if (typeof obj === "string") {
+      if (this.reconstructor) {
+        throw new Error("got plaintext data when reconstructing a packet");
+      }
+      packet = this.decodeString(obj);
+      const isBinaryEvent = packet.type === PacketType.BINARY_EVENT;
+      if (isBinaryEvent || packet.type === PacketType.BINARY_ACK) {
+        packet.type = isBinaryEvent ? PacketType.EVENT : PacketType.ACK;
+        // binary packet's json
+        this.reconstructor = new BinaryReconstructor(packet);
+        // no attachments, labeled binary but no binary data to follow
+        if (packet.attachments === 0) {
+          super.emitReserved("decoded", packet);
+        }
+      } else {
+        // non-binary full packet
+        super.emitReserved("decoded", packet);
+      }
+    } else if ((0, _isBinary.isBinary)(obj) || obj.base64) {
+      // raw binary data
+      if (!this.reconstructor) {
+        throw new Error("got binary data when not reconstructing a packet");
+      } else {
+        packet = this.reconstructor.takeBinaryData(obj);
+        if (packet) {
+          // received final buffer
+          this.reconstructor = null;
+          super.emitReserved("decoded", packet);
+        }
+      }
+    } else {
+      throw new Error("Unknown type: " + obj);
+    }
+  }
+  /**
+   * Decode a packet String (JSON data)
+   *
+   * @param {String} str
+   * @return {Object} packet
+   */
+  decodeString(str) {
+    let i = 0;
+    // look up type
+    const p = {
+      type: Number(str.charAt(0))
+    };
+    if (PacketType[p.type] === undefined) {
+      throw new Error("unknown packet type " + p.type);
+    }
+    // look up attachments if type binary
+    if (p.type === PacketType.BINARY_EVENT || p.type === PacketType.BINARY_ACK) {
+      const start = i + 1;
+      while (str.charAt(++i) !== "-" && i != str.length) {}
+      const buf = str.substring(start, i);
+      if (buf != Number(buf) || str.charAt(i) !== "-") {
+        throw new Error("Illegal attachments");
+      }
+      p.attachments = Number(buf);
+    }
+    // look up namespace (if any)
+    if ("/" === str.charAt(i + 1)) {
+      const start = i + 1;
+      while (++i) {
+        const c = str.charAt(i);
+        if ("," === c) break;
+        if (i === str.length) break;
+      }
+      p.nsp = str.substring(start, i);
+    } else {
+      p.nsp = "/";
+    }
+    // look up id
+    const next = str.charAt(i + 1);
+    if ("" !== next && Number(next) == next) {
+      const start = i + 1;
+      while (++i) {
+        const c = str.charAt(i);
+        if (null == c || Number(c) != c) {
+          --i;
+          break;
+        }
+        if (i === str.length) break;
+      }
+      p.id = Number(str.substring(start, i + 1));
+    }
+    // look up json data
+    if (str.charAt(++i)) {
+      const payload = this.tryParse(str.substr(i));
+      if (Decoder.isPayloadValid(p.type, payload)) {
+        p.data = payload;
+      } else {
+        throw new Error("invalid payload");
+      }
+    }
+    return p;
+  }
+  tryParse(str) {
+    try {
+      return JSON.parse(str, this.reviver);
+    } catch (e) {
+      return false;
+    }
+  }
+  static isPayloadValid(type, payload) {
+    switch (type) {
+      case PacketType.CONNECT:
+        return isObject(payload);
+      case PacketType.DISCONNECT:
+        return payload === undefined;
+      case PacketType.CONNECT_ERROR:
+        return typeof payload === "string" || isObject(payload);
+      case PacketType.EVENT:
+      case PacketType.BINARY_EVENT:
+        return Array.isArray(payload) && (typeof payload[0] === "number" || typeof payload[0] === "string" && RESERVED_EVENTS.indexOf(payload[0]) === -1);
+      case PacketType.ACK:
+      case PacketType.BINARY_ACK:
+        return Array.isArray(payload);
+    }
+  }
+  /**
+   * Deallocates a parser's resources
+   */
+  destroy() {
+    if (this.reconstructor) {
+      this.reconstructor.finishedReconstruction();
+      this.reconstructor = null;
+    }
+  }
+}
+/**
+ * A manager of a binary event's 'buffer sequence'. Should
+ * be constructed whenever a packet of type BINARY_EVENT is
+ * decoded.
+ *
+ * @param {Object} packet
+ * @return {BinaryReconstructor} initialized reconstructor
+ */
+exports.Decoder = Decoder;
+class BinaryReconstructor {
+  constructor(packet) {
+    this.packet = packet;
+    this.buffers = [];
+    this.reconPack = packet;
+  }
+  /**
+   * Method to be called when binary data received from connection
+   * after a BINARY_EVENT packet.
+   *
+   * @param {Buffer | ArrayBuffer} binData - the raw binary data received
+   * @return {null | Object} returns null if more binary data is expected or
+   *   a reconstructed packet object if all buffers have been received.
+   */
+  takeBinaryData(binData) {
+    this.buffers.push(binData);
+    if (this.buffers.length === this.reconPack.attachments) {
+      // done with buffer list
+      const packet = (0, _binary.reconstructPacket)(this.reconPack, this.buffers);
+      this.finishedReconstruction();
+      return packet;
+    }
+    return null;
+  }
+  /**
+   * Cleans up binary packet reconstruction variables.
+   */
+  finishedReconstruction() {
+    this.reconPack = null;
+    this.buffers = [];
+  }
+}
+function isNamespaceValid(nsp) {
+  return typeof nsp === "string";
+}
+// see https://caniuse.com/mdn-javascript_builtins_number_isinteger
+const isInteger = Number.isInteger || function (value) {
+  return typeof value === "number" && isFinite(value) && Math.floor(value) === value;
+};
+function isAckIdValid(id) {
+  return id === undefined || isInteger(id);
+}
+// see https://stackoverflow.com/questions/8511281/check-if-a-value-is-an-object-in-javascript
+function isObject(value) {
+  return Object.prototype.toString.call(value) === "[object Object]";
+}
+function isDataValid(type, payload) {
+  switch (type) {
+    case PacketType.CONNECT:
+      return payload === undefined || isObject(payload);
+    case PacketType.DISCONNECT:
+      return payload === undefined;
+    case PacketType.EVENT:
+      return Array.isArray(payload) && (typeof payload[0] === "number" || typeof payload[0] === "string" && RESERVED_EVENTS.indexOf(payload[0]) === -1);
+    case PacketType.ACK:
+      return Array.isArray(payload);
+    case PacketType.CONNECT_ERROR:
+      return typeof payload === "string" || isObject(payload);
+    default:
+      return false;
+  }
+}
+function isPacketValid(packet) {
+  return isNamespaceValid(packet.nsp) && isAckIdValid(packet.id) && isDataValid(packet.type, packet.data);
+}
+},{"@socket.io/component-emitter":"node_modules/@socket.io/component-emitter/lib/esm/index.js","./binary.js":"node_modules/socket.io-parser/build/esm/binary.js","./is-binary.js":"node_modules/socket.io-parser/build/esm/is-binary.js"}],"node_modules/socket.io-client/build/esm/on.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.on = on;
+function on(obj, ev, fn) {
+  obj.on(ev, fn);
+  return function subDestroy() {
+    obj.off(ev, fn);
+  };
+}
+},{}],"node_modules/socket.io-client/build/esm/socket.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Socket = void 0;
+var _socket = require("socket.io-parser");
+var _on = require("./on.js");
+var _componentEmitter = require("@socket.io/component-emitter");
+/**
+ * Internal events.
+ * These events can't be emitted by the user.
+ */
+const RESERVED_EVENTS = Object.freeze({
+  connect: 1,
+  connect_error: 1,
+  disconnect: 1,
+  disconnecting: 1,
+  // EventEmitter reserved events: https://nodejs.org/api/events.html#events_event_newlistener
+  newListener: 1,
+  removeListener: 1
+});
+/**
+ * A Socket is the fundamental class for interacting with the server.
+ *
+ * A Socket belongs to a certain Namespace (by default /) and uses an underlying {@link Manager} to communicate.
+ *
+ * @example
+ * const socket = io();
+ *
+ * socket.on("connect", () => {
+ *   console.log("connected");
+ * });
+ *
+ * // send an event to the server
+ * socket.emit("foo", "bar");
+ *
+ * socket.on("foobar", () => {
+ *   // an event was received from the server
+ * });
+ *
+ * // upon disconnection
+ * socket.on("disconnect", (reason) => {
+ *   console.log(`disconnected due to ${reason}`);
+ * });
+ */
+class Socket extends _componentEmitter.Emitter {
+  /**
+   * `Socket` constructor.
+   */
+  constructor(io, nsp, opts) {
+    super();
+    /**
+     * Whether the socket is currently connected to the server.
+     *
+     * @example
+     * const socket = io();
+     *
+     * socket.on("connect", () => {
+     *   console.log(socket.connected); // true
+     * });
+     *
+     * socket.on("disconnect", () => {
+     *   console.log(socket.connected); // false
+     * });
+     */
+    this.connected = false;
+    /**
+     * Whether the connection state was recovered after a temporary disconnection. In that case, any missed packets will
+     * be transmitted by the server.
+     */
+    this.recovered = false;
+    /**
+     * Buffer for packets received before the CONNECT packet
+     */
+    this.receiveBuffer = [];
+    /**
+     * Buffer for packets that will be sent once the socket is connected
+     */
+    this.sendBuffer = [];
+    /**
+     * The queue of packets to be sent with retry in case of failure.
+     *
+     * Packets are sent one by one, each waiting for the server acknowledgement, in order to guarantee the delivery order.
+     * @private
+     */
+    this._queue = [];
+    /**
+     * A sequence to generate the ID of the {@link QueuedPacket}.
+     * @private
+     */
+    this._queueSeq = 0;
+    this.ids = 0;
+    /**
+     * A map containing acknowledgement handlers.
+     *
+     * The `withError` attribute is used to differentiate handlers that accept an error as first argument:
+     *
+     * - `socket.emit("test", (err, value) => { ... })` with `ackTimeout` option
+     * - `socket.timeout(5000).emit("test", (err, value) => { ... })`
+     * - `const value = await socket.emitWithAck("test")`
+     *
+     * From those that don't:
+     *
+     * - `socket.emit("test", (value) => { ... });`
+     *
+     * In the first case, the handlers will be called with an error when:
+     *
+     * - the timeout is reached
+     * - the socket gets disconnected
+     *
+     * In the second case, the handlers will be simply discarded upon disconnection, since the client will never receive
+     * an acknowledgement from the server.
+     *
+     * @private
+     */
+    this.acks = {};
+    this.flags = {};
+    this.io = io;
+    this.nsp = nsp;
+    if (opts && opts.auth) {
+      this.auth = opts.auth;
+    }
+    this._opts = Object.assign({}, opts);
+    if (this.io._autoConnect) this.open();
+  }
+  /**
+   * Whether the socket is currently disconnected
+   *
+   * @example
+   * const socket = io();
+   *
+   * socket.on("connect", () => {
+   *   console.log(socket.disconnected); // false
+   * });
+   *
+   * socket.on("disconnect", () => {
+   *   console.log(socket.disconnected); // true
+   * });
+   */
+  get disconnected() {
+    return !this.connected;
+  }
+  /**
+   * Subscribe to open, close and packet events
+   *
+   * @private
+   */
+  subEvents() {
+    if (this.subs) return;
+    const io = this.io;
+    this.subs = [(0, _on.on)(io, "open", this.onopen.bind(this)), (0, _on.on)(io, "packet", this.onpacket.bind(this)), (0, _on.on)(io, "error", this.onerror.bind(this)), (0, _on.on)(io, "close", this.onclose.bind(this))];
+  }
+  /**
+   * Whether the Socket will try to reconnect when its Manager connects or reconnects.
+   *
+   * @example
+   * const socket = io();
+   *
+   * console.log(socket.active); // true
+   *
+   * socket.on("disconnect", (reason) => {
+   *   if (reason === "io server disconnect") {
+   *     // the disconnection was initiated by the server, you need to manually reconnect
+   *     console.log(socket.active); // false
+   *   }
+   *   // else the socket will automatically try to reconnect
+   *   console.log(socket.active); // true
+   * });
+   */
+  get active() {
+    return !!this.subs;
+  }
+  /**
+   * "Opens" the socket.
+   *
+   * @example
+   * const socket = io({
+   *   autoConnect: false
+   * });
+   *
+   * socket.connect();
+   */
+  connect() {
+    if (this.connected) return this;
+    this.subEvents();
+    if (!this.io["_reconnecting"]) this.io.open(); // ensure open
+    if ("open" === this.io._readyState) this.onopen();
+    return this;
+  }
+  /**
+   * Alias for {@link connect()}.
+   */
+  open() {
+    return this.connect();
+  }
+  /**
+   * Sends a `message` event.
+   *
+   * This method mimics the WebSocket.send() method.
+   *
+   * @see https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/send
+   *
+   * @example
+   * socket.send("hello");
+   *
+   * // this is equivalent to
+   * socket.emit("message", "hello");
+   *
+   * @return self
+   */
+  send(...args) {
+    args.unshift("message");
+    this.emit.apply(this, args);
+    return this;
+  }
+  /**
+   * Override `emit`.
+   * If the event is in `events`, it's emitted normally.
+   *
+   * @example
+   * socket.emit("hello", "world");
+   *
+   * // all serializable datastructures are supported (no need to call JSON.stringify)
+   * socket.emit("hello", 1, "2", { 3: ["4"], 5: Uint8Array.from([6]) });
+   *
+   * // with an acknowledgement from the server
+   * socket.emit("hello", "world", (val) => {
+   *   // ...
+   * });
+   *
+   * @return self
+   */
+  emit(ev, ...args) {
+    var _a, _b, _c;
+    if (RESERVED_EVENTS.hasOwnProperty(ev)) {
+      throw new Error('"' + ev.toString() + '" is a reserved event name');
+    }
+    args.unshift(ev);
+    if (this._opts.retries && !this.flags.fromQueue && !this.flags.volatile) {
+      this._addToQueue(args);
+      return this;
+    }
+    const packet = {
+      type: _socket.PacketType.EVENT,
+      data: args
+    };
+    packet.options = {};
+    packet.options.compress = this.flags.compress !== false;
+    // event ack callback
+    if ("function" === typeof args[args.length - 1]) {
+      const id = this.ids++;
+      const ack = args.pop();
+      this._registerAckCallback(id, ack);
+      packet.id = id;
+    }
+    const isTransportWritable = (_b = (_a = this.io.engine) === null || _a === void 0 ? void 0 : _a.transport) === null || _b === void 0 ? void 0 : _b.writable;
+    const isConnected = this.connected && !((_c = this.io.engine) === null || _c === void 0 ? void 0 : _c._hasPingExpired());
+    const discardPacket = this.flags.volatile && !isTransportWritable;
+    if (discardPacket) {} else if (isConnected) {
+      this.notifyOutgoingListeners(packet);
+      this.packet(packet);
+    } else {
+      this.sendBuffer.push(packet);
+    }
+    this.flags = {};
+    return this;
+  }
+  /**
+   * @private
+   */
+  _registerAckCallback(id, ack) {
+    var _a;
+    const timeout = (_a = this.flags.timeout) !== null && _a !== void 0 ? _a : this._opts.ackTimeout;
+    if (timeout === undefined) {
+      this.acks[id] = ack;
+      return;
+    }
+    // @ts-ignore
+    const timer = this.io.setTimeoutFn(() => {
+      delete this.acks[id];
+      for (let i = 0; i < this.sendBuffer.length; i++) {
+        if (this.sendBuffer[i].id === id) {
+          this.sendBuffer.splice(i, 1);
+        }
+      }
+      ack.call(this, new Error("operation has timed out"));
+    }, timeout);
+    const fn = (...args) => {
+      // @ts-ignore
+      this.io.clearTimeoutFn(timer);
+      ack.apply(this, args);
+    };
+    fn.withError = true;
+    this.acks[id] = fn;
+  }
+  /**
+   * Emits an event and waits for an acknowledgement
+   *
+   * @example
+   * // without timeout
+   * const response = await socket.emitWithAck("hello", "world");
+   *
+   * // with a specific timeout
+   * try {
+   *   const response = await socket.timeout(1000).emitWithAck("hello", "world");
+   * } catch (err) {
+   *   // the server did not acknowledge the event in the given delay
+   * }
+   *
+   * @return a Promise that will be fulfilled when the server acknowledges the event
+   */
+  emitWithAck(ev, ...args) {
+    return new Promise((resolve, reject) => {
+      const fn = (arg1, arg2) => {
+        return arg1 ? reject(arg1) : resolve(arg2);
+      };
+      fn.withError = true;
+      args.push(fn);
+      this.emit(ev, ...args);
+    });
+  }
+  /**
+   * Add the packet to the queue.
+   * @param args
+   * @private
+   */
+  _addToQueue(args) {
+    let ack;
+    if (typeof args[args.length - 1] === "function") {
+      ack = args.pop();
+    }
+    const packet = {
+      id: this._queueSeq++,
+      tryCount: 0,
+      pending: false,
+      args,
+      flags: Object.assign({
+        fromQueue: true
+      }, this.flags)
+    };
+    args.push((err, ...responseArgs) => {
+      if (packet !== this._queue[0]) {}
+      const hasError = err !== null;
+      if (hasError) {
+        if (packet.tryCount > this._opts.retries) {
+          this._queue.shift();
+          if (ack) {
+            ack(err);
+          }
+        }
+      } else {
+        this._queue.shift();
+        if (ack) {
+          ack(null, ...responseArgs);
+        }
+      }
+      packet.pending = false;
+      return this._drainQueue();
+    });
+    this._queue.push(packet);
+    this._drainQueue();
+  }
+  /**
+   * Send the first packet of the queue, and wait for an acknowledgement from the server.
+   * @param force - whether to resend a packet that has not been acknowledged yet
+   *
+   * @private
+   */
+  _drainQueue(force = false) {
+    if (!this.connected || this._queue.length === 0) {
+      return;
+    }
+    const packet = this._queue[0];
+    if (packet.pending && !force) {
+      return;
+    }
+    packet.pending = true;
+    packet.tryCount++;
+    this.flags = packet.flags;
+    this.emit.apply(this, packet.args);
+  }
+  /**
+   * Sends a packet.
+   *
+   * @param packet
+   * @private
+   */
+  packet(packet) {
+    packet.nsp = this.nsp;
+    this.io._packet(packet);
+  }
+  /**
+   * Called upon engine `open`.
+   *
+   * @private
+   */
+  onopen() {
+    if (typeof this.auth == "function") {
+      this.auth(data => {
+        this._sendConnectPacket(data);
+      });
+    } else {
+      this._sendConnectPacket(this.auth);
+    }
+  }
+  /**
+   * Sends a CONNECT packet to initiate the Socket.IO session.
+   *
+   * @param data
+   * @private
+   */
+  _sendConnectPacket(data) {
+    this.packet({
+      type: _socket.PacketType.CONNECT,
+      data: this._pid ? Object.assign({
+        pid: this._pid,
+        offset: this._lastOffset
+      }, data) : data
+    });
+  }
+  /**
+   * Called upon engine or manager `error`.
+   *
+   * @param err
+   * @private
+   */
+  onerror(err) {
+    if (!this.connected) {
+      this.emitReserved("connect_error", err);
+    }
+  }
+  /**
+   * Called upon engine `close`.
+   *
+   * @param reason
+   * @param description
+   * @private
+   */
+  onclose(reason, description) {
+    this.connected = false;
+    delete this.id;
+    this.emitReserved("disconnect", reason, description);
+    this._clearAcks();
+  }
+  /**
+   * Clears the acknowledgement handlers upon disconnection, since the client will never receive an acknowledgement from
+   * the server.
+   *
+   * @private
+   */
+  _clearAcks() {
+    Object.keys(this.acks).forEach(id => {
+      const isBuffered = this.sendBuffer.some(packet => String(packet.id) === id);
+      if (!isBuffered) {
+        // note: handlers that do not accept an error as first argument are ignored here
+        const ack = this.acks[id];
+        delete this.acks[id];
+        if (ack.withError) {
+          ack.call(this, new Error("socket has been disconnected"));
+        }
+      }
+    });
+  }
+  /**
+   * Called with socket packet.
+   *
+   * @param packet
+   * @private
+   */
+  onpacket(packet) {
+    const sameNamespace = packet.nsp === this.nsp;
+    if (!sameNamespace) return;
+    switch (packet.type) {
+      case _socket.PacketType.CONNECT:
+        if (packet.data && packet.data.sid) {
+          this.onconnect(packet.data.sid, packet.data.pid);
+        } else {
+          this.emitReserved("connect_error", new Error("It seems you are trying to reach a Socket.IO server in v2.x with a v3.x client, but they are not compatible (more information here: https://socket.io/docs/v3/migrating-from-2-x-to-3-0/)"));
+        }
+        break;
+      case _socket.PacketType.EVENT:
+      case _socket.PacketType.BINARY_EVENT:
+        this.onevent(packet);
+        break;
+      case _socket.PacketType.ACK:
+      case _socket.PacketType.BINARY_ACK:
+        this.onack(packet);
+        break;
+      case _socket.PacketType.DISCONNECT:
+        this.ondisconnect();
+        break;
+      case _socket.PacketType.CONNECT_ERROR:
+        this.destroy();
+        const err = new Error(packet.data.message);
+        // @ts-ignore
+        err.data = packet.data.data;
+        this.emitReserved("connect_error", err);
+        break;
+    }
+  }
+  /**
+   * Called upon a server event.
+   *
+   * @param packet
+   * @private
+   */
+  onevent(packet) {
+    const args = packet.data || [];
+    if (null != packet.id) {
+      args.push(this.ack(packet.id));
+    }
+    if (this.connected) {
+      this.emitEvent(args);
+    } else {
+      this.receiveBuffer.push(Object.freeze(args));
+    }
+  }
+  emitEvent(args) {
+    if (this._anyListeners && this._anyListeners.length) {
+      const listeners = this._anyListeners.slice();
+      for (const listener of listeners) {
+        listener.apply(this, args);
+      }
+    }
+    super.emit.apply(this, args);
+    if (this._pid && args.length && typeof args[args.length - 1] === "string") {
+      this._lastOffset = args[args.length - 1];
+    }
+  }
+  /**
+   * Produces an ack callback to emit with an event.
+   *
+   * @private
+   */
+  ack(id) {
+    const self = this;
+    let sent = false;
+    return function (...args) {
+      // prevent double callbacks
+      if (sent) return;
+      sent = true;
+      self.packet({
+        type: _socket.PacketType.ACK,
+        id: id,
+        data: args
+      });
+    };
+  }
+  /**
+   * Called upon a server acknowledgement.
+   *
+   * @param packet
+   * @private
+   */
+  onack(packet) {
+    const ack = this.acks[packet.id];
+    if (typeof ack !== "function") {
+      return;
+    }
+    delete this.acks[packet.id];
+    // @ts-ignore FIXME ack is incorrectly inferred as 'never'
+    if (ack.withError) {
+      packet.data.unshift(null);
+    }
+    // @ts-ignore
+    ack.apply(this, packet.data);
+  }
+  /**
+   * Called upon server connect.
+   *
+   * @private
+   */
+  onconnect(id, pid) {
+    this.id = id;
+    this.recovered = pid && this._pid === pid;
+    this._pid = pid; // defined only if connection state recovery is enabled
+    this.connected = true;
+    this.emitBuffered();
+    this._drainQueue(true);
+    this.emitReserved("connect");
+  }
+  /**
+   * Emit buffered events (received and emitted).
+   *
+   * @private
+   */
+  emitBuffered() {
+    this.receiveBuffer.forEach(args => this.emitEvent(args));
+    this.receiveBuffer = [];
+    this.sendBuffer.forEach(packet => {
+      this.notifyOutgoingListeners(packet);
+      this.packet(packet);
+    });
+    this.sendBuffer = [];
+  }
+  /**
+   * Called upon server disconnect.
+   *
+   * @private
+   */
+  ondisconnect() {
+    this.destroy();
+    this.onclose("io server disconnect");
+  }
+  /**
+   * Called upon forced client/server side disconnections,
+   * this method ensures the manager stops tracking us and
+   * that reconnections don't get triggered for this.
+   *
+   * @private
+   */
+  destroy() {
+    if (this.subs) {
+      // clean subscriptions to avoid reconnections
+      this.subs.forEach(subDestroy => subDestroy());
+      this.subs = undefined;
+    }
+    this.io["_destroy"](this);
+  }
+  /**
+   * Disconnects the socket manually. In that case, the socket will not try to reconnect.
+   *
+   * If this is the last active Socket instance of the {@link Manager}, the low-level connection will be closed.
+   *
+   * @example
+   * const socket = io();
+   *
+   * socket.on("disconnect", (reason) => {
+   *   // console.log(reason); prints "io client disconnect"
+   * });
+   *
+   * socket.disconnect();
+   *
+   * @return self
+   */
+  disconnect() {
+    if (this.connected) {
+      this.packet({
+        type: _socket.PacketType.DISCONNECT
+      });
+    }
+    // remove socket from pool
+    this.destroy();
+    if (this.connected) {
+      // fire events
+      this.onclose("io client disconnect");
+    }
+    return this;
+  }
+  /**
+   * Alias for {@link disconnect()}.
+   *
+   * @return self
+   */
+  close() {
+    return this.disconnect();
+  }
+  /**
+   * Sets the compress flag.
+   *
+   * @example
+   * socket.compress(false).emit("hello");
+   *
+   * @param compress - if `true`, compresses the sending data
+   * @return self
+   */
+  compress(compress) {
+    this.flags.compress = compress;
+    return this;
+  }
+  /**
+   * Sets a modifier for a subsequent event emission that the event message will be dropped when this socket is not
+   * ready to send messages.
+   *
+   * @example
+   * socket.volatile.emit("hello"); // the server may or may not receive it
+   *
+   * @returns self
+   */
+  get volatile() {
+    this.flags.volatile = true;
+    return this;
+  }
+  /**
+   * Sets a modifier for a subsequent event emission that the callback will be called with an error when the
+   * given number of milliseconds have elapsed without an acknowledgement from the server:
+   *
+   * @example
+   * socket.timeout(5000).emit("my-event", (err) => {
+   *   if (err) {
+   *     // the server did not acknowledge the event in the given delay
+   *   }
+   * });
+   *
+   * @returns self
+   */
+  timeout(timeout) {
+    this.flags.timeout = timeout;
+    return this;
+  }
+  /**
+   * Adds a listener that will be fired when any event is emitted. The event name is passed as the first argument to the
+   * callback.
+   *
+   * @example
+   * socket.onAny((event, ...args) => {
+   *   console.log(`got ${event}`);
+   * });
+   *
+   * @param listener
+   */
+  onAny(listener) {
+    this._anyListeners = this._anyListeners || [];
+    this._anyListeners.push(listener);
+    return this;
+  }
+  /**
+   * Adds a listener that will be fired when any event is emitted. The event name is passed as the first argument to the
+   * callback. The listener is added to the beginning of the listeners array.
+   *
+   * @example
+   * socket.prependAny((event, ...args) => {
+   *   console.log(`got event ${event}`);
+   * });
+   *
+   * @param listener
+   */
+  prependAny(listener) {
+    this._anyListeners = this._anyListeners || [];
+    this._anyListeners.unshift(listener);
+    return this;
+  }
+  /**
+   * Removes the listener that will be fired when any event is emitted.
+   *
+   * @example
+   * const catchAllListener = (event, ...args) => {
+   *   console.log(`got event ${event}`);
+   * }
+   *
+   * socket.onAny(catchAllListener);
+   *
+   * // remove a specific listener
+   * socket.offAny(catchAllListener);
+   *
+   * // or remove all listeners
+   * socket.offAny();
+   *
+   * @param listener
+   */
+  offAny(listener) {
+    if (!this._anyListeners) {
+      return this;
+    }
+    if (listener) {
+      const listeners = this._anyListeners;
+      for (let i = 0; i < listeners.length; i++) {
+        if (listener === listeners[i]) {
+          listeners.splice(i, 1);
+          return this;
+        }
+      }
+    } else {
+      this._anyListeners = [];
+    }
+    return this;
+  }
+  /**
+   * Returns an array of listeners that are listening for any event that is specified. This array can be manipulated,
+   * e.g. to remove listeners.
+   */
+  listenersAny() {
+    return this._anyListeners || [];
+  }
+  /**
+   * Adds a listener that will be fired when any event is emitted. The event name is passed as the first argument to the
+   * callback.
+   *
+   * Note: acknowledgements sent to the server are not included.
+   *
+   * @example
+   * socket.onAnyOutgoing((event, ...args) => {
+   *   console.log(`sent event ${event}`);
+   * });
+   *
+   * @param listener
+   */
+  onAnyOutgoing(listener) {
+    this._anyOutgoingListeners = this._anyOutgoingListeners || [];
+    this._anyOutgoingListeners.push(listener);
+    return this;
+  }
+  /**
+   * Adds a listener that will be fired when any event is emitted. The event name is passed as the first argument to the
+   * callback. The listener is added to the beginning of the listeners array.
+   *
+   * Note: acknowledgements sent to the server are not included.
+   *
+   * @example
+   * socket.prependAnyOutgoing((event, ...args) => {
+   *   console.log(`sent event ${event}`);
+   * });
+   *
+   * @param listener
+   */
+  prependAnyOutgoing(listener) {
+    this._anyOutgoingListeners = this._anyOutgoingListeners || [];
+    this._anyOutgoingListeners.unshift(listener);
+    return this;
+  }
+  /**
+   * Removes the listener that will be fired when any event is emitted.
+   *
+   * @example
+   * const catchAllListener = (event, ...args) => {
+   *   console.log(`sent event ${event}`);
+   * }
+   *
+   * socket.onAnyOutgoing(catchAllListener);
+   *
+   * // remove a specific listener
+   * socket.offAnyOutgoing(catchAllListener);
+   *
+   * // or remove all listeners
+   * socket.offAnyOutgoing();
+   *
+   * @param [listener] - the catch-all listener (optional)
+   */
+  offAnyOutgoing(listener) {
+    if (!this._anyOutgoingListeners) {
+      return this;
+    }
+    if (listener) {
+      const listeners = this._anyOutgoingListeners;
+      for (let i = 0; i < listeners.length; i++) {
+        if (listener === listeners[i]) {
+          listeners.splice(i, 1);
+          return this;
+        }
+      }
+    } else {
+      this._anyOutgoingListeners = [];
+    }
+    return this;
+  }
+  /**
+   * Returns an array of listeners that are listening for any event that is specified. This array can be manipulated,
+   * e.g. to remove listeners.
+   */
+  listenersAnyOutgoing() {
+    return this._anyOutgoingListeners || [];
+  }
+  /**
+   * Notify the listeners for each packet sent
+   *
+   * @param packet
+   *
+   * @private
+   */
+  notifyOutgoingListeners(packet) {
+    if (this._anyOutgoingListeners && this._anyOutgoingListeners.length) {
+      const listeners = this._anyOutgoingListeners.slice();
+      for (const listener of listeners) {
+        listener.apply(this, packet.data);
+      }
+    }
+  }
+}
+exports.Socket = Socket;
+},{"socket.io-parser":"node_modules/socket.io-parser/build/esm/index.js","./on.js":"node_modules/socket.io-client/build/esm/on.js","@socket.io/component-emitter":"node_modules/@socket.io/component-emitter/lib/esm/index.js"}],"node_modules/socket.io-client/build/esm/contrib/backo2.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Backoff = Backoff;
+/**
+ * Initialize backoff timer with `opts`.
+ *
+ * - `min` initial timeout in milliseconds [100]
+ * - `max` max timeout [10000]
+ * - `jitter` [0]
+ * - `factor` [2]
+ *
+ * @param {Object} opts
+ * @api public
+ */
+function Backoff(opts) {
+  opts = opts || {};
+  this.ms = opts.min || 100;
+  this.max = opts.max || 10000;
+  this.factor = opts.factor || 2;
+  this.jitter = opts.jitter > 0 && opts.jitter <= 1 ? opts.jitter : 0;
+  this.attempts = 0;
+}
+/**
+ * Return the backoff duration.
+ *
+ * @return {Number}
+ * @api public
+ */
+Backoff.prototype.duration = function () {
+  var ms = this.ms * Math.pow(this.factor, this.attempts++);
+  if (this.jitter) {
+    var rand = Math.random();
+    var deviation = Math.floor(rand * this.jitter * ms);
+    ms = (Math.floor(rand * 10) & 1) == 0 ? ms - deviation : ms + deviation;
+  }
+  return Math.min(ms, this.max) | 0;
+};
+/**
+ * Reset the number of attempts.
+ *
+ * @api public
+ */
+Backoff.prototype.reset = function () {
+  this.attempts = 0;
+};
+/**
+ * Set the minimum duration
+ *
+ * @api public
+ */
+Backoff.prototype.setMin = function (min) {
+  this.ms = min;
+};
+/**
+ * Set the maximum duration
+ *
+ * @api public
+ */
+Backoff.prototype.setMax = function (max) {
+  this.max = max;
+};
+/**
+ * Set the jitter
+ *
+ * @api public
+ */
+Backoff.prototype.setJitter = function (jitter) {
+  this.jitter = jitter;
+};
+},{}],"node_modules/socket.io-client/build/esm/manager.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Manager = void 0;
+var _engine = require("engine.io-client");
+var _socket = require("./socket.js");
+var parser = _interopRequireWildcard(require("socket.io-parser"));
+var _on = require("./on.js");
+var _backo = require("./contrib/backo2.js");
+var _componentEmitter = require("@socket.io/component-emitter");
+function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
+class Manager extends _componentEmitter.Emitter {
+  constructor(uri, opts) {
+    var _a;
+    super();
+    this.nsps = {};
+    this.subs = [];
+    if (uri && "object" === typeof uri) {
+      opts = uri;
+      uri = undefined;
+    }
+    opts = opts || {};
+    opts.path = opts.path || "/socket.io";
+    this.opts = opts;
+    (0, _engine.installTimerFunctions)(this, opts);
+    this.reconnection(opts.reconnection !== false);
+    this.reconnectionAttempts(opts.reconnectionAttempts || Infinity);
+    this.reconnectionDelay(opts.reconnectionDelay || 1000);
+    this.reconnectionDelayMax(opts.reconnectionDelayMax || 5000);
+    this.randomizationFactor((_a = opts.randomizationFactor) !== null && _a !== void 0 ? _a : 0.5);
+    this.backoff = new _backo.Backoff({
+      min: this.reconnectionDelay(),
+      max: this.reconnectionDelayMax(),
+      jitter: this.randomizationFactor()
+    });
+    this.timeout(null == opts.timeout ? 20000 : opts.timeout);
+    this._readyState = "closed";
+    this.uri = uri;
+    const _parser = opts.parser || parser;
+    this.encoder = new _parser.Encoder();
+    this.decoder = new _parser.Decoder();
+    this._autoConnect = opts.autoConnect !== false;
+    if (this._autoConnect) this.open();
+  }
+  reconnection(v) {
+    if (!arguments.length) return this._reconnection;
+    this._reconnection = !!v;
+    if (!v) {
+      this.skipReconnect = true;
+    }
+    return this;
+  }
+  reconnectionAttempts(v) {
+    if (v === undefined) return this._reconnectionAttempts;
+    this._reconnectionAttempts = v;
+    return this;
+  }
+  reconnectionDelay(v) {
+    var _a;
+    if (v === undefined) return this._reconnectionDelay;
+    this._reconnectionDelay = v;
+    (_a = this.backoff) === null || _a === void 0 ? void 0 : _a.setMin(v);
+    return this;
+  }
+  randomizationFactor(v) {
+    var _a;
+    if (v === undefined) return this._randomizationFactor;
+    this._randomizationFactor = v;
+    (_a = this.backoff) === null || _a === void 0 ? void 0 : _a.setJitter(v);
+    return this;
+  }
+  reconnectionDelayMax(v) {
+    var _a;
+    if (v === undefined) return this._reconnectionDelayMax;
+    this._reconnectionDelayMax = v;
+    (_a = this.backoff) === null || _a === void 0 ? void 0 : _a.setMax(v);
+    return this;
+  }
+  timeout(v) {
+    if (!arguments.length) return this._timeout;
+    this._timeout = v;
+    return this;
+  }
+  /**
+   * Starts trying to reconnect if reconnection is enabled and we have not
+   * started reconnecting yet
+   *
+   * @private
+   */
+  maybeReconnectOnOpen() {
+    // Only try to reconnect if it's the first time we're connecting
+    if (!this._reconnecting && this._reconnection && this.backoff.attempts === 0) {
+      // keeps reconnection from firing twice for the same reconnection loop
+      this.reconnect();
+    }
+  }
+  /**
+   * Sets the current transport `socket`.
+   *
+   * @param {Function} fn - optional, callback
+   * @return self
+   * @public
+   */
+  open(fn) {
+    if (~this._readyState.indexOf("open")) return this;
+    this.engine = new _engine.Socket(this.uri, this.opts);
+    const socket = this.engine;
+    const self = this;
+    this._readyState = "opening";
+    this.skipReconnect = false;
+    // emit `open`
+    const openSubDestroy = (0, _on.on)(socket, "open", function () {
+      self.onopen();
+      fn && fn();
+    });
+    const onError = err => {
+      this.cleanup();
+      this._readyState = "closed";
+      this.emitReserved("error", err);
+      if (fn) {
+        fn(err);
+      } else {
+        // Only do this if there is no fn to handle the error
+        this.maybeReconnectOnOpen();
+      }
+    };
+    // emit `error`
+    const errorSub = (0, _on.on)(socket, "error", onError);
+    if (false !== this._timeout) {
+      const timeout = this._timeout;
+      // set timer
+      const timer = this.setTimeoutFn(() => {
+        openSubDestroy();
+        onError(new Error("timeout"));
+        socket.close();
+      }, timeout);
+      if (this.opts.autoUnref) {
+        timer.unref();
+      }
+      this.subs.push(() => {
+        this.clearTimeoutFn(timer);
+      });
+    }
+    this.subs.push(openSubDestroy);
+    this.subs.push(errorSub);
+    return this;
+  }
+  /**
+   * Alias for open()
+   *
+   * @return self
+   * @public
+   */
+  connect(fn) {
+    return this.open(fn);
+  }
+  /**
+   * Called upon transport open.
+   *
+   * @private
+   */
+  onopen() {
+    // clear old subs
+    this.cleanup();
+    // mark as open
+    this._readyState = "open";
+    this.emitReserved("open");
+    // add new subs
+    const socket = this.engine;
+    this.subs.push((0, _on.on)(socket, "ping", this.onping.bind(this)), (0, _on.on)(socket, "data", this.ondata.bind(this)), (0, _on.on)(socket, "error", this.onerror.bind(this)), (0, _on.on)(socket, "close", this.onclose.bind(this)),
+    // @ts-ignore
+    (0, _on.on)(this.decoder, "decoded", this.ondecoded.bind(this)));
+  }
+  /**
+   * Called upon a ping.
+   *
+   * @private
+   */
+  onping() {
+    this.emitReserved("ping");
+  }
+  /**
+   * Called with data.
+   *
+   * @private
+   */
+  ondata(data) {
+    try {
+      this.decoder.add(data);
+    } catch (e) {
+      this.onclose("parse error", e);
+    }
+  }
+  /**
+   * Called when parser fully decodes a packet.
+   *
+   * @private
+   */
+  ondecoded(packet) {
+    // the nextTick call prevents an exception in a user-provided event listener from triggering a disconnection due to a "parse error"
+    (0, _engine.nextTick)(() => {
+      this.emitReserved("packet", packet);
+    }, this.setTimeoutFn);
+  }
+  /**
+   * Called upon socket error.
+   *
+   * @private
+   */
+  onerror(err) {
+    this.emitReserved("error", err);
+  }
+  /**
+   * Creates a new socket for the given `nsp`.
+   *
+   * @return {Socket}
+   * @public
+   */
+  socket(nsp, opts) {
+    let socket = this.nsps[nsp];
+    if (!socket) {
+      socket = new _socket.Socket(this, nsp, opts);
+      this.nsps[nsp] = socket;
+    } else if (this._autoConnect && !socket.active) {
+      socket.connect();
+    }
+    return socket;
+  }
+  /**
+   * Called upon a socket close.
+   *
+   * @param socket
+   * @private
+   */
+  _destroy(socket) {
+    const nsps = Object.keys(this.nsps);
+    for (const nsp of nsps) {
+      const socket = this.nsps[nsp];
+      if (socket.active) {
+        return;
+      }
+    }
+    this._close();
+  }
+  /**
+   * Writes a packet.
+   *
+   * @param packet
+   * @private
+   */
+  _packet(packet) {
+    const encodedPackets = this.encoder.encode(packet);
+    for (let i = 0; i < encodedPackets.length; i++) {
+      this.engine.write(encodedPackets[i], packet.options);
+    }
+  }
+  /**
+   * Clean up transport subscriptions and packet buffer.
+   *
+   * @private
+   */
+  cleanup() {
+    this.subs.forEach(subDestroy => subDestroy());
+    this.subs.length = 0;
+    this.decoder.destroy();
+  }
+  /**
+   * Close the current socket.
+   *
+   * @private
+   */
+  _close() {
+    this.skipReconnect = true;
+    this._reconnecting = false;
+    this.onclose("forced close");
+  }
+  /**
+   * Alias for close()
+   *
+   * @private
+   */
+  disconnect() {
+    return this._close();
+  }
+  /**
+   * Called when:
+   *
+   * - the low-level engine is closed
+   * - the parser encountered a badly formatted packet
+   * - all sockets are disconnected
+   *
+   * @private
+   */
+  onclose(reason, description) {
+    var _a;
+    this.cleanup();
+    (_a = this.engine) === null || _a === void 0 ? void 0 : _a.close();
+    this.backoff.reset();
+    this._readyState = "closed";
+    this.emitReserved("close", reason, description);
+    if (this._reconnection && !this.skipReconnect) {
+      this.reconnect();
+    }
+  }
+  /**
+   * Attempt a reconnection.
+   *
+   * @private
+   */
+  reconnect() {
+    if (this._reconnecting || this.skipReconnect) return this;
+    const self = this;
+    if (this.backoff.attempts >= this._reconnectionAttempts) {
+      this.backoff.reset();
+      this.emitReserved("reconnect_failed");
+      this._reconnecting = false;
+    } else {
+      const delay = this.backoff.duration();
+      this._reconnecting = true;
+      const timer = this.setTimeoutFn(() => {
+        if (self.skipReconnect) return;
+        this.emitReserved("reconnect_attempt", self.backoff.attempts);
+        // check again for the case socket closed in above events
+        if (self.skipReconnect) return;
+        self.open(err => {
+          if (err) {
+            self._reconnecting = false;
+            self.reconnect();
+            this.emitReserved("reconnect_error", err);
+          } else {
+            self.onreconnect();
+          }
+        });
+      }, delay);
+      if (this.opts.autoUnref) {
+        timer.unref();
+      }
+      this.subs.push(() => {
+        this.clearTimeoutFn(timer);
+      });
+    }
+  }
+  /**
+   * Called upon successful reconnect.
+   *
+   * @private
+   */
+  onreconnect() {
+    const attempt = this.backoff.attempts;
+    this._reconnecting = false;
+    this.backoff.reset();
+    this.emitReserved("reconnect", attempt);
+  }
+}
+exports.Manager = Manager;
+},{"engine.io-client":"node_modules/engine.io-client/build/esm/index.js","./socket.js":"node_modules/socket.io-client/build/esm/socket.js","socket.io-parser":"node_modules/socket.io-parser/build/esm/index.js","./on.js":"node_modules/socket.io-client/build/esm/on.js","./contrib/backo2.js":"node_modules/socket.io-client/build/esm/contrib/backo2.js","@socket.io/component-emitter":"node_modules/@socket.io/component-emitter/lib/esm/index.js"}],"node_modules/socket.io-client/build/esm/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "Fetch", {
+  enumerable: true,
+  get: function () {
+    return _engine.Fetch;
+  }
+});
+Object.defineProperty(exports, "Manager", {
+  enumerable: true,
+  get: function () {
+    return _manager.Manager;
+  }
+});
+Object.defineProperty(exports, "NodeWebSocket", {
+  enumerable: true,
+  get: function () {
+    return _engine.NodeWebSocket;
+  }
+});
+Object.defineProperty(exports, "NodeXHR", {
+  enumerable: true,
+  get: function () {
+    return _engine.NodeXHR;
+  }
+});
+Object.defineProperty(exports, "Socket", {
+  enumerable: true,
+  get: function () {
+    return _socket.Socket;
+  }
+});
+Object.defineProperty(exports, "WebSocket", {
+  enumerable: true,
+  get: function () {
+    return _engine.WebSocket;
+  }
+});
+Object.defineProperty(exports, "WebTransport", {
+  enumerable: true,
+  get: function () {
+    return _engine.WebTransport;
+  }
+});
+Object.defineProperty(exports, "XHR", {
+  enumerable: true,
+  get: function () {
+    return _engine.XHR;
+  }
+});
+exports.default = exports.connect = exports.io = lookup;
+Object.defineProperty(exports, "protocol", {
+  enumerable: true,
+  get: function () {
+    return _socket2.protocol;
+  }
+});
+var _url = require("./url.js");
+var _manager = require("./manager.js");
+var _socket = require("./socket.js");
+var _socket2 = require("socket.io-parser");
+var _engine = require("engine.io-client");
+/**
+ * Managers cache.
+ */
+const cache = {};
+function lookup(uri, opts) {
+  if (typeof uri === "object") {
+    opts = uri;
+    uri = undefined;
+  }
+  opts = opts || {};
+  const parsed = (0, _url.url)(uri, opts.path || "/socket.io");
+  const source = parsed.source;
+  const id = parsed.id;
+  const path = parsed.path;
+  const sameNamespace = cache[id] && path in cache[id]["nsps"];
+  const newConnection = opts.forceNew || opts["force new connection"] || false === opts.multiplex || sameNamespace;
+  let io;
+  if (newConnection) {
+    io = new _manager.Manager(source, opts);
+  } else {
+    if (!cache[id]) {
+      cache[id] = new _manager.Manager(source, opts);
+    }
+    io = cache[id];
+  }
+  if (parsed.query && !opts.query) {
+    opts.query = parsed.queryKey;
+  }
+  return io.socket(parsed.path, opts);
+}
+// so that "lookup" can be used both as a function (e.g. `io(...)`) and as a
+// namespace (e.g. `io.connect(...)`), for backward compatibility
+Object.assign(lookup, {
+  Manager: _manager.Manager,
+  Socket: _socket.Socket,
+  io: lookup,
+  connect: lookup
+});
+/**
+ * Protocol version.
+ *
+ * @public
+ */
+
+/**
+ * Expose constructors for standalone build.
+ *
+ * @public
+ */
+},{"./url.js":"node_modules/socket.io-client/build/esm/url.js","./manager.js":"node_modules/socket.io-client/build/esm/manager.js","./socket.js":"node_modules/socket.io-client/build/esm/socket.js","socket.io-parser":"node_modules/socket.io-parser/build/esm/index.js","engine.io-client":"node_modules/engine.io-client/build/esm/index.js"}],"node_modules/boardgame.io/dist/esm/socketio-a82b84e4.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.L = Local;
+exports.S = SocketIO;
+var _transportCe07b = require("./transport-ce07b771.js");
+var _util991e76bb = require("./util-991e76bb.js");
+var _master17425f = require("./master-17425f07.js");
+var _filterPlayerView43ed49b = require("./filter-player-view-43ed49b0.js");
+var _socket = _interopRequireDefault(require("socket.io-client"));
+var _excluded = ["playerID"],
+  _excluded2 = ["master"],
+  _excluded3 = ["socket", "socketOpts", "server"];
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i.return) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _superPropGet(t, o, e, r) { var p = _get(_getPrototypeOf(1 & r ? t.prototype : t), o, e); return 2 & r && "function" == typeof p ? function (t) { return p.apply(e, t); } : p; }
+function _get() { return _get = "undefined" != typeof Reflect && Reflect.get ? Reflect.get.bind() : function (e, t, r) { var p = _superPropBase(e, t); if (p) { var n = Object.getOwnPropertyDescriptor(p, t); return n.get ? n.get.call(arguments.length < 3 ? e : r) : n.value; } }, _get.apply(null, arguments); }
+function _superPropBase(t, o) { for (; !{}.hasOwnProperty.call(t, o) && null !== (t = _getPrototypeOf(t));); return t; }
+function _wrapNativeSuper(t) { var r = "function" == typeof Map ? new Map() : void 0; return _wrapNativeSuper = function _wrapNativeSuper(t) { if (null === t || !_isNativeFunction(t)) return t; if ("function" != typeof t) throw new TypeError("Super expression must either be null or a function"); if (void 0 !== r) { if (r.has(t)) return r.get(t); r.set(t, Wrapper); } function Wrapper() { return _construct(t, arguments, _getPrototypeOf(this).constructor); } return Wrapper.prototype = Object.create(t.prototype, { constructor: { value: Wrapper, enumerable: !1, writable: !0, configurable: !0 } }), _setPrototypeOf(Wrapper, t); }, _wrapNativeSuper(t); }
+function _construct(t, e, r) { if (_isNativeReflectConstruct()) return Reflect.construct.apply(null, arguments); var o = [null]; o.push.apply(o, e); var p = new (t.bind.apply(t, o))(); return r && _setPrototypeOf(p, r.prototype), p; }
+function _isNativeFunction(t) { try { return -1 !== Function.toString.call(t).indexOf("[native code]"); } catch (n) { return "function" == typeof t; } }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _callSuper(t, o, e) { return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e)); }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+/*
+ * Copyright 2017 The boardgame.io Authors
+ *
+ * Use of this source code is governed by a MIT-style
+ * license that can be found in the LICENSE file or at
+ * https://opensource.org/licenses/MIT.
+ */
+/**
+ * InMemory data storage.
+ */
+var InMemory = /*#__PURE__*/function (_Sync) {
+  /**
+   * Creates a new InMemory storage.
+   */
+  function InMemory() {
+    var _this;
+    _classCallCheck(this, InMemory);
+    _this = _callSuper(this, InMemory);
+    _this.state = new Map();
+    _this.initial = new Map();
+    _this.metadata = new Map();
+    _this.log = new Map();
+    return _this;
+  }
+  /**
+   * Create a new match.
+   *
+   * @override
+   */
+  _inherits(InMemory, _Sync);
+  return _createClass(InMemory, [{
+    key: "createMatch",
+    value: function createMatch(matchID, opts) {
+      this.initial.set(matchID, opts.initialState);
+      this.setState(matchID, opts.initialState);
+      this.setMetadata(matchID, opts.metadata);
+    }
+    /**
+     * Write the match metadata to the in-memory object.
+     */
+  }, {
+    key: "setMetadata",
+    value: function setMetadata(matchID, metadata) {
+      this.metadata.set(matchID, metadata);
+    }
+    /**
+     * Write the match state to the in-memory object.
+     */
+  }, {
+    key: "setState",
+    value: function setState(matchID, state, deltalog) {
+      if (deltalog && deltalog.length > 0) {
+        var log = this.log.get(matchID) || [];
+        this.log.set(matchID, [].concat(_toConsumableArray(log), _toConsumableArray(deltalog)));
+      }
+      this.state.set(matchID, state);
+    }
+    /**
+     * Fetches state for a particular matchID.
+     */
+  }, {
+    key: "fetch",
+    value: function fetch(matchID, opts) {
+      var result = {};
+      if (opts.state) {
+        result.state = this.state.get(matchID);
+      }
+      if (opts.metadata) {
+        result.metadata = this.metadata.get(matchID);
+      }
+      if (opts.log) {
+        result.log = this.log.get(matchID) || [];
+      }
+      if (opts.initialState) {
+        result.initialState = this.initial.get(matchID);
+      }
+      return result;
+    }
+    /**
+     * Remove the match state from the in-memory object.
+     */
+  }, {
+    key: "wipe",
+    value: function wipe(matchID) {
+      this.state.delete(matchID);
+      this.metadata.delete(matchID);
+    }
+    /**
+     * Return all keys.
+     *
+     * @override
+     */
+  }, {
+    key: "listMatches",
+    value: function listMatches(opts) {
+      return _toConsumableArray(this.metadata.entries()).filter(function (_ref) {
+        var _ref2 = _slicedToArray(_ref, 2),
+          metadata = _ref2[1];
+        if (!opts) {
+          return true;
+        }
+        if (opts.gameName !== undefined && metadata.gameName !== opts.gameName) {
+          return false;
+        }
+        if (opts.where !== undefined) {
+          if (opts.where.isGameover !== undefined) {
+            var isGameover = metadata.gameover !== undefined;
+            if (isGameover !== opts.where.isGameover) {
+              return false;
+            }
+          }
+          if (opts.where.updatedBefore !== undefined && metadata.updatedAt >= opts.where.updatedBefore) {
+            return false;
+          }
+          if (opts.where.updatedAfter !== undefined && metadata.updatedAt <= opts.where.updatedAfter) {
+            return false;
+          }
+        }
+        return true;
+      }).map(function (_ref3) {
+        var _ref4 = _slicedToArray(_ref3, 1),
+          key = _ref4[0];
+        return key;
+      });
+    }
+  }]);
+}(_util991e76bb.S);
+var WithLocalStorageMap = /*#__PURE__*/function (_Map) {
+  function WithLocalStorageMap(key) {
+    var _this2;
+    _classCallCheck(this, WithLocalStorageMap);
+    _this2 = _callSuper(this, WithLocalStorageMap);
+    _this2.key = key;
+    var cache = JSON.parse(localStorage.getItem(_this2.key)) || [];
+    cache.forEach(function (entry) {
+      var _this3;
+      return (_this3 = _this2).set.apply(_this3, _toConsumableArray(entry));
+    });
+    return _this2;
+  }
+  _inherits(WithLocalStorageMap, _Map);
+  return _createClass(WithLocalStorageMap, [{
+    key: "sync",
+    value: function sync() {
+      var entries = _toConsumableArray(this.entries());
+      localStorage.setItem(this.key, JSON.stringify(entries));
+    }
+  }, {
+    key: "set",
+    value: function set(key, value) {
+      _superPropGet(WithLocalStorageMap, "set", this, 3)([key, value]);
+      this.sync();
+      return this;
+    }
+  }, {
+    key: "delete",
+    value: function _delete(key) {
+      var result = _superPropGet(WithLocalStorageMap, "delete", this, 3)([key]);
+      this.sync();
+      return result;
+    }
+  }]);
+}(/*#__PURE__*/_wrapNativeSuper(Map));
+/**
+ * locaStorage data storage.
+ */
+var LocalStorage = /*#__PURE__*/function (_InMemory) {
+  function LocalStorage() {
+    var _this4;
+    var storagePrefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'bgio';
+    _classCallCheck(this, LocalStorage);
+    _this4 = _callSuper(this, LocalStorage);
+    var StorageMap = function StorageMap(stateKey) {
+      return new WithLocalStorageMap("".concat(storagePrefix, "_").concat(stateKey));
+    };
+    _this4.state = StorageMap('state');
+    _this4.initial = StorageMap('initial');
+    _this4.metadata = StorageMap('metadata');
+    _this4.log = StorageMap('log');
+    return _this4;
+  }
+  _inherits(LocalStorage, _InMemory);
+  return _createClass(LocalStorage);
+}(InMemory);
+/*
+ * Copyright 2018 The boardgame.io Authors
+ *
+ * Use of this source code is governed by a MIT-style
+ * license that can be found in the LICENSE file or at
+ * https://opensource.org/licenses/MIT.
+ */
+/**
+ * Returns null if it is not a bot's turn.
+ * Otherwise, returns a playerID of a bot that may play now.
+ */
+function GetBotPlayer(state, bots) {
+  if (state.ctx.gameover !== undefined) {
+    return null;
+  }
+  if (state.ctx.activePlayers) {
+    for (var _i = 0, _Object$keys = Object.keys(bots); _i < _Object$keys.length; _i++) {
+      var key = _Object$keys[_i];
+      if (key in state.ctx.activePlayers) {
+        return key;
+      }
+    }
+  } else if (state.ctx.currentPlayer in bots) {
+    return state.ctx.currentPlayer;
+  }
+  return null;
+}
+/**
+ * Creates a local version of the master that the client
+ * can interact with.
+ */
+var LocalMaster = /*#__PURE__*/function (_Master) {
+  function LocalMaster(_ref5) {
+    var _this5;
+    var game = _ref5.game,
+      bots = _ref5.bots,
+      storageKey = _ref5.storageKey,
+      persist = _ref5.persist;
+    _classCallCheck(this, LocalMaster);
+    var clientCallbacks = {};
+    var initializedBots = {};
+    if (game && game.ai && bots) {
+      for (var playerID in bots) {
+        var bot = bots[playerID];
+        initializedBots[playerID] = new bot({
+          game: game,
+          enumerate: game.ai.enumerate,
+          seed: game.seed
+        });
+      }
+    }
+    var send = function send(_ref6) {
+      var playerID = _ref6.playerID,
+        data = _objectWithoutProperties(_ref6, _excluded);
+      var callback = clientCallbacks[playerID];
+      if (callback !== undefined) {
+        callback(filterPlayerView(playerID, data));
+      }
+    };
+    var filterPlayerView = (0, _filterPlayerView43ed49b.g)(game);
+    var transportAPI = {
+      send: send,
+      sendAll: function sendAll(payload) {
+        for (var _playerID in clientCallbacks) {
+          send(_objectSpread({
+            playerID: _playerID
+          }, payload));
+        }
+      }
+    };
+    var storage = persist ? new LocalStorage(storageKey) : new InMemory();
+    _this5 = _callSuper(this, LocalMaster, [game, storage, transportAPI]);
+    _this5.connect = function (playerID, callback) {
+      clientCallbacks[playerID] = callback;
+    };
+    _this5.subscribe(function (_ref7) {
+      var state = _ref7.state,
+        matchID = _ref7.matchID;
+      if (!bots) {
+        return;
+      }
+      var botPlayer = GetBotPlayer(state, initializedBots);
+      if (botPlayer !== null) {
+        setTimeout(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+          var botAction;
+          return _regenerator().w(function (_context) {
+            while (1) switch (_context.n) {
+              case 0:
+                _context.n = 1;
+                return initializedBots[botPlayer].play(state, botPlayer);
+              case 1:
+                botAction = _context.v;
+                _context.n = 2;
+                return _this5.onUpdate(botAction.action, state._stateID, matchID, botAction.action.payload.playerID);
+              case 2:
+                return _context.a(2);
+            }
+          }, _callee);
+        })), 100);
+      }
+    });
+    return _this5;
+  }
+  _inherits(LocalMaster, _Master);
+  return _createClass(LocalMaster);
+}(_master17425f.M);
+/**
+ * Local
+ *
+ * Transport interface that embeds a GameMaster within it
+ * that you can connect multiple clients to.
+ */
+var LocalTransport = /*#__PURE__*/function (_Transport) {
+  /**
+   * Creates a new Mutiplayer instance.
+   * @param {string} matchID - The game ID to connect to.
+   * @param {string} playerID - The player ID associated with this client.
+   * @param {string} gameName - The game type (the `name` field in `Game`).
+   * @param {string} numPlayers - The number of players.
+   */
+  function LocalTransport(_ref9) {
+    var _this6;
+    var master = _ref9.master,
+      opts = _objectWithoutProperties(_ref9, _excluded2);
+    _classCallCheck(this, LocalTransport);
+    _this6 = _callSuper(this, LocalTransport, [opts]);
+    _this6.master = master;
+    return _this6;
+  }
+  _inherits(LocalTransport, _Transport);
+  return _createClass(LocalTransport, [{
+    key: "sendChatMessage",
+    value: function sendChatMessage(matchID, chatMessage) {
+      var _this$master;
+      var args = [matchID, chatMessage, this.credentials];
+      (_this$master = this.master).onChatMessage.apply(_this$master, args);
+    }
+  }, {
+    key: "sendAction",
+    value: function sendAction(state, action) {
+      this.master.onUpdate(action, state._stateID, this.matchID, this.playerID);
+    }
+  }, {
+    key: "requestSync",
+    value: function requestSync() {
+      this.master.onSync(this.matchID, this.playerID, this.credentials, this.numPlayers);
+    }
+  }, {
+    key: "connect",
+    value: function connect() {
+      var _this7 = this;
+      this.setConnectionStatus(true);
+      this.master.connect(this.playerID, function (data) {
+        return _this7.notifyClient(data);
+      });
+      this.requestSync();
+    }
+  }, {
+    key: "disconnect",
+    value: function disconnect() {
+      this.setConnectionStatus(false);
+    }
+  }, {
+    key: "updateMatchID",
+    value: function updateMatchID(id) {
+      this.matchID = id;
+      this.connect();
+    }
+  }, {
+    key: "updatePlayerID",
+    value: function updatePlayerID(id) {
+      this.playerID = id;
+      this.connect();
+    }
+  }, {
+    key: "updateCredentials",
+    value: function updateCredentials(credentials) {
+      this.credentials = credentials;
+      this.connect();
+    }
+  }]);
+}(_transportCe07b.T);
+/**
+ * Global map storing local master instances.
+ */
+var localMasters = new Map();
+/**
+ * Create a local transport.
+ */
+function Local() {
+  var _ref0 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+    bots = _ref0.bots,
+    persist = _ref0.persist,
+    storageKey = _ref0.storageKey;
+  return function (transportOpts) {
+    var gameKey = transportOpts.gameKey,
+      game = transportOpts.game;
+    var master;
+    var instance = localMasters.get(gameKey);
+    if (instance && instance.bots === bots && instance.storageKey === storageKey && instance.persist === persist) {
+      master = instance.master;
+    }
+    if (!master) {
+      master = new LocalMaster({
+        game: game,
+        bots: bots,
+        persist: persist,
+        storageKey: storageKey
+      });
+      localMasters.set(gameKey, {
+        master: master,
+        bots: bots,
+        persist: persist,
+        storageKey: storageKey
+      });
+    }
+    return new LocalTransport(_objectSpread({
+      master: master
+    }, transportOpts));
+  };
+}
+
+/*
+ * Copyright 2017 The boardgame.io Authors
+ *
+ * Use of this source code is governed by a MIT-style
+ * license that can be found in the LICENSE file or at
+ * https://opensource.org/licenses/MIT.
+ */
+var io = _socket.default;
+/**
+ * SocketIO
+ *
+ * Transport interface that interacts with the Master via socket.io.
+ */
+var SocketIOTransport = /*#__PURE__*/function (_Transport2) {
+  /**
+   * Creates a new Multiplayer instance.
+   * @param {object} socket - Override for unit tests.
+   * @param {object} socketOpts - Options to pass to socket.io.
+   * @param {object} store - Redux store
+   * @param {string} matchID - The game ID to connect to.
+   * @param {string} playerID - The player ID associated with this client.
+   * @param {string} credentials - Authentication credentials
+   * @param {string} gameName - The game type (the `name` field in `Game`).
+   * @param {string} numPlayers - The number of players.
+   * @param {string} server - The game server in the form of 'hostname:port'. Defaults to the server serving the client if not provided.
+   */
+  function SocketIOTransport(_ref1) {
+    var _this8;
+    var socket = _ref1.socket,
+      socketOpts = _ref1.socketOpts,
+      server = _ref1.server,
+      opts = _objectWithoutProperties(_ref1, _excluded3);
+    _classCallCheck(this, SocketIOTransport);
+    _this8 = _callSuper(this, SocketIOTransport, [opts]);
+    _this8.server = server;
+    _this8.socket = socket;
+    _this8.socketOpts = socketOpts;
+    return _this8;
+  }
+  _inherits(SocketIOTransport, _Transport2);
+  return _createClass(SocketIOTransport, [{
+    key: "sendAction",
+    value: function sendAction(state, action) {
+      var _this$socket;
+      var args = [action, state._stateID, this.matchID, this.playerID];
+      (_this$socket = this.socket).emit.apply(_this$socket, ['update'].concat(args));
+    }
+  }, {
+    key: "sendChatMessage",
+    value: function sendChatMessage(matchID, chatMessage) {
+      var _this$socket2;
+      var args = [matchID, chatMessage, this.credentials];
+      (_this$socket2 = this.socket).emit.apply(_this$socket2, ['chat'].concat(args));
+    }
+  }, {
+    key: "connect",
+    value: function connect() {
+      var _this9 = this;
+      if (!this.socket) {
+        if (this.server) {
+          var server = this.server;
+          if (server.search(/^https?:\/\//) == -1) {
+            server = 'http://' + this.server;
+          }
+          if (server.slice(-1) != '/') {
+            // add trailing slash if not already present
+            server = server + '/';
+          }
+          this.socket = io(server + this.gameName, this.socketOpts);
+        } else {
+          this.socket = io('/' + this.gameName, this.socketOpts);
+        }
+      }
+      // Called when another player makes a move and the
+      // master broadcasts the update as a patch to other clients (including
+      // this one).
+      this.socket.on('patch', function (matchID, prevStateID, stateID, patch, deltalog) {
+        _this9.notifyClient({
+          type: 'patch',
+          args: [matchID, prevStateID, stateID, patch, deltalog]
+        });
+      });
+      // Called when another player makes a move and the
+      // master broadcasts the update to other clients (including
+      // this one).
+      this.socket.on('update', function (matchID, state, deltalog) {
+        _this9.notifyClient({
+          type: 'update',
+          args: [matchID, state, deltalog]
+        });
+      });
+      // Called when the client first connects to the master
+      // and requests the current game state.
+      this.socket.on('sync', function (matchID, syncInfo) {
+        _this9.notifyClient({
+          type: 'sync',
+          args: [matchID, syncInfo]
+        });
+      });
+      // Called when new player joins the match or changes
+      // it's connection status
+      this.socket.on('matchData', function (matchID, matchData) {
+        _this9.notifyClient({
+          type: 'matchData',
+          args: [matchID, matchData]
+        });
+      });
+      this.socket.on('chat', function (matchID, chatMessage) {
+        _this9.notifyClient({
+          type: 'chat',
+          args: [matchID, chatMessage]
+        });
+      });
+      // Keep track of connection status.
+      this.socket.on('connect', function () {
+        // Initial sync to get game state.
+        _this9.requestSync();
+        _this9.setConnectionStatus(true);
+      });
+      this.socket.on('disconnect', function () {
+        _this9.setConnectionStatus(false);
+      });
+    }
+  }, {
+    key: "disconnect",
+    value: function disconnect() {
+      this.socket.close();
+      this.socket = null;
+      this.setConnectionStatus(false);
+    }
+  }, {
+    key: "requestSync",
+    value: function requestSync() {
+      if (this.socket) {
+        var _this$socket3;
+        var args = [this.matchID, this.playerID, this.credentials, this.numPlayers];
+        (_this$socket3 = this.socket).emit.apply(_this$socket3, ['sync'].concat(args));
+      }
+    }
+  }, {
+    key: "updateMatchID",
+    value: function updateMatchID(id) {
+      this.matchID = id;
+      this.requestSync();
+    }
+  }, {
+    key: "updatePlayerID",
+    value: function updatePlayerID(id) {
+      this.playerID = id;
+      this.requestSync();
+    }
+  }, {
+    key: "updateCredentials",
+    value: function updateCredentials(credentials) {
+      this.credentials = credentials;
+      this.requestSync();
+    }
+  }]);
+}(_transportCe07b.T);
+function SocketIO() {
+  var _ref10 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+    server = _ref10.server,
+    socketOpts = _ref10.socketOpts;
+  return function (transportOpts) {
+    return new SocketIOTransport(_objectSpread({
+      server: server,
+      socketOpts: socketOpts
+    }, transportOpts));
+  };
+}
+},{"./transport-ce07b771.js":"node_modules/boardgame.io/dist/esm/transport-ce07b771.js","./util-991e76bb.js":"node_modules/boardgame.io/dist/esm/util-991e76bb.js","./master-17425f07.js":"node_modules/boardgame.io/dist/esm/master-17425f07.js","./filter-player-view-43ed49b0.js":"node_modules/boardgame.io/dist/esm/filter-player-view-43ed49b0.js","socket.io-client":"node_modules/socket.io-client/build/esm/index.js"}],"node_modules/boardgame.io/dist/esm/multiplayer.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "Local", {
+  enumerable: true,
+  get: function () {
+    return _socketioA82b84e.L;
+  }
+});
+Object.defineProperty(exports, "SocketIO", {
+  enumerable: true,
+  get: function () {
+    return _socketioA82b84e.S;
+  }
+});
+require("redux");
+require("./turn-order-8cc4909b.js");
+require("immer");
+require("./plugin-random-087f861e.js");
+require("lodash.isplainobject");
+require("./reducer-24ea3e4c.js");
+require("rfc6902");
+require("./initialize-7316768f.js");
+require("./transport-ce07b771.js");
+require("./util-991e76bb.js");
+var _socketioA82b84e = require("./socketio-a82b84e4.js");
+require("./master-17425f07.js");
+require("./filter-player-view-43ed49b0.js");
+require("socket.io-client");
+},{"redux":"node_modules/redux/es/redux.js","./turn-order-8cc4909b.js":"node_modules/boardgame.io/dist/esm/turn-order-8cc4909b.js","immer":"node_modules/immer/dist/immer.esm.js","./plugin-random-087f861e.js":"node_modules/boardgame.io/dist/esm/plugin-random-087f861e.js","lodash.isplainobject":"node_modules/lodash.isplainobject/index.js","./reducer-24ea3e4c.js":"node_modules/boardgame.io/dist/esm/reducer-24ea3e4c.js","rfc6902":"node_modules/rfc6902/index.js","./initialize-7316768f.js":"node_modules/boardgame.io/dist/esm/initialize-7316768f.js","./transport-ce07b771.js":"node_modules/boardgame.io/dist/esm/transport-ce07b771.js","./util-991e76bb.js":"node_modules/boardgame.io/dist/esm/util-991e76bb.js","./socketio-a82b84e4.js":"node_modules/boardgame.io/dist/esm/socketio-a82b84e4.js","./master-17425f07.js":"node_modules/boardgame.io/dist/esm/master-17425f07.js","./filter-player-view-43ed49b0.js":"node_modules/boardgame.io/dist/esm/filter-player-view-43ed49b0.js","socket.io-client":"node_modules/socket.io-client/build/esm/index.js"}],"src/App.js":[function(require,module,exports) {
 "use strict";
 
 var _client = require("boardgame.io/client");
 var _Game = require("./Game");
+var _multiplayer = require("boardgame.io/multiplayer");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
 function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
@@ -17501,9 +25060,15 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 var TicTacToeClient = /*#__PURE__*/function () {
   function TicTacToeClient(rootElement) {
     var _this = this;
+    var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+      playerID = _ref.playerID;
     _classCallCheck(this, TicTacToeClient);
     this.client = (0, _client.Client)({
-      game: _Game.TicTacToe
+      game: _Game.TicTacToe,
+      multiplayer: (0, _multiplayer.SocketIO)({
+        server: 'localhost:8000'
+      }),
+      playerID: playerID
     });
     this.client.start();
     this.rootElement = rootElement;
@@ -17550,6 +25115,8 @@ var TicTacToeClient = /*#__PURE__*/function () {
   }, {
     key: "update",
     value: function update(state) {
+      // If the state is null, return.
+      if (state === null) return;
       // Get all the board cells.
       var cells = this.rootElement.querySelectorAll('.cell');
       // Update cells to display the values in game state.
@@ -17571,7 +25138,7 @@ var TicTacToeClient = /*#__PURE__*/function () {
 }();
 var appElement = document.getElementById('app');
 var app = new TicTacToeClient(appElement);
-},{"boardgame.io/client":"node_modules/boardgame.io/dist/esm/client.js","./Game":"src/Game.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"boardgame.io/client":"node_modules/boardgame.io/dist/esm/client.js","./Game":"src/Game.js","boardgame.io/multiplayer":"node_modules/boardgame.io/dist/esm/multiplayer.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -17596,7 +25163,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53381" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54088" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

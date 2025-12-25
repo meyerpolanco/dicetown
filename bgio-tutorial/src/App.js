@@ -1,9 +1,10 @@
 import { Client } from 'boardgame.io/client';
 import { TicTacToe } from './Game';
+import { SocketIO } from 'boardgame.io/multiplayer'
 
 class TicTacToeClient {
-  constructor(rootElement) {
-    this.client = Client({ game: TicTacToe });
+  constructor(rootElement, { playerID } = {}) {
+    this.client = Client({ game: TicTacToe, multiplayer: SocketIO({server: 'localhost:8000'}), playerID });
     this.client.start();
     this.rootElement = rootElement;
     this.createBoard();
@@ -46,6 +47,8 @@ class TicTacToeClient {
   }
 
   update(state) {
+    // If the state is null, return.
+    if (state === null) return;
     // Get all the board cells.
     const cells = this.rootElement.querySelectorAll('.cell');
     // Update cells to display the values in game state.
