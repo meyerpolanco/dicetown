@@ -17430,6 +17430,28 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.TicTacToe = void 0;
 var _core = require("boardgame.io/core");
+// Return true if `cells` is in a winning configuration.
+function IsVictory(cells) {
+  var positions = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+  var isRowComplete = function isRowComplete(row) {
+    var symbols = row.map(function (i) {
+      return cells[i];
+    });
+    return symbols.every(function (i) {
+      return i !== null && i === symbols[0];
+    });
+  };
+  return positions.map(isRowComplete).some(function (i) {
+    return i === true;
+  });
+}
+
+// Return true if all `cells` are occupied.
+function IsDraw(cells) {
+  return cells.filter(function (c) {
+    return c === null;
+  }).length === 0;
+}
 var TicTacToe = exports.TicTacToe = {
   setup: function setup() {
     return {
@@ -17449,6 +17471,20 @@ var TicTacToe = exports.TicTacToe = {
       }
       G.cells[id] = playerID;
     }
+  },
+  endIf: function endIf(_ref2) {
+    var G = _ref2.G,
+      ctx = _ref2.ctx;
+    if (IsVictory(G.cells)) {
+      return {
+        winner: ctx.currentPlayer
+      };
+    }
+    if (IsDraw(G.cells)) {
+      return {
+        draw: true
+      };
+    }
   }
 };
 },{"boardgame.io/core":"node_modules/boardgame.io/dist/esm/core.js"}],"src/App.js":[function(require,module,exports) {
@@ -17457,19 +17493,84 @@ var TicTacToe = exports.TicTacToe = {
 var _client = require("boardgame.io/client");
 var _Game = require("./Game");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
 function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
 function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
-var TicTacToeClient = /*#__PURE__*/_createClass(function TicTacToeClient() {
-  _classCallCheck(this, TicTacToeClient);
-  this.client = (0, _client.Client)({
-    game: _Game.TicTacToe
-  });
-  this.client.start();
-});
-var app = new TicTacToeClient();
+var TicTacToeClient = /*#__PURE__*/function () {
+  function TicTacToeClient(rootElement) {
+    var _this = this;
+    _classCallCheck(this, TicTacToeClient);
+    this.client = (0, _client.Client)({
+      game: _Game.TicTacToe
+    });
+    this.client.start();
+    this.rootElement = rootElement;
+    this.createBoard();
+    this.attachListeners();
+    this.client.subscribe(function (state) {
+      return _this.update(state);
+    });
+  }
+  return _createClass(TicTacToeClient, [{
+    key: "createBoard",
+    value: function createBoard() {
+      // Create cells in rows for the Tic-Tac-Toe board.
+      var rows = [];
+      for (var i = 0; i < 3; i++) {
+        var cells = [];
+        for (var j = 0; j < 3; j++) {
+          var id = 3 * i + j;
+          cells.push("<td class=\"cell\" data-id=\"".concat(id, "\"></td>"));
+        }
+        rows.push("<tr>".concat(cells.join(''), "</tr>"));
+      }
+
+      // Add the HTML to our app <div>.
+      // We’ll use the empty <p> to display the game winner later.
+      this.rootElement.innerHTML = "\n      <table>".concat(rows.join(''), "</table>\n      <p class=\"winner\"></p>\n    ");
+    }
+  }, {
+    key: "attachListeners",
+    value: function attachListeners() {
+      var _this2 = this;
+      // This event handler will read the cell id from a cell’s
+      // `data-id` attribute and make the `clickCell` move.
+      var handleCellClick = function handleCellClick(event) {
+        var id = parseInt(event.target.dataset.id);
+        _this2.client.moves.clickCell(id);
+      };
+      // Attach the event listener to each of the board cells.
+      var cells = this.rootElement.querySelectorAll('.cell');
+      cells.forEach(function (cell) {
+        cell.onclick = handleCellClick;
+      });
+    }
+  }, {
+    key: "update",
+    value: function update(state) {
+      // Get all the board cells.
+      var cells = this.rootElement.querySelectorAll('.cell');
+      // Update cells to display the values in game state.
+      cells.forEach(function (cell) {
+        var cellId = parseInt(cell.dataset.id);
+        var cellValue = state.G.cells[cellId];
+        cell.textContent = cellValue !== null ? cellValue : '';
+      });
+      // Get the gameover message element.
+      var messageEl = this.rootElement.querySelector('.winner');
+      // Update the element to show a winner if any.
+      if (state.ctx.gameover) {
+        messageEl.textContent = state.ctx.gameover.winner !== undefined ? 'Winner: ' + state.ctx.gameover.winner : 'Draw!';
+      } else {
+        messageEl.textContent = '';
+      }
+    }
+  }]);
+}();
+var appElement = document.getElementById('app');
+var app = new TicTacToeClient(appElement);
 },{"boardgame.io/client":"node_modules/boardgame.io/dist/esm/client.js","./Game":"src/Game.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -17495,7 +17596,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64333" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53381" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
