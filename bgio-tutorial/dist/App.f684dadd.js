@@ -19054,10 +19054,6 @@ var TicTacToe = exports.TicTacToe = {
       cells: Array(9).fill(null)
     };
   },
-  turn: {
-    minMoves: 1,
-    maxMoves: 1
-  },
   moves: {
     clickCell: function clickCell(_ref, id) {
       var G = _ref.G,
@@ -19067,6 +19063,10 @@ var TicTacToe = exports.TicTacToe = {
       }
       G.cells[id] = playerID;
     }
+  },
+  turn: {
+    minMoves: 2,
+    maxMoves: 2
   },
   endIf: function endIf(_ref2) {
     var G = _ref2.G,
@@ -25163,7 +25163,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54088" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54759" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

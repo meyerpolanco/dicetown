@@ -23,11 +23,6 @@ function IsVictory(cells) {
 export const TicTacToe = {
     setup: () => ({ cells: Array(9).fill(null) }),
 
-    turn: {
-        minMoves: 1,
-        maxMoves: 1,
-    },
-  
     moves: {
       clickCell: ({ G, playerID }, id) => {
         if (G.cells[id] !== null) {
@@ -35,6 +30,11 @@ export const TicTacToe = {
           }
           G.cells[id] = playerID;
       },
+    },
+
+    turn: {
+      minMoves: 2,
+      maxMoves: 2,
     },
 
     endIf: ({ G, ctx }) => {
