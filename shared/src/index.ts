@@ -3,6 +3,23 @@ export type RoomCode = string;
 
 export type CardColor = "blue" | "green" | "red" | "purple";
 export type TurnPhase = "waiting" | "roll" | "buy";
+export type ActivationScope = "any-player" | "active-player" | "opponents";
+
+export type CardEffect =
+  | {
+      kind: "bank-income";
+      coinsPerCard: number;
+    }
+  | {
+      kind: "active-player-transfer";
+      coinsPerCard: number;
+    };
+
+export interface CardActivation {
+  scope: ActivationScope;
+  priority: number;
+  effect: CardEffect;
+}
 
 export interface CardDefinition {
   id: string;
@@ -11,6 +28,7 @@ export interface CardDefinition {
   activationNumbers: number[];
   cost: number;
   summary: string;
+  activation: CardActivation;
 }
 
 export interface PlayerState {
@@ -43,7 +61,12 @@ export const starterShop: CardDefinition[] = [
     color: "blue",
     activationNumbers: [1],
     cost: 1,
-    summary: "Earn 1 coin when anyone rolls a 1."
+    summary: "Earn 1 coin when anyone rolls a 1.",
+    activation: {
+      scope: "any-player",
+      priority: 20,
+      effect: { kind: "bank-income", coinsPerCard: 1 }
+    }
   },
   {
     id: "bakery",
@@ -51,7 +74,12 @@ export const starterShop: CardDefinition[] = [
     color: "green",
     activationNumbers: [2, 3],
     cost: 1,
-    summary: "Earn 1 coin on your turn when you roll a 2 or 3."
+    summary: "Earn 1 coin on your turn when you roll a 2 or 3.",
+    activation: {
+      scope: "active-player",
+      priority: 20,
+      effect: { kind: "bank-income", coinsPerCard: 1 }
+    }
   },
   {
     id: "cafe",
@@ -59,7 +87,12 @@ export const starterShop: CardDefinition[] = [
     color: "red",
     activationNumbers: [3],
     cost: 2,
-    summary: "Take 1 coin from the active player when they roll a 3."
+    summary: "Take 1 coin from the active player when they roll a 3.",
+    activation: {
+      scope: "opponents",
+      priority: 10,
+      effect: { kind: "active-player-transfer", coinsPerCard: 1 }
+    }
   }
 ];
 

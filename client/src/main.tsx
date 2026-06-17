@@ -1,7 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { io } from "socket.io-client";
-import type { GameState } from "@dicetown/shared";
+import { starterShop, type GameState } from "@dicetown/shared";
 import "./styles.css";
 
 const serverUrl = import.meta.env.VITE_SERVER_URL ?? `${window.location.protocol}//${window.location.hostname}:3001`;
@@ -66,7 +66,12 @@ function App() {
     socket.emit("turn:pass");
   }
 
+  function buyCard(cardId: string) {
+    socket.emit("shop:buy", cardId);
+  }
+
   const activePlayer = game?.players.find((player) => player.id === game.activePlayerId);
+  const currentPlayer = game?.players.find((player) => player.id === playerToken);
   const isMyTurn = Boolean(game && socket.connected && game.activePlayerId === playerToken);
 
   return (
@@ -139,6 +144,70 @@ function App() {
                 <strong>{player.coins} coins</strong>
               </div>
             ))}
+          </div>
+
+          <div className="panel cities-panel">
+            <h2>Player Cities</h2>
+            <div className="cities-grid">
+              {game.players.map((player) => (
+                <section
+                  className={[
+                    "city",
+                    player.id === playerToken ? "current-player" : "",
+                    player.connected ? "" : "disconnected"
+                  ].join(" ")}
+                  key={player.id}
+                >
+                  <div className="city-header">
+                    <h3>{player.name}{player.id === playerToken ? " (You)" : ""}</h3>
+                    <strong>{player.coins} coins</strong>
+                  </div>
+                  <div className="city-cards">
+                    {starterShop
+                      .filter((card) => (player.cards[card.id] ?? 0) > 0)
+                      .map((card) => (
+                        <article className={`city-card ${card.color}`} key={card.id}>
+                          <span className="city-card-count">x{player.cards[card.id]}</span>
+                          <span className="activation-numbers">{card.activationNumbers.join(", ")}</span>
+                          <h4>{card.name}</h4>
+                          <p>{card.summary}</p>
+                        </article>
+                      ))}
+                  </div>
+                </section>
+              ))}
+            </div>
+          </div>
+
+          <div className="panel shop-panel">
+            <h2>Shop</h2>
+            <div className="shop-grid">
+              {starterShop.map((card) => {
+                const stock = game.shop[card.id] ?? 0;
+                const canAffordCard = Boolean(currentPlayer && currentPlayer.coins >= card.cost);
+                return (
+                  <article className={`shop-card ${card.color}`} key={card.id}>
+                    <div className="shop-card-header">
+                      <span className="activation-numbers">{card.activationNumbers.join(", ")}</span>
+                      <span className="card-color">{card.color}</span>
+                    </div>
+                    <h3>{card.name}</h3>
+                    <p>{card.summary}</p>
+                    <div className="shop-card-footer">
+                      <span>{card.cost} coin{card.cost === 1 ? "" : "s"}</span>
+                      <span>{stock} left</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => buyCard(card.id)}
+                      disabled={!isMyTurn || game.phase !== "buy" || stock <= 0 || !canAffordCard}
+                    >
+                      Buy
+                    </button>
+                  </article>
+                );
+              })}
+            </div>
           </div>
 
           <div className="panel">

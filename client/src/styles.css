@@ -93,7 +93,7 @@ input {
 .game-grid {
   display: grid;
   gap: 16px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-top: 16px;
 }
 
@@ -145,6 +145,179 @@ input {
   margin-top: 16px;
 }
 
+.cities-panel,
+.shop-panel {
+  grid-column: 1 / -1;
+}
+
+.cities-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.city {
+  border: 1px solid #d8d1bf;
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.city.current-player {
+  border-color: #176b87;
+  box-shadow: inset 0 0 0 1px #176b87;
+}
+
+.city.disconnected {
+  opacity: 0.65;
+}
+
+.city-header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.city-header h3 {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.city-cards {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+}
+
+.city-card {
+  background: #ffffff;
+  border-left: 6px solid #6b7280;
+  border-radius: 8px;
+  min-height: 116px;
+  padding: 12px;
+  position: relative;
+}
+
+.city-card.blue {
+  border-left-color: #2f7dbd;
+}
+
+.city-card.green {
+  border-left-color: #2f8f5b;
+}
+
+.city-card.red {
+  border-left-color: #b94435;
+}
+
+.city-card.purple {
+  border-left-color: #7654a5;
+}
+
+.city-card h4 {
+  font-size: 0.95rem;
+  margin: 10px 0 4px;
+  padding-right: 36px;
+}
+
+.city-card p {
+  color: #52606d;
+  font-size: 0.82rem;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.city-card-count {
+  align-items: center;
+  background: #1b1f24;
+  border-radius: 999px;
+  color: #ffffff;
+  display: flex;
+  font-size: 0.8rem;
+  font-weight: 800;
+  height: 30px;
+  justify-content: center;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 30px;
+}
+
+.shop-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.shop-card {
+  border-left: 8px solid #6b7280;
+  border-radius: 8px;
+  background: #ffffff;
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+}
+
+.shop-card.blue {
+  border-left-color: #2f7dbd;
+}
+
+.shop-card.green {
+  border-left-color: #2f8f5b;
+}
+
+.shop-card.red {
+  border-left-color: #b94435;
+}
+
+.shop-card.purple {
+  border-left-color: #7654a5;
+}
+
+.shop-card h3,
+.shop-card p {
+  margin: 0;
+}
+
+.shop-card h3 {
+  font-size: 1.05rem;
+}
+
+.shop-card p {
+  color: #52606d;
+  line-height: 1.35;
+}
+
+.shop-card-header,
+.shop-card-footer {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.activation-numbers,
+.card-color {
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.activation-numbers {
+  background: #1b1f24;
+  border-radius: 999px;
+  color: white;
+  padding: 3px 8px;
+}
+
+.card-color {
+  color: #52606d;
+}
+
+.shop-card-footer {
+  color: #374151;
+  font-weight: 700;
+}
+
 .event-log {
   margin: 0;
   padding-left: 1.25rem;
@@ -152,6 +325,8 @@ input {
 
 @media (max-width: 760px) {
   .game-grid,
+  .cities-grid,
+  .shop-grid,
   .controls-grid {
     grid-template-columns: 1fr;
   }
