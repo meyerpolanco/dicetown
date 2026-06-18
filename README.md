@@ -1,33 +1,36 @@
 # DiceTown
 
-DiceTown is a personal web version of Machi Koro for playing online with friends.
+DiceTown is a browser-based multiplayer adaptation of Machi Koro for personal play with friends.
 
-The project is intentionally being built in small, testable chunks. The first milestone is not the full game; it is a thin multiplayer foundation that can create a room, track players, and display a shared game state.
+## Current Features
 
-## First Milestone
+- Online rooms for 2-4 players using two-character room codes.
+- Cross-device play over a local network.
+- Player reconnects and online/offline status.
+- Server-enforced turns, dice rolls, coins, purchases, and card activation.
+- One- and two-dice rolling, with two dice unlocked by Train Station.
+- Randomized establishment deck and a market containing 10 unique card stacks.
+- Market discard, refill, and inactivity-reset rules.
+- Player cities showing establishment quantities and landmarks.
+- Data-driven establishment effects, including income, transfers, family counts, and conditions.
+- Counter-clockwise red-card activation.
+- Landmark construction and seven-landmark victory condition.
+- Implemented City Hall, Train Station, Shopping Mall, and Airport effects.
+- Detailed event log for rolls, income, transfers, purchases, market draws, and connections.
 
-- 2-4 player room model.
-- Shareable room codes.
-- Server-owned game state.
-- Basic player names and coin counts.
-- Browser refresh reconnects to the same player seat when the player rejoins the same room code.
-- Disconnected players stay visible in the player list.
-- Visible turn/event log.
-- Starter shop and turn actions added incrementally after the scaffold is running.
+## Tech Stack
 
-## Recommended Stack
+- TypeScript
+- React and Vite
+- Node.js, Express, and Socket.IO
+- npm workspaces
 
-- TypeScript for shared types and game logic.
-- React + Vite for the browser client.
-- Node + Express + Socket.IO for the multiplayer server.
-- npm workspaces for `client`, `server`, and `shared`.
-
-## Project Layout
+## Project Structure
 
 ```text
-client/   Browser UI
-server/   Room server and multiplayer events
-shared/   Game types, card definitions, and rules helpers
+client/   React browser interface
+server/   Multiplayer server and game rules
+shared/   Shared types, cards, landmarks, and market helpers
 ```
 
 ## Local Development
@@ -38,62 +41,49 @@ Install dependencies:
 npm install
 ```
 
-Run the client and server together:
+Start the client and server:
 
 ```powershell
 npm run dev
 ```
 
-The client will run on `http://localhost:5173` and the server will run on `http://localhost:3001`.
+Open:
+
+```text
+http://localhost:5173
+```
+
+The Socket.IO server runs on port `3001`.
+
+## Local Network Play
+
+Find the host computer's local IPv4 address and open the following URL from another device on the same network:
+
+```text
+http://HOST_IP_ADDRESS:5173
+```
+
+The client automatically connects to port `3001` on the same host. Windows Firewall may need to allow Node.js on private networks.
 
 ## Configuration
 
-The client defaults to port `3001` on the same hostname used to load the page. For example, if you open:
-
-```text
-http://192.168.1.159:5173
-```
-
-the browser client will try to connect to:
-
-```text
-http://192.168.1.159:3001
-```
-
-To point it somewhere else manually, set:
+Optional environment variables:
 
 ```powershell
-$env:VITE_SERVER_URL="http://YOUR_SERVER_HOST:3001"
-npm run dev -w client
-```
-
-The server defaults to port `3001`, host `0.0.0.0`, and permissive CORS for development. To configure it:
-
-```powershell
+$env:VITE_SERVER_URL="http://HOST:3001"
 $env:PORT="3001"
 $env:HOST="0.0.0.0"
 $env:CORS_ORIGIN="http://localhost:5173"
-npm run dev -w server
+$env:STARTING_COINS="10"
 ```
 
-For local network testing, run `npm run dev`, find your computer's local IP address, then open this from another device on the same Wi-Fi:
+Run checks:
 
-```text
-http://YOUR_LOCAL_IP:5173
+```powershell
+npm run typecheck
+npm run build
 ```
 
-If the other device can load the client but cannot connect to the room server, Windows Firewall may need to allow Node.js on private networks.
+## Development Approach
 
-## Current Setup Note
-
-On this machine, Git is installed at:
-
-```text
-C:\Program Files\Git\cmd\git.exe
-```
-
-If `git` is not recognized in PowerShell, add this folder to the Windows user PATH and reopen the terminal:
-
-```text
-C:\Program Files\Git\cmd
-```
+The game is being implemented in small, testable pieces. Card definitions and common effects are data-driven so the full establishment catalog can be added without creating a separate resolver for every card.
