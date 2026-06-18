@@ -1,7 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { io } from "socket.io-client";
-import { starterShop, type GameState } from "@dicetown/shared";
+import { landmarks, starterShop, type GameState } from "@dicetown/shared";
 import "./styles.css";
 
 const serverUrl = import.meta.env.VITE_SERVER_URL ?? `${window.location.protocol}//${window.location.hostname}:3001`;
@@ -58,8 +58,8 @@ function App() {
     socket.emit("room:join", { roomCode, playerName, playerToken });
   }
 
-  function rollDie() {
-    socket.emit("turn:roll");
+  function rollDice(diceCount: 1 | 2) {
+    socket.emit("turn:roll", diceCount);
   }
 
   function passTurn() {
@@ -70,9 +70,15 @@ function App() {
     socket.emit("shop:buy", cardId);
   }
 
+  function buyLandmark(landmarkId: string) {
+    socket.emit("landmark:buy", landmarkId);
+  }
+
   const activePlayer = game?.players.find((player) => player.id === game.activePlayerId);
   const currentPlayer = game?.players.find((player) => player.id === playerToken);
+  const winner = game?.players.find((player) => player.id === game.winnerId);
   const isMyTurn = Boolean(game && socket.connected && game.activePlayerId === playerToken);
+  const hasTrainStation = Boolean(currentPlayer?.landmarks["train-station"]);
 
   return (
     <main className="app-shell">
@@ -114,9 +120,17 @@ function App() {
             <p>Phase: {game.phase}</p>
             <p>Turn: {activePlayer?.name ?? "Waiting"}</p>
             <p>Last roll: {game.lastRoll ?? "None yet"}</p>
+            {winner ? <p className="winner-message">{winner.name} won the game.</p> : null}
             <div className="turn-actions">
-              <button type="button" onClick={rollDie} disabled={!isMyTurn || game.phase !== "roll"}>
-                Roll Die
+              <button type="button" onClick={() => rollDice(1)} disabled={!isMyTurn || game.phase !== "roll"}>
+                Roll One Die
+              </button>
+              <button
+                type="button"
+                onClick={() => rollDice(2)}
+                disabled={!isMyTurn || game.phase !== "roll" || !hasTrainStation}
+              >
+                Roll Two Dice
               </button>
               <button type="button" onClick={passTurn} disabled={!isMyTurn || game.phase !== "buy"}>
                 Pass Turn
@@ -170,26 +184,81 @@ function App() {
                           <span className="city-card-count">x{player.cards[card.id]}</span>
                           <span className="activation-numbers">{card.activationNumbers.join(", ")}</span>
                           <h4>{card.name}</h4>
+                          <span className="card-family">{card.family}</span>
                           <p>{card.summary}</p>
                         </article>
                       ))}
+                  </div>
+                  <div className="city-landmarks">
+                    {landmarks.map((landmark) => {
+                      const isBuilt = Boolean(player.landmarks[landmark.id]);
+                      return (
+                        <article className={isBuilt ? "landmark built" : "landmark"} key={landmark.id}>
+                          <div className="landmark-header">
+                            <h4>{landmark.name}</h4>
+                            <span>{isBuilt ? "Built" : `${landmark.cost} coins`}</span>
+                          </div>
+                          <p>{landmark.summary}</p>
+                        </article>
+                      );
+                    })}
                   </div>
                 </section>
               ))}
             </div>
           </div>
 
+          <div className="panel landmarks-panel">
+            <h2>Landmarks</h2>
+            <div className="landmarks-grid">
+              {landmarks.map((landmark) => {
+                const isBuilt = Boolean(currentPlayer?.landmarks[landmark.id]);
+                const canAfford = Boolean(currentPlayer && currentPlayer.coins >= landmark.cost);
+                return (
+                  <article className={isBuilt ? "landmark-shop-item built" : "landmark-shop-item"} key={landmark.id}>
+                    <div className="landmark-header">
+                      <h3>{landmark.name}</h3>
+                      <strong>{landmark.cost} coins</strong>
+                    </div>
+                    <p>{landmark.summary}</p>
+                    <button
+                      type="button"
+                      onClick={() => buyLandmark(landmark.id)}
+                      disabled={isBuilt || !isMyTurn || game.phase !== "buy" || !canAfford}
+                    >
+                      {isBuilt ? "Built" : "Construct"}
+                    </button>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+
           <div className="panel shop-panel">
             <h2>Shop</h2>
+            <div className="shop-status">
+              <span>{Object.keys(game.shop).length} unique cards</span>
+              <span>{game.deck.length} cards in deck</span>
+              <span>{game.discard.length} cards discarded</span>
+              <span>{game.turnsSinceEstablishmentPurchase} turns without a card purchase</span>
+            </div>
             <div className="shop-grid">
-              {starterShop.map((card) => {
+              {starterShop
+                .filter((card) => (game.shop[card.id] ?? 0) > 0)
+                .sort(
+                  (left, right) =>
+                    compareActivationNumbers(left.activationNumbers, right.activationNumbers) ||
+                    left.cost - right.cost ||
+                    left.name.localeCompare(right.name)
+                )
+                .map((card) => {
                 const stock = game.shop[card.id] ?? 0;
                 const canAffordCard = Boolean(currentPlayer && currentPlayer.coins >= card.cost);
                 return (
                   <article className={`shop-card ${card.color}`} key={card.id}>
                     <div className="shop-card-header">
                       <span className="activation-numbers">{card.activationNumbers.join(", ")}</span>
-                      <span className="card-color">{card.color}</span>
+                      <span className="card-color">{card.color} / {card.family}</span>
                     </div>
                     <h3>{card.name}</h3>
                     <p>{card.summary}</p>
@@ -206,7 +275,7 @@ function App() {
                     </button>
                   </article>
                 );
-              })}
+                })}
             </div>
           </div>
 
@@ -247,4 +316,18 @@ function createPlayerToken(): string {
   const values = new Uint32Array(4);
   crypto.getRandomValues(values);
   return Array.from(values, (value) => value.toString(36)).join("-");
+}
+
+function compareActivationNumbers(left: number[], right: number[]): number {
+  const sharedLength = Math.min(left.length, right.length);
+
+  for (let index = 0; index < sharedLength; index += 1) {
+    const difference = left[index] - right[index];
+
+    if (difference !== 0) {
+      return difference;
+    }
+  }
+
+  return left.length - right.length;
 }
