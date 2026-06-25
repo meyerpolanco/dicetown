@@ -2,9 +2,19 @@ export type PlayerId = string;
 export type RoomCode = string;
 
 export type CardColor = "blue" | "green" | "red" | "purple";
-export type TurnPhase = "waiting" | "roll" | "buy" | "game-over";
+export type GameStatus = "lobby" | "playing" | "game-over";
+export type TurnPhase = "waiting" | "roll" | "reroll" | "harbor" | "buy" | "game-over";
 export type ActivationScope = "any-player" | "active-player" | "opponents";
-export type CardFamily = "Animal" | "Boat" | "Box" | "Cup" | "Factory" | "Fruit" | "Gear" | "Wheat";
+export type CardFamily =
+  | "Animal"
+  | "Boat"
+  | "Box"
+  | "Cup"
+  | "Factory"
+  | "Fruit"
+  | "Gear"
+  | "Tower"
+  | "Wheat";
 
 export type CardCondition =
   | {
@@ -41,6 +51,26 @@ export type CardEffect =
   | {
       kind: "active-player-transfer";
       coinsPerCard: number;
+    }
+  | {
+      kind: "all-opponents-transfer";
+      coinsPerOpponentPerCard: number;
+    }
+  | {
+      kind: "all-opponents-percent-transfer";
+      minimumCoins: number;
+      percentage: number;
+    }
+  | {
+      kind: "all-opponents-transfer-per-family";
+      families: CardFamily[];
+      coinsPerMatchingCard: number;
+    }
+  | {
+      kind: "active-player-transfer-all";
+    }
+  | {
+      kind: "redistribute-coins-evenly";
     };
 
 export interface CardActivation {
@@ -84,18 +114,82 @@ export interface GameEvent {
   message: string;
 }
 
+export interface CardGameStats {
+  activations: number;
+  coinsGained: number;
+  coinsLost: number;
+}
+
+export interface PlayerGameStats {
+  turnsTaken: number;
+  rollCount: number;
+  oneDieRolls: number;
+  twoDiceRolls: number;
+  rerolls: number;
+  doublesRolled: number;
+  totalRollValue: number;
+  rollTotals: Record<string, number>;
+  oneDieRollTotals: Record<string, number>;
+  twoDiceRollTotals: Record<string, number>;
+  cardsBought: number;
+  landmarksBuilt: number;
+  coinsSpentOnCards: number;
+  coinsSpentOnLandmarks: number;
+  coinsGained: number;
+  coinsLost: number;
+  coinsGainedBySource: Record<string, number>;
+  coinsLostBySource: Record<string, number>;
+  cardStats: Record<string, CardGameStats>;
+}
+
+export interface CoinSnapshot {
+  turn: number;
+  label: string;
+  activePlayerId: PlayerId | null;
+  coins: Record<PlayerId, number>;
+}
+
+export interface GameStats {
+  totalTurns: number;
+  totalRolls: number;
+  oneDieRolls: number;
+  twoDiceRolls: number;
+  rerolls: number;
+  doublesRolled: number;
+  rollTotals: Record<string, number>;
+  oneDieRollTotals: Record<string, number>;
+  twoDiceRollTotals: Record<string, number>;
+  cardsBought: number;
+  landmarksBuilt: number;
+  players: Record<PlayerId, PlayerGameStats>;
+  coinHistory: CoinSnapshot[];
+}
+
 export interface GameState {
   roomCode: RoomCode;
   players: PlayerState[];
+  hostPlayerId: PlayerId | null;
+  status: GameStatus;
   activePlayerId: PlayerId | null;
   phase: TurnPhase;
+  settings: GameSettings;
+  balancedDiceDeck: number[][];
+  stats: GameStats;
   shop: Record<string, number>;
   deck: string[];
   discard: string[];
   turnsSinceEstablishmentPurchase: number;
   lastRoll: number | null;
+  lastDice: number[];
+  extraTurnPlayerId: PlayerId | null;
   events: GameEvent[];
   winnerId: PlayerId | null;
+  lockedPlayerIds: PlayerId[] | null;
+}
+
+export interface GameSettings {
+  balancedDice: boolean;
+  cardAvailability: "standard";
 }
 
 export const landmarks: LandmarkDefinition[] = [
@@ -145,6 +239,25 @@ export const landmarks: LandmarkDefinition[] = [
 ];
 
 export const starterShop: CardDefinition[] = [
+  {
+    id: "sushi-bar",
+    name: "Sushi Bar",
+    color: "red",
+    activationNumbers: [1],
+    cost: 4,
+    deckCopies: 6,
+    summary: "If you have Harbor, take 3 coins from the active player when they roll a 1.",
+    family: "Cup",
+    activation: {
+      scope: "opponents",
+      priority: 10,
+      condition: {
+        kind: "owner-has-landmark",
+        landmarkId: "harbor"
+      },
+      effect: { kind: "active-player-transfer", coinsPerCard: 3 }
+    }
+  },
   {
     id: "wheat-field",
     name: "Wheat Field",
@@ -330,6 +443,21 @@ export const starterShop: CardDefinition[] = [
     }
   },
   {
+    id: "stadium",
+    name: "Stadium",
+    color: "purple",
+    activationNumbers: [6],
+    cost: 6,
+    deckCopies: 6,
+    summary: "Take 2 coins from every opponent on your turn.",
+    family: "Tower",
+    activation: {
+      scope: "active-player",
+      priority: 30,
+      effect: { kind: "all-opponents-transfer", coinsPerOpponentPerCard: 2 }
+    }
+  },
+  {
     id: "cheese-factory",
     name: "Cheese Factory",
     color: "green",
@@ -361,6 +489,25 @@ export const starterShop: CardDefinition[] = [
       scope: "opponents",
       priority: 10,
       effect: { kind: "active-player-transfer", coinsPerCard: 1 }
+    }
+  },
+  {
+    id: "publisher",
+    name: "Publisher",
+    color: "purple",
+    activationNumbers: [7],
+    cost: 5,
+    deckCopies: 6,
+    summary: "Take 1 coin from each opponent for each Cup and Box establishment they own on your turn.",
+    family: "Tower",
+    activation: {
+      scope: "active-player",
+      priority: 30,
+      effect: {
+        kind: "all-opponents-transfer-per-family",
+        families: ["Cup", "Box"],
+        coinsPerMatchingCard: 1
+      }
     }
   },
   {
@@ -429,6 +576,25 @@ export const starterShop: CardDefinition[] = [
         family: "Gear",
         countScope: "owner",
         coinsPerMatchingCard: 3
+      }
+    }
+  },
+  {
+    id: "tax-office",
+    name: "Tax Office",
+    color: "purple",
+    activationNumbers: [8, 9],
+    cost: 4,
+    deckCopies: 6,
+    summary: "Take half, rounded down, from each opponent with 10 or more coins on your turn.",
+    family: "Tower",
+    activation: {
+      scope: "active-player",
+      priority: 30,
+      effect: {
+        kind: "all-opponents-percent-transfer",
+        minimumCoins: 10,
+        percentage: 0.5
       }
     }
   },
@@ -518,6 +684,41 @@ export const starterShop: CardDefinition[] = [
     }
   },
   {
+    id: "members-only-club",
+    name: "Member's Only Club",
+    color: "red",
+    activationNumbers: [12, 13, 14],
+    cost: 4,
+    deckCopies: 6,
+    summary: "If the active player has at least 3 constructed landmarks, take all their coins.",
+    family: "Cup",
+    activation: {
+      scope: "opponents",
+      priority: 10,
+      condition: {
+        kind: "active-player-landmark-count",
+        comparison: "at-least",
+        count: 3
+      },
+      effect: { kind: "active-player-transfer-all" }
+    }
+  },
+  {
+    id: "park",
+    name: "Park",
+    color: "purple",
+    activationNumbers: [11, 12, 13],
+    cost: 3,
+    deckCopies: 6,
+    summary: "Redistribute all players' coins evenly on your turn, using bank coins to cover any remainder.",
+    family: "Tower",
+    activation: {
+      scope: "active-player",
+      priority: 30,
+      effect: { kind: "redistribute-coins-evenly" }
+    }
+  },
+  {
     id: "food-warehouse",
     name: "Food Warehouse",
     color: "green",
@@ -543,7 +744,12 @@ export function createInitialGame(roomCode: RoomCode): GameState {
   const game: GameState = {
     roomCode,
     players: [],
+    hostPlayerId: null,
+    status: "lobby",
     activePlayerId: null,
+    settings: createDefaultSettings(),
+    balancedDiceDeck: [],
+    stats: createEmptyStats(),
     phase: "waiting",
     shop: {},
     deck: shuffle(
@@ -552,16 +758,68 @@ export function createInitialGame(roomCode: RoomCode): GameState {
     discard: [],
     turnsSinceEstablishmentPurchase: 0,
     lastRoll: null,
+    lastDice: [],
+    extraTurnPlayerId: null,
     events: [{ id: "game-created", message: `Room ${roomCode} created.` }],
-    winnerId: null
+    winnerId: null,
+    lockedPlayerIds: null
   };
 
   refillShop(game);
   return game;
 }
 
+export function createEmptyStats(): GameStats {
+  return {
+    totalTurns: 0,
+    totalRolls: 0,
+    oneDieRolls: 0,
+    twoDiceRolls: 0,
+    rerolls: 0,
+    doublesRolled: 0,
+    rollTotals: {},
+    oneDieRollTotals: {},
+    twoDiceRollTotals: {},
+    cardsBought: 0,
+    landmarksBuilt: 0,
+    players: {},
+    coinHistory: []
+  };
+}
+
+export function createEmptyPlayerStats(): PlayerGameStats {
+  return {
+    turnsTaken: 0,
+    rollCount: 0,
+    oneDieRolls: 0,
+    twoDiceRolls: 0,
+    rerolls: 0,
+    doublesRolled: 0,
+    totalRollValue: 0,
+    rollTotals: {},
+    oneDieRollTotals: {},
+    twoDiceRollTotals: {},
+    cardsBought: 0,
+    landmarksBuilt: 0,
+    coinsSpentOnCards: 0,
+    coinsSpentOnLandmarks: 0,
+    coinsGained: 0,
+    coinsLost: 0,
+    coinsGainedBySource: {},
+    coinsLostBySource: {},
+    cardStats: {}
+  };
+}
+
 export function createInitialLandmarks(): Record<string, boolean> {
   return Object.fromEntries(landmarks.map((landmark) => [landmark.id, Boolean(landmark.ownedByDefault)]));
+}
+
+export function createDefaultSettings(): GameSettings {
+  return {
+    balancedDice: false,
+    cardAvailability: "standard"
+  };
 }
 
 export function refillShop(game: GameState, targetUniqueCards = 10): string[] {
